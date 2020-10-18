@@ -10,6 +10,7 @@ import SignupNavbar from './layout/SignupNavbar.vue';
 import LoginNavbar from './layout/LoginNavbar.vue';
 import Login from './pages/Login.vue'
 import Guide from './pages/Guide.vue'
+import Leaderboard from './pages/Leaderboard.vue'
 
 Vue.use(Router);
 
@@ -19,6 +20,15 @@ export default new Router({
       path: '/',
       name: 'index',
       components: {default: Starter, header: StarterNavbar, footer: StarterFooter},
+      props: {
+        header: { colorOnScroll: 400 },
+        footer: { backgroundColor: 'black' }
+      }
+    },
+    {
+      path: '/leaderboard',
+      name: 'leaderboard',
+      components: {default: Leaderboard, header: Navbar, footer: StarterFooter},
       props: {
         header: { colorOnScroll: 400 },
         footer: { backgroundColor: 'black' }

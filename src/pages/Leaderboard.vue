@@ -1,0 +1,120 @@
+<template>
+  <div>
+    <div class="page-header clear-filter" filter-color="orange">
+      <div
+        class="page-header-image"
+        style="background-image:url('img/bg5.jpg')"
+        v-bind:style="height='100px'"
+      >
+      </div>
+      <div class="container">
+        <div class="photo-container">
+          <img src="img/ryan.jpg" alt="" />
+        </div>
+        <h3 class="title">Username</h3>
+        <a href="/editprofile">Edit Profile Picture</a>
+      </div>
+    </div>
+    <div class="section">
+      <div class="container">
+        <div class="button-container">
+          <a href="#button" class="btn btn-primary btn-round btn-lg">Follow</a>
+        </div>
+        <h3 class="title">My Goals</h3>
+        <h5 class="description">
+          <ol>
+            <li>Lose Weight</li>
+            <li>Limit Calorie Intake</li>
+            <li>Exercise More</li>
+          </ol>
+        </h5>
+        <h3 class="title">Security</h3>
+        <h5 class="description">
+          <a href="/password" >Change Password</a>
+        </h5>
+        <h3 class="title">Data</h3>
+        <h5 class="description">
+          <a href="/editdata">Input/Modify Health Data</a>
+          <br/>
+          <a href="/editgoal">Set Up/Modify Personal Goals</a>
+        </h5>
+        <!-- <div class="row">
+          <div class="col-md-6 ml-auto mr-auto">
+            <h4 class="title text-center">My Portfolio</h4>
+          </div>
+          <tabs
+            pills
+            class="nav-align-center"
+            tab-content-classes="gallery"
+            tab-nav-classes="nav-pills-just-icons"
+            type="primary"
+          >
+            <tab-pane title="Profile">
+              <i slot="label" class="now-ui-icons design_image"></i>
+
+              <div class="col-md-10 ml-auto mr-auto">
+                <div class="row collections">
+                  <div class="col-md-6">
+                    <img src="img/bg6.jpg" class="img-raised" />
+                    <img src="img/bg11.jpg" alt="" class="img-raised" />
+                  </div>
+                  <div class="col-md-6">
+                    <img src="img/bg7.jpg" alt="" class="img-raised" />
+                    <img src="img/bg8.jpg" alt="" class="img-raised" />
+                  </div>
+                </div>
+              </div>
+            </tab-pane>
+
+            <tab-pane title="Home">
+              <i slot="label" class="now-ui-icons location_world"></i>
+
+              <div class="col-md-10 ml-auto mr-auto">
+                <div class="row collections">
+                  <div class="col-md-6">
+                    <img src="img/bg1.jpg" alt="" class="img-raised" />
+                    <img src="img/bg3.jpg" alt="" class="img-raised" />
+                  </div>
+                  <div class="col-md-6">
+                    <img src="img/bg8.jpg" alt="" class="img-raised" />
+                    <img src="img/bg7.jpg" alt="" class="img-raised" />
+                  </div>
+                </div>
+              </div>
+            </tab-pane>
+
+            <tab-pane title="Messages">
+              <i slot="label" class="now-ui-icons sport_user-run"></i>
+
+              <div class="col-md-10 ml-auto mr-auto">
+                <div class="row collections">
+                  <div class="col-md-6">
+                    <img src="img/bg3.jpg" alt="" class="img-raised" />
+                    <img src="img/bg8.jpg" alt="" class="img-raised" />
+                  </div>
+                  <div class="col-md-6">
+                    <img src="img/bg7.jpg" alt="" class="img-raised" />
+                    <img src="img/bg6.jpg" class="img-raised" />
+                  </div>
+                </div>
+              </div>
+            </tab-pane>
+          </tabs>
+        </div> -->
+      </div>
+    </div>
+  </div>
+</template>
+<script>
+//import { Tabs, TabPane } from '@/components';
+
+export default {
+  name: 'profile',
+  bodyClass: 'profile-page',
+  components: {
+    //Tabs,
+    //TabPane
+  }
+};
+</script>
+<style></style>
