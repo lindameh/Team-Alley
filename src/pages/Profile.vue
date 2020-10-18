@@ -12,7 +12,7 @@
           <img src="img/ryan.jpg" alt="" />
         </div>
         <h3 class="title">Username</h3>
-        <a href="">Edit Profile Picture</a>
+        <a href="/editprofile">Edit Profile Picture</a>
       </div>
     </div>
     <div class="section">
@@ -28,7 +28,17 @@
             <li>Exercise More</li>
           </ol>
         </h5>
-        <div class="row">
+        <h3 class="title">Security</h3>
+        <h5 class="description">
+          <a href="/password" >Change Password</a>
+        </h5>
+        <h3 class="title">Data</h3>
+        <h5 class="description">
+          <a href="/editdata">Input/Modify Health Data</a>
+          <br/>
+          <a href="/editgoal">Set Up/Modify Personal Goals</a>
+        </h5>
+        <!-- <div class="row">
           <div class="col-md-6 ml-auto mr-auto">
             <h4 class="title text-center">My Portfolio</h4>
           </div>
@@ -90,20 +100,20 @@
               </div>
             </tab-pane>
           </tabs>
-        </div>
+        </div> -->
       </div>
     </div>
   </div>
 </template>
 <script>
-import { Tabs, TabPane } from '@/components';
+//import { Tabs, TabPane } from '@/components';
 
 export default {
   name: 'profile',
   bodyClass: 'profile-page',
   components: {
-    Tabs,
-    TabPane
+    //Tabs,
+    //TabPane
   }
 };
 </script>

@@ -7,6 +7,8 @@ import StarterFooter from './layout/StarterFooter.vue';
 import Signup from './pages/Signup.vue';
 import Profile from './pages/Profile.vue'
 import SignupNavbar from './layout/SignupNavbar.vue';
+import LoginNavbar from './layout/LoginNavbar.vue';
+import Login from './pages/Login.vue'
 //import Navbar from './layout/Navbar.vue';
 
 Vue.use(Router);
@@ -35,6 +37,15 @@ export default new Router({
       path: '/signup',
       name: 'signup',
       components: {default: Signup, header: SignupNavbar, footer: StarterFooter},
+      props: {
+        header: { colorOnScroll: 400 },
+        footer: { backgroundColor: 'black' }
+      }
+    },
+    {
+      path: '/login',
+      name: 'login',
+      components: {default: Login, header: LoginNavbar, footer: StarterFooter},
       props: {
         header: { colorOnScroll: 400 },
         footer: { backgroundColor: 'black' }

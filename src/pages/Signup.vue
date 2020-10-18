@@ -12,7 +12,7 @@
         <div class="col-md-5 ml-auto mr-auto">
           <card type="login" plain>
             <div slot="header" class="logo-container">
-              <img v-lazy="'img/now-logo.png'" alt="" />
+              <img v-lazy="'img/WELIFE_icon.png'" alt="" />
             </div>
 
             <fg-input

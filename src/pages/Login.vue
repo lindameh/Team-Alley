@@ -9,7 +9,7 @@
         <div class="col-md-5 ml-auto mr-auto">
           <card type="login" plain>
             <div slot="header" class="logo-container">
-              <img v-lazy="'img/now-logo.png'" alt="" />
+              <img v-lazy="'img/WELIFE_icon.png'" alt="" />
             </div>
 
             <fg-input
@@ -54,13 +54,12 @@
 </template>
 <script>
 import { Card, Button, FormGroupInput } from '@/components';
-import MainFooter from '@/layout/MainFooter';
+
 export default {
   name: 'login-page',
   bodyClass: 'login-page',
   components: {
     Card,
-    MainFooter,
     [Button.name]: Button,
     [FormGroupInput.name]: FormGroupInput
   }
