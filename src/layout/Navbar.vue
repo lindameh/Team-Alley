@@ -29,6 +29,9 @@
         <nav-link to="/">
           <i class="now-ui-icons education_paper"></i> Input/Modify Personal Goal
         </nav-link>
+        <nav-link to="/">
+          <i class="now-ui-icons ui-1_lock-circle-open"></i> Logout
+        </nav-link>
       </drop-down>
     </template>
   </navbar>
