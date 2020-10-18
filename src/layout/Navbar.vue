@@ -26,13 +26,13 @@
               icon="now-ui-icons users_circle-08"
               class="nav-item"
       >
-        <nav-link to="/landing">
+        <nav-link to="/profile">
           <i class="now-ui-icons users_single-02"></i> View Profile
         </nav-link>
-        <nav-link to="/login">
+        <nav-link to="/">
           <i class="now-ui-icons education_paper"></i> Input/Modify Health Data
         </nav-link>
-        <nav-link to="/profile">
+        <nav-link to="/">
           <i class="now-ui-icons education_paper"></i> Input/Modify Personal Goal
         </nav-link>
       </drop-down>

@@ -1,31 +1,18 @@
 <template>
   <div>
     <div class="page-header clear-filter" filter-color="orange">
-      <parallax
+      <div
         class="page-header-image"
         style="background-image:url('img/bg5.jpg')"
+        v-bind:style="height='100px'"
       >
-      </parallax>
+      </div>
       <div class="container">
         <div class="photo-container">
           <img src="img/ryan.jpg" alt="" />
         </div>
-        <h3 class="title">Ryan Scheinder</h3>
-        <p class="category">Photographer</p>
-        <div class="content">
-          <div class="social-description">
-            <h2>26</h2>
-            <p>Comments</p>
-          </div>
-          <div class="social-description">
-            <h2>26</h2>
-            <p>Comments</p>
-          </div>
-          <div class="social-description">
-            <h2>48</h2>
-            <p>Bookmarks</p>
-          </div>
-        </div>
+        <h3 class="title">Username</h3>
+        <a href="#">Edit Profile Picture</a>
       </div>
     </div>
     <div class="section">

@@ -2,22 +2,33 @@ import Vue from 'vue';
 import Router from 'vue-router';
 import Starter from './pages/StarterPage.vue';
 import StarterNavbar from './layout/StarterNavbar.vue';
+import Navbar from './layout/Navbar.vue';
 import StarterFooter from './layout/StarterFooter.vue';
 import Signup from './pages/Signup.vue';
+import Profile from './pages/Profile.vue'
 
 Vue.use(Router);
 
 export default new Router({
   routes: [
+    // {
+    //   path: '/',
+    //   name: 'index',
+    //   components: {default: Starter, header: StarterNavbar, footer: StarterFooter},
+    //   props: {
+    //     header: { colorOnScroll: 400 },
+    //     footer: { backgroundColor: 'black' }
+    //   }
+    // },
     {
       path: '/',
-      name: 'index',
-      components: {default: Starter, header: StarterNavbar, footer: StarterFooter},
+      name: 'profile',
+      components: {default: Profile, header: Navbar, footer: StarterFooter},
       props: {
         header: { colorOnScroll: 400 },
         footer: { backgroundColor: 'black' }
       }
-    }
+    }   
   ],
   scrollBehavior: to => {
     if (to.hash) {
