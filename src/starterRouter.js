@@ -9,7 +9,7 @@ import Profile from './pages/Profile.vue'
 import SignupNavbar from './layout/SignupNavbar.vue';
 import LoginNavbar from './layout/LoginNavbar.vue';
 import Login from './pages/Login.vue'
-//import Navbar from './layout/Navbar.vue';
+import Guide from './pages/Guide.vue'
 
 Vue.use(Router);
 
@@ -46,6 +46,15 @@ export default new Router({
       path: '/login',
       name: 'login',
       components: {default: Login, header: LoginNavbar, footer: StarterFooter},
+      props: {
+        header: { colorOnScroll: 400 },
+        footer: { backgroundColor: 'black' }
+      }
+    },
+    {
+      path: '/guide',
+      name: 'guide',
+      components: {default: Guide, header: LoginNavbar, footer: StarterFooter},
       props: {
         header: { colorOnScroll: 400 },
         footer: { backgroundColor: 'black' }
