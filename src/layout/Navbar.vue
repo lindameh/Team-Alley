@@ -8,18 +8,12 @@
 
     </template>
     <template slot="navbar-menu">
-      <li class="nav-item">
-        <a class="nav-link" href="#">Achievement <span class="sr-only">(current)</span></a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="#">Form</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="#">Leaderboard</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="#">Sharing</a>
-      </li>
+
+      <router-link class="nav-link" to="/achievement">Achievement</router-link>
+      <router-link class="nav-link" to="/form">Form</router-link>
+      <router-link class="nav-link" to="/leaderboard">Leaderboard</router-link>
+      <router-link class="nav-link" to="/sharing">Sharing</router-link>
+
       <drop-down
               tag="li"
               title="Profile"
