@@ -12,7 +12,7 @@
         <div class="col-md-5 ml-auto mr-auto">
           <card type="login" plain>
             <div slot="header" class="logo-container">
-              <img v-lazy="'img/now-logo.png'" alt="" />
+              <img v-lazy="'img/WELIFE_icon.png'" alt="" />
             </div>
 
             <fg-input
@@ -39,12 +39,12 @@
               </div>
               <div class="pull-left">
                 <h6>
-                  <a href="#pablo" class="link footer-link">Create Account</a>
+                  <router-link class="link footer-link" to="/signup">Create Account</router-link>
                 </h6>
               </div>
               <div class="pull-right">
                 <h6>
-                  <a href="#pablo" class="link footer-link">Need Help?</a>
+                  <router-link class="link footer-link" to="/guide">Need Help?</router-link>
                 </h6>
               </div>
             </template>

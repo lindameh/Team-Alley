@@ -9,10 +9,10 @@
     </template>
     <template slot="navbar-menu">
 
-      <router-link class="nav-link" to="/">Achievement</router-link>
-      <router-link class="nav-link" to="/">Form</router-link>
-      <router-link class="nav-link" to="/">Leaderboard</router-link>
-      <router-link class="nav-link" to="/">Sharing</router-link>
+      <router-link class="nav-link" to="/achievement">Achievement</router-link>
+      <router-link class="nav-link" to="/form">Form</router-link>
+      <router-link class="nav-link" to="/leaderboard">Leaderboard</router-link>
+      <router-link class="nav-link" to="/sharing">Sharing</router-link>
 
       <drop-down
               tag="li"
@@ -20,14 +20,17 @@
               icon="now-ui-icons users_circle-08"
               class="nav-item"
       >
-        <nav-link to="/landing">
+        <nav-link to="/profile">
           <i class="now-ui-icons users_single-02"></i> View Profile
         </nav-link>
-        <nav-link to="/login">
+        <nav-link to="/">
           <i class="now-ui-icons education_paper"></i> Input/Modify Health Data
         </nav-link>
-        <nav-link to="/profile">
+        <nav-link to="/">
           <i class="now-ui-icons education_paper"></i> Input/Modify Personal Goal
+        </nav-link>
+        <nav-link to="/">
+          <i class="now-ui-icons ui-1_lock-circle-open"></i> Logout
         </nav-link>
       </drop-down>
     </template>

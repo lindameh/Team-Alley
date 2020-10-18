@@ -9,7 +9,7 @@
         <div class="col-md-5 ml-auto mr-auto">
           <card type="login" plain>
             <div slot="header" class="logo-container">
-              <img v-lazy="'img/now-logo.png'" alt="" />
+              <img v-lazy="'img/WELIFE_icon.png'" alt="" />
             </div>
 
             <fg-input
@@ -28,20 +28,20 @@
 
             <template slot="raw-content">
               <div class="card-footer text-center">
-                <a
-                  href="#pablo"
-                  class="btn btn-primary btn-round btn-lg btn-block"
-                  >Get Started</a
+                <router-link
+                  class="btn btn-primary btn-round btn-lg btn-block nav-link"
+                  to="/profile"
+                  >Get Started</router-link
                 >
               </div>
               <div class="pull-left">
                 <h6>
-                  <a href="#pablo" class="link footer-link">Create Account</a>
+                  <router-link class="link footer-link" to="/signup">Create Account</router-link>
                 </h6>
               </div>
               <div class="pull-right">
                 <h6>
-                  <a href="#pablo" class="link footer-link">Need Help?</a>
+                  <router-link class="link footer-link" to="/guide">Need Help?</router-link>
                 </h6>
               </div>
             </template>
@@ -54,13 +54,12 @@
 </template>
 <script>
 import { Card, Button, FormGroupInput } from '@/components';
-import MainFooter from '@/layout/MainFooter';
+
 export default {
-  name: 'login-page',
+  name: 'login',
   bodyClass: 'login-page',
   components: {
     Card,
-    MainFooter,
     [Button.name]: Button,
     [FormGroupInput.name]: FormGroupInput
   }
