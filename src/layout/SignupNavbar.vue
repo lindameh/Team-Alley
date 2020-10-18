@@ -9,9 +9,6 @@
     </template>
     <template slot="navbar-menu">
       <li class="nav-item">
-        <a class="nav-link" href="/signup">Sign Up <span class="sr-only">(current)</span></a>
-      </li>
-      <li class="nav-item">
         <a class="nav-link" href="#">Login</a>
       </li>
       <li class="nav-item">
