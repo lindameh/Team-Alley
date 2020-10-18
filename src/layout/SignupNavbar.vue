@@ -8,12 +8,8 @@
 
     </template>
     <template slot="navbar-menu">
-      <li class="nav-item">
-        <a class="nav-link" href="#">Login</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="#">User Guide</a>
-      </li>
+      <router-link class="nav-link" to="/">Login</router-link>
+      <router-link class="nav-link" to="/">User Guide</router-link>
     </template>
   </navbar>
 </template>

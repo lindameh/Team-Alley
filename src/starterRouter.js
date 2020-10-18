@@ -4,6 +4,8 @@ import Starter from './pages/StarterPage.vue';
 import StarterNavbar from './layout/StarterNavbar.vue';
 import StarterFooter from './layout/StarterFooter.vue';
 import Signup from './pages/Signup.vue';
+import SignupNavbar from './layout/SignupNavbar.vue';
+//import Navbar from './layout/Navbar.vue';
 
 Vue.use(Router);
 
@@ -13,6 +15,15 @@ export default new Router({
       path: '/',
       name: 'index',
       components: {default: Starter, header: StarterNavbar, footer: StarterFooter},
+      props: {
+        header: { colorOnScroll: 400 },
+        footer: { backgroundColor: 'black' }
+      }
+    },
+    {
+      path: '/signup',
+      name: 'signup',
+      components: {default: Signup, header: SignupNavbar, footer: StarterFooter},
       props: {
         header: { colorOnScroll: 400 },
         footer: { backgroundColor: 'black' }
