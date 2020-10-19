@@ -8,8 +8,9 @@ import Signup from './pages/Signup.vue';
 import Profile from './pages/Profile.vue'
 import SignupNavbar from './layout/SignupNavbar.vue';
 import LoginNavbar from './layout/LoginNavbar.vue';
-import Login from './pages/Login.vue';
-import Guide from './pages/Guide.vue';
+import Login from './pages/Login.vue'
+import Guide from './pages/Guide.vue'
+import Achievement from './pages/Achievement.vue'
 import Form from './pages/Form.vue'
 
 Vue.use(Router);
@@ -47,6 +48,15 @@ export default new Router({
       path: '/login',
       name: 'login',
       components: {default: Login, header: LoginNavbar, footer: StarterFooter},
+      props: {
+        header: { colorOnScroll: 400 },
+        footer: { backgroundColor: 'black' }
+      }
+    },
+    {
+      path: '/achievement',
+      name: 'achievement',
+      components: {default: Achievement, header: Navbar, footer: StarterFooter},
       props: {
         header: { colorOnScroll: 400 },
         footer: { backgroundColor: 'black' }
