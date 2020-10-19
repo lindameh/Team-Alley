@@ -11,6 +11,7 @@ import LoginNavbar from './layout/LoginNavbar.vue';
 import Login from './pages/Login.vue'
 import Guide from './pages/Guide.vue'
 import Achievement from './pages/Achievement.vue'
+import Form from './pages/Form.vue'
 
 Vue.use(Router);
 
@@ -69,7 +70,16 @@ export default new Router({
         header: { colorOnScroll: 400 },
         footer: { backgroundColor: 'black' }
       }
+    },
+    {
+      path: '/form',
+      name: 'form',
+      components: {default: Form, header: Navbar, footer: StarterFooter},
+      props: {
+        header: { colorOnScroll: 400 },
+        footer: { backgroundColor: 'black' }
     }
+  }
   ],
   scrollBehavior: to => {
     if (to.hash) {
