@@ -1,8 +1,8 @@
 <template>
-  <div class="page-header clear-filter" filter-color="orange">
+  <div class="page-header clear-filter" filter-color="white">
     <div
       class="page-header-image"
-      style="background-image: url('img/login.jpg')"
+      style="background-image: url('img/running1.jpg')"
     ></div>
     <div class="content">
       <div class="container">
@@ -15,14 +15,14 @@
             <fg-input
               class="no-border input-lg"
               addon-left-icon="now-ui-icons users_circle-08"
-              placeholder="First Name..."
+              placeholder="Email"
             >
             </fg-input>
 
             <fg-input
               class="no-border input-lg"
               addon-left-icon="now-ui-icons text_caps-small"
-              placeholder="Last Name..."
+              placeholder="Password"
             >
             </fg-input>
 
@@ -31,18 +31,8 @@
                 <router-link
                   class="btn btn-primary btn-round btn-lg btn-block nav-link"
                   to="/profile"
-                  >Get Started</router-link
+                  >Login</router-link
                 >
-              </div>
-              <div class="pull-left">
-                <h6>
-                  <router-link class="link footer-link" to="/signup">Create Account</router-link>
-                </h6>
-              </div>
-              <div class="pull-right">
-                <h6>
-                  <router-link class="link footer-link" to="/guide">Need Help?</router-link>
-                </h6>
               </div>
             </template>
           </card>

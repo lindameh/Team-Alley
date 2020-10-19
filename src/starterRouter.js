@@ -54,7 +54,7 @@ export default new Router({
     {
       path: '/guide',
       name: 'guide',
-      components: {default: Guide, header: LoginNavbar, footer: StarterFooter},
+      components: {default: Guide, header: StarterNavbar, footer: StarterFooter},
       props: {
         header: { colorOnScroll: 400 },
         footer: { backgroundColor: 'black' }
