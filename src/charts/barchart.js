@@ -4,26 +4,32 @@ export default {
   extends: Bar,
   data: function () {
     return {
-        datacollection: {
-            labels: ["Africa", "Asia", "Europe", "Latin America", "North America"],
-            datasets: [{
-                label: "Population (millions)",
-                backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#c45850"],
-                data: [2478,5267,734,784,433]
-              }]
+      datacollection: {
+        labels: ['Sept-17', 'Sept-18', 'Sept-19', 'Sept-20', 'Sept-21', 'Sept-22', 'Sept-23'],
+        datasets: [{
+          label: "Wellness",
+          backgroundColor: "#3e95cd",
+          data: [90, 82, 85, 92, 88, 85, 95]
+        }]
+      },
+      options: {
+        scales: {
+          yAxes: [{
+            ticks: { beginAtZero: true }
+          }]
         },
-        options: {
-            legend: { display: false },
-            title: {
-              display: true,
-              text: 'Predicted world population (millions) in 2050'
-            },
-            responsive: true,
-            maintainAspectRatio: false
-        }
+
+        legend: { display: true },
+        title: {
+          display: true,
+          text: 'Work Life Balance Index (Out of 100)'
+        },
+        responsive: true,
+        maintainAspectRatio: false
+      }
     }
   },
-  mounted () {
+  mounted() {
     this.renderChart(this.datacollection, this.options)
   }
 }
