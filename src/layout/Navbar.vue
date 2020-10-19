@@ -23,10 +23,10 @@
         <nav-link to="/profile">
           <i class="now-ui-icons users_single-02"></i> View Profile
         </nav-link>
-        <nav-link to="/">
+        <nav-link to="/editdata">
           <i class="now-ui-icons education_paper"></i> Input/Modify Health Data
         </nav-link>
-        <nav-link to="/">
+        <nav-link to="/editgoal">
           <i class="now-ui-icons education_paper"></i> Input/Modify Personal Goal
         </nav-link>
         <nav-link to="/">
