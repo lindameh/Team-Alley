@@ -12,6 +12,8 @@ import Login from './pages/Login.vue'
 import Guide from './pages/Guide.vue'
 import Achievement from './pages/Achievement.vue'
 import Form from './pages/Form.vue'
+import editdata from './pages/editdata.vue'
+import editgoal from './pages/editgoal.vue'
 
 Vue.use(Router);
 
@@ -26,6 +28,7 @@ export default new Router({
         footer: { backgroundColor: 'black' }
       }
     },
+
     {
       path: '/profile',
       name: 'profile',
@@ -35,6 +38,7 @@ export default new Router({
         footer: { backgroundColor: 'black' }
       }
     },
+
     {
       path: '/signup',
       name: 'signup',
@@ -44,6 +48,7 @@ export default new Router({
         footer: { backgroundColor: 'black' }
       }
     },
+
     {
       path: '/login',
       name: 'login',
@@ -53,6 +58,7 @@ export default new Router({
         footer: { backgroundColor: 'black' }
       }
     },
+
     {
       path: '/achievement',
       name: 'achievement',
@@ -62,6 +68,7 @@ export default new Router({
         footer: { backgroundColor: 'black' }
       }
     },
+
     {
       path: '/guide',
       name: 'guide',
@@ -71,6 +78,7 @@ export default new Router({
         footer: { backgroundColor: 'black' }
       }
     },
+
     {
       path: '/form',
       name: 'form',
@@ -78,8 +86,27 @@ export default new Router({
       props: {
         header: { colorOnScroll: 400 },
         footer: { backgroundColor: 'black' }
+      }
+    },
+
+    {
+      path: '/editdata',
+      name: 'editdata',
+      components: {default: editdata, header: Navbar, footer: StarterFooter},
+      props: {
+        header: { colorOnScroll: 400 },
+        footer: { backgroundColor: 'black' }
+      }
+    },
+    {
+      path: '/editgoal',
+      name: 'editgoal',
+      components: {default: editgoal, header: Navbar, footer: StarterFooter},
+      props: {
+        header: { colorOnScroll: 400 },
+        footer: { backgroundColor: 'black' }
+      }
     }
-  }
   ],
   scrollBehavior: to => {
     if (to.hash) {
