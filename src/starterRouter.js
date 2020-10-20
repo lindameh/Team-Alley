@@ -14,6 +14,7 @@ import Achievement from './pages/Achievement.vue'
 import Form from './pages/Form.vue'
 import editdata from './pages/editdata.vue'
 import editgoal from './pages/editgoal.vue'
+import Sharing from './pages/Sharing.vue'
 
 Vue.use(Router);
 
@@ -98,6 +99,7 @@ export default new Router({
         footer: { backgroundColor: 'black' }
       }
     },
+
     {
       path: '/editgoal',
       name: 'editgoal',
@@ -106,7 +108,17 @@ export default new Router({
         header: { colorOnScroll: 400 },
         footer: { backgroundColor: 'black' }
       }
-    }
+    },
+
+    {
+      path: '/sharing',
+      name: 'sharing',
+      components: {default: Sharing, header: Navbar, footer: StarterFooter},
+      props: {
+        header: { colorOnScroll: 400 },
+        footer: { backgroundColor: 'black' }
+      }
+    },
   ],
   scrollBehavior: to => {
     if (to.hash) {
