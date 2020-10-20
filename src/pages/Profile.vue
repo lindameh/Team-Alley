@@ -34,9 +34,9 @@
         </h5>
         <h3 class="title">Data</h3>
         <h5 class="description">
-          <a href="/editdata">Input/Modify Health Data</a>
+           <router-link class="nav-link" to="/editdata">Input/Modify Health Data</router-link>
           <br/>
-          <a href="/editgoal">Set Up/Modify Personal Goals</a>
+          <router-link class="nav-link" to="/editgoal">Input/Modify Daily Goals</router-link>
         </h5>
         <!-- <div class="row">
           <div class="col-md-6 ml-auto mr-auto">
