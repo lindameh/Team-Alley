@@ -6,17 +6,16 @@
         style="background-image: url('img/sharing-bg.jpg'); opacity: 0.5"
       ></div>
       <br><br><br><br><br><br><br>
-        <div class="col-md-10 ml-auto col-xl-6 mr-auto">
+
           <p class="category">Tabs with Icons on Card</p>
           <!-- Nav tabs -->
-          <card>
-              <div class="section">
-                    <h5 class="description">tesating</h5>
-              </div>
+          <card >
+            <img slot="image" class="card-img-left" src='img/ryan.jpg' alt="">
+            <div >
+                <h5 class="category text-info">tesating</h5>
+            </div>
           </card>
-        </div>
 
-      
     </div>
   </div>
 </template>
