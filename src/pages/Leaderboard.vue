@@ -1,120 +1,192 @@
 <template>
   <div>
-    <div class="page-header clear-filter" filter-color="orange">
-      <div
-        class="page-header-image"
-        style="background-image:url('img/bg5.jpg')"
-        v-bind:style="height='100px'"
-      >
-      </div>
-      <div class="container">
-        <div class="photo-container">
-          <img src="img/ryan.jpg" alt="" />
-        </div>
-        <h3 class="title">Username</h3>
-        <a href="/editprofile">Edit Profile Picture</a>
-      </div>
-    </div>
+
+    <!-- <meta charset="UTF-8">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:600' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="style/css/leaderboard.css"> -->
+
     <div class="section">
       <div class="container">
-        <div class="button-container">
-          <a href="#button" class="btn btn-primary btn-round btn-lg">Follow</a>
+        <h2 class="title">Leaderboard</h2>
+        <div class="Header">
+          <h1 class="Header__title">Top 10</h1>
         </div>
-        <h3 class="title">My Goals</h3>
-        <h5 class="description">
-          <ol>
-            <li>Lose Weight</li>
-            <li>Limit Calorie Intake</li>
-            <li>Exercise More</li>
-          </ol>
-        </h5>
-        <h3 class="title">Security</h3>
-        <h5 class="description">
-          <a href="/password" >Change Password</a>
-        </h5>
-        <h3 class="title">Data</h3>
-        <h5 class="description">
-          <a href="/editdata">Input/Modify Health Data</a>
-          <br/>
-          <a href="/editgoal">Set Up/Modify Personal Goals</a>
-        </h5>
-        <!-- <div class="row">
-          <div class="col-md-6 ml-auto mr-auto">
-            <h4 class="title text-center">My Portfolio</h4>
-          </div>
-          <tabs
-            pills
-            class="nav-align-center"
-            tab-content-classes="gallery"
-            tab-nav-classes="nav-pills-just-icons"
-            type="primary"
-          >
-            <tab-pane title="Profile">
-              <i slot="label" class="now-ui-icons design_image"></i>
 
-              <div class="col-md-10 ml-auto mr-auto">
-                <div class="row collections">
-                  <div class="col-md-6">
-                    <img src="img/bg6.jpg" class="img-raised" />
-                    <img src="img/bg11.jpg" alt="" class="img-raised" />
-                  </div>
-                  <div class="col-md-6">
-                    <img src="img/bg7.jpg" alt="" class="img-raised" />
-                    <img src="img/bg8.jpg" alt="" class="img-raised" />
-                  </div>
-                </div>
-              </div>
-            </tab-pane>
+        <dashboard></dashboard>
 
-            <tab-pane title="Home">
-              <i slot="label" class="now-ui-icons location_world"></i>
-
-              <div class="col-md-10 ml-auto mr-auto">
-                <div class="row collections">
-                  <div class="col-md-6">
-                    <img src="img/bg1.jpg" alt="" class="img-raised" />
-                    <img src="img/bg3.jpg" alt="" class="img-raised" />
-                  </div>
-                  <div class="col-md-6">
-                    <img src="img/bg8.jpg" alt="" class="img-raised" />
-                    <img src="img/bg7.jpg" alt="" class="img-raised" />
-                  </div>
-                </div>
-              </div>
-            </tab-pane>
-
-            <tab-pane title="Messages">
-              <i slot="label" class="now-ui-icons sport_user-run"></i>
-
-              <div class="col-md-10 ml-auto mr-auto">
-                <div class="row collections">
-                  <div class="col-md-6">
-                    <img src="img/bg3.jpg" alt="" class="img-raised" />
-                    <img src="img/bg8.jpg" alt="" class="img-raised" />
-                  </div>
-                  <div class="col-md-6">
-                    <img src="img/bg7.jpg" alt="" class="img-raised" />
-                    <img src="img/bg6.jpg" class="img-raised" />
-                  </div>
-                </div>
-              </div>
-            </tab-pane>
-          </tabs>
-        </div> -->
+        <competitors :list="topX"
+              :show-athletes="showAthletes"
+              id="top-x">
+        </competitors>
+        <hr class="pad2">
+        <div class="Header">
+          <h1 class="Header__title">Not quite there yet</h1>
+        </div>
+        <competitors :list="leaderboardPage"
+              :show-athletes="showAthletes"
+              id="remaining-leaderboard">
+        </competitors>
       </div>
     </div>
   </div>
 </template>
+
 <script>
-//import { Tabs, TabPane } from '@/components';
+
+import dashboard from './dashboard.js'
+// import vue from './vue.js'
 
 export default {
-  name: 'profile',
-  bodyClass: 'profile-page',
-  components: {
-    //Tabs,
-    //TabPane
-  }
-};
+    components:{
+        dashboard
+    }
+}
 </script>
-<style></style>
+
+
+<style>
+.baseShadow, .Header, .Athlete {
+  box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.5); }
+
+hr {
+  outline: 0;
+  border: 0;
+  height: 0;
+  margin: 0; }
+  hr.pad2 {
+    padding: 1% 0; }
+  hr.pad5 {
+    padding: 2.5% 0; }
+  hr.pad10 {
+    padding: 5% 0; }
+
+nav {
+  width: 100%;
+  background-color: #333333; }
+  nav img {
+    display: block;
+    width: 150px;
+    margin: 0 auto;
+    padding: 33px 0; }
+
+#leaderboard-app {
+  position: relative; }
+
+#background-extension {
+  width: 100%;
+  height: 50px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color: #333333;
+  z-index: 0; }
+
+.CompetitorList {
+  width: 90%;
+  max-width: 625px;
+  display: block;
+  margin: 0 auto; }
+
+#top-x {
+  height: 206px; }
+
+#remaining-leaderboard {
+  height: 689px; }
+
+.Header {
+  width: 90%;
+  z-index: 1;
+  max-width: 625px;
+  margin: 0 auto;
+  position: relative;
+  border-top: 3px solid #0A96C8;
+  background-color: #FFFFFF; }
+  .Header:nth-of-type(2) {
+    border-top: 3px solid #F7B80C; }
+  .Header .Header__title {
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 400;
+    font-size: 24px;
+    color: #333333;
+    width: 100%;
+    text-align: center;
+    text-transform: uppercase;
+    margin: 0;
+    padding: 12px 0; }
+  .Header .Header__image {
+    width: 40px;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+    padding: 0 0 23px 0; }
+  .Header .Header__summary {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 115px; }
+  .Header .Header__stat {
+    height: auto;
+    flex: 1;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center; }
+    .Header .Header__stat h3, .Header .Header__stat h4 {
+      width: 100%;
+      margin: 0;
+      padding: 0;
+      display: block;
+      text-align: center;
+      align-self: center; }
+    .Header .Header__stat h3 {
+      font-family: 'Open Sans', sans-serif;
+      font-weight: 400;
+      font-size: 24px;
+      color: #333333; }
+    .Header .Header__stat h4 {
+      font-family: 'Open Sans', sans-serif;
+      font-weight: 400;
+      font-size: 12px;
+      color: #333333;
+      text-transform: uppercase;
+      margin-top: 5px; }
+
+.Athlete {
+  width: 100%;
+  margin: 1px 0;
+  display: flex;
+  align-items: center; }
+  .Athlete .Athlete__rank {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 68px;
+    width: 68px;
+    flex-basis: 68px;
+    background-color: #0A96C8; }
+    .Athlete .Athlete__rank h5 {
+      font-family: 'Open Sans', sans-serif;
+      font-weight: 400;
+      font-size: 20px;
+      color: #FFFFFF;
+      margin: 0;
+      padding: 0; }
+  .Athlete .Athlete__name {
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 400;
+    font-size: 20px;
+    color: #333333;
+    margin: 0;
+    padding: 0 0 0 19px;
+    flex: 1; }
+  .Athlete .Athlete__reps {
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 400;
+    font-size: 20px;
+    color: #333333;
+    margin: 0;
+    padding: 0 19px 0 0;
+    flex: 1;
+    text-align: right;
+    align-self: flex-right; }
+</style>
