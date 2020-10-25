@@ -3,8 +3,13 @@
   <div class="section">
     <div class="container">
 
-      <img slot="image" class="card-img-top write-img float-right" tooltip="New Post" src='img/orange-pen.png' alt="">
-      
+      <router-link class="nav-link write-img float-right" 
+                   to="/newpost" 
+                   tag="img" 
+                   src='img/orange-pen.png'
+                   title="New Post">
+      </router-link>
+
       <tabs type="primary" tabContentClasses="tab-subcategories"
             square centered class="row">
             
@@ -144,8 +149,16 @@ export default {
   width: 10rem;
 }
 .write-img {
+  position: sticky;
+  top: 5rem;
+  z-index: 1;
   height: 4vw;
   width: 4vw;
+  max-height: 8rem;
+  max-width: 10rem;
+  min-height: 4rem;
+  min-width: 5rem;
+  margin-top: 1vw;
 }
 .float-left {
   float:left

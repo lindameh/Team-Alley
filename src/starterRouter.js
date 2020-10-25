@@ -16,6 +16,7 @@ import Form from './pages/Form.vue'
 import editdata from './pages/editdata.vue'
 import editgoal from './pages/editgoal.vue'
 import Sharing from './pages/Sharing.vue'
+import NewPost from './pages/NewPost.vue'
 
 Vue.use(Router);
 
@@ -129,6 +130,16 @@ export default new Router({
         footer: { backgroundColor: 'black' }
       }
     },
+
+    {
+      path: '/newpost',
+      name: 'newpost',
+      components: {default: NewPost, header: Navbar, footer: StarterFooter},
+      props: {
+        header: { colorOnScroll: 400 },
+        footer: { backgroundColor: 'black' }
+      }
+    }
   ],
   scrollBehavior: to => {
     if (to.hash) {
