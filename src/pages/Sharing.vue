@@ -3,39 +3,57 @@
   <div class="section">
     <div class="container">
 
-  <tabs type="primary" tabContentClasses="tab-subcategories"
-        square centered class="row">
-    <tab-pane>
-    <span slot="label">
-      <i class="now-ui-icons objects_umbrella-13"></i>All
-    </span>
-    </tab-pane>
-    
-    <tab-pane>
-    <span slot="label">
-      <i class="now-ui-icons sport_user-run"></i>Sport
-    </span>
-    </tab-pane>
-    
-    <tab-pane>
-    <span slot="label">
-      <i class="now-ui-icons shopping_basket"></i>Food
-    </span>
-    </tab-pane>
-    
-    <tab-pane>
-    <span slot="label">
-      <i class="now-ui-icons ui-2_favourite-28"></i>Wellness
-    </span>
-    </tab-pane>
+      <tabs type="primary" tabContentClasses="tab-subcategories"
+            square centered class="row">
+            
+        <tab-pane>
+        <span slot="label">
+          <i class="now-ui-icons objects_umbrella-13"></i>All
+        </span>
+        </tab-pane>
+        
+        <tab-pane>
+        <span slot="label">
+          <i class="now-ui-icons sport_user-run"></i>Sport
+        </span>
+        <!--Card-->
+        <div class="col-md-10 mr-auto ml-auto">
+          <card class="container" >
+            <div class="row">
+              <!--Image Here-->
+              <div class="col-md-3">
+                <img slot="image" class="card-img-top sharing-img" src='img/ryan.jpg' alt="">
+              </div>
+              <!--Content Here-->
+              <div class="col-md-9">
+                <h5 class="card-title">Tips to lose Weight</h5>
+                <p class="card-text">I have been using my time in quarantine to research on the best weight losing method!</p>
+                <n-button type="primary">See More</n-button>                
+              </div>
+            </div>
+          </card>
+        </div>
+        </tab-pane>
+        
+        <tab-pane>
+        <span slot="label">
+          <i class="now-ui-icons shopping_basket"></i>Food
+        </span>
+        </tab-pane>
+        
+        <tab-pane>
+        <span slot="label">
+          <i class="now-ui-icons ui-2_favourite-28"></i>Wellness
+        </span>
+        </tab-pane>
 
-    <tab-pane>
-    <span slot="label">
-      <i class="now-ui-icons media-2_sound-wave"></i>Hygiene
-    </span>
-    </tab-pane>
+        <tab-pane>
+        <span slot="label">
+          <i class="now-ui-icons media-2_sound-wave"></i>Hygiene
+        </span>
+        </tab-pane>
 
-  </tabs>
+      </tabs>
 
       <!--Card-->
       <div class="col-md-10 mr-auto ml-auto">
