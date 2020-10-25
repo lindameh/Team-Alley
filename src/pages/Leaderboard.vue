@@ -329,7 +329,7 @@ nav {
     transform: translate3d(0, -30px, 0);
   }
 
-  70% {
+  70% { 
     -webkit-animation-timing-function: cubic-bezier(0.755, 0.050, 0.855, 0.060);
     animation-timing-function: cubic-bezier(0.755, 0.050, 0.855, 0.060);
     -webkit-transform: translate3d(0, -15px, 0);
