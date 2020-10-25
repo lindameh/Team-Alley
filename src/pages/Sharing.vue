@@ -3,6 +3,8 @@
   <div class="section">
     <div class="container">
 
+      <img slot="image" class="card-img-top write-img float-right" tooltip="New Post" src='img/orange-pen.png' alt="">
+      
       <tabs type="primary" tabContentClasses="tab-subcategories"
             square centered class="row">
             
@@ -129,17 +131,21 @@ export default {
   methods: {
     // getSharings() {
     //   #TODO: Load data from firebase
-    //   Check if there are ang sharing
+    //   Check if there are any sharing
     //   render each sharing into a card component
     // },
   },
 };
 </script>
 
-<style>
+<style scoped>
 .sharing-img {
   height: 10rem;
   width: 10rem;
+}
+.write-img {
+  height: 4vw;
+  width: 4vw;
 }
 .float-left {
   float:left
