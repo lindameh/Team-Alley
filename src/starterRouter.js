@@ -11,6 +11,11 @@ import LoginNavbar from './layout/LoginNavbar.vue';
 import Login from './pages/Login.vue'
 import Guide from './pages/Guide.vue'
 import Leaderboard from './pages/Leaderboard.vue'
+import Achievement from './pages/Achievement.vue'
+import Form from './pages/Form.vue'
+import editdata from './pages/editdata.vue'
+import editgoal from './pages/editgoal.vue'
+import Sharing from './pages/Sharing.vue'
 
 Vue.use(Router);
 
@@ -25,6 +30,7 @@ export default new Router({
         footer: { backgroundColor: 'black' }
       }
     },
+
     {
       path: '/leaderboard',
       name: 'leaderboard',
@@ -43,6 +49,7 @@ export default new Router({
         footer: { backgroundColor: 'black' }
       }
     },
+
     {
       path: '/signup',
       name: 'signup',
@@ -52,6 +59,7 @@ export default new Router({
         footer: { backgroundColor: 'black' }
       }
     },
+
     {
       path: '/login',
       name: 'login',
@@ -61,15 +69,66 @@ export default new Router({
         footer: { backgroundColor: 'black' }
       }
     },
+
     {
-      path: '/guide',
-      name: 'guide',
-      components: {default: Guide, header: LoginNavbar, footer: StarterFooter},
+      path: '/achievement',
+      name: 'achievement',
+      components: {default: Achievement, header: Navbar, footer: StarterFooter},
       props: {
         header: { colorOnScroll: 400 },
         footer: { backgroundColor: 'black' }
       }
-    }
+    },
+
+    {
+      path: '/guide',
+      name: 'guide',
+      components: {default: Guide, header: StarterNavbar, footer: StarterFooter},
+      props: {
+        header: { colorOnScroll: 400 },
+        footer: { backgroundColor: 'black' }
+      }
+    },
+
+    {
+      path: '/form',
+      name: 'form',
+      components: {default: Form, header: Navbar, footer: StarterFooter},
+      props: {
+        header: { colorOnScroll: 400 },
+        footer: { backgroundColor: 'black' }
+      }
+    },
+
+    {
+      path: '/editdata',
+      name: 'editdata',
+      components: {default: editdata, header: Navbar, footer: StarterFooter},
+      props: {
+        header: { colorOnScroll: 400 },
+        footer: { backgroundColor: 'black' }
+      }
+    },
+
+    {
+      path: '/editgoal',
+      name: 'editgoal',
+      components: {default: editgoal, header: Navbar, footer: StarterFooter},
+      props: {
+        header: { colorOnScroll: 400 },
+        footer: { backgroundColor: 'black' }
+      }
+    },
+
+    {
+      path: '/sharing',
+      name: 'sharing',
+      components: {default: Sharing, header: Navbar, footer: StarterFooter},
+      props: {
+        header: { colorOnScroll: 400 },
+        footer: { backgroundColor: 'black' }
+      }
+    },
   ],
   scrollBehavior: to => {
     if (to.hash) {

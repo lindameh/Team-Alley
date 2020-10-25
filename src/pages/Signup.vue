@@ -18,34 +18,24 @@
             <fg-input
               class="no-border input-lg"
               addon-left-icon="now-ui-icons users_circle-08"
-              placeholder="First Name..."
+              placeholder="Email"
             >
             </fg-input>
 
             <fg-input
               class="no-border input-lg"
               addon-left-icon="now-ui-icons text_caps-small"
-              placeholder="Last Name..."
+              placeholder="Password"
             >
             </fg-input>
 
             <template slot="raw-content">
               <div class="card-footer text-center">
-                <a
-                  href="#pablo"
-                  class="btn btn-primary btn-round btn-lg btn-block"
-                  >Get Started</a
+                <router-link
+                  class="btn btn-primary btn-round btn-lg btn-block nav-link"
+                  to="/login"
+                  >Sign Up</router-link
                 >
-              </div>
-              <div class="pull-left">
-                <h6>
-                  <router-link class="link footer-link" to="/signup">Create Account</router-link>
-                </h6>
-              </div>
-              <div class="pull-right">
-                <h6>
-                  <router-link class="link footer-link" to="/guide">Need Help?</router-link>
-                </h6>
               </div>
             </template>
           </card>
