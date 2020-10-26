@@ -3,15 +3,14 @@
     <div class="page-header clear-filter" filter-color="orange">
       <div
         class="page-header-image"
-        style="background-image:url('img/bg5.jpg')"
-        v-bind:style="height='100px'"
-      >
-      </div>
+        style="background-image: url('img/bg5.jpg')"
+        v-bind:style="(height = '100px')"
+      ></div>
       <div class="container">
         <div class="photo-container">
           <img src="img/ryan.jpg" alt="" />
         </div>
-        <h3 class="title">Username</h3>
+        <h3 class="title">{{ name }}</h3>
         <a href="/editprofile">Edit Profile Picture</a>
       </div>
     </div>
@@ -30,91 +29,44 @@
         </h5>
         <h3 class="title">Security</h3>
         <h5 class="description">
-          <a href="/password" >Change Password</a>
+          <a href="/password">Change Password</a>
         </h5>
         <h3 class="title">Data</h3>
         <h5 class="description">
-           <router-link class="nav-link" to="/editdata">Input/Modify Health Data</router-link>
-          <br/>
-          <router-link class="nav-link" to="/editgoal">Input/Modify Daily Goals</router-link>
-        </h5>
-        <!-- <div class="row">
-          <div class="col-md-6 ml-auto mr-auto">
-            <h4 class="title text-center">My Portfolio</h4>
-          </div>
-          <tabs
-            pills
-            class="nav-align-center"
-            tab-content-classes="gallery"
-            tab-nav-classes="nav-pills-just-icons"
-            type="primary"
+          <router-link class="nav-link" to="/editdata"
+            >Input/Modify Health Data</router-link
           >
-            <tab-pane title="Profile">
-              <i slot="label" class="now-ui-icons design_image"></i>
-
-              <div class="col-md-10 ml-auto mr-auto">
-                <div class="row collections">
-                  <div class="col-md-6">
-                    <img src="img/bg6.jpg" class="img-raised" />
-                    <img src="img/bg11.jpg" alt="" class="img-raised" />
-                  </div>
-                  <div class="col-md-6">
-                    <img src="img/bg7.jpg" alt="" class="img-raised" />
-                    <img src="img/bg8.jpg" alt="" class="img-raised" />
-                  </div>
-                </div>
-              </div>
-            </tab-pane>
-
-            <tab-pane title="Home">
-              <i slot="label" class="now-ui-icons location_world"></i>
-
-              <div class="col-md-10 ml-auto mr-auto">
-                <div class="row collections">
-                  <div class="col-md-6">
-                    <img src="img/bg1.jpg" alt="" class="img-raised" />
-                    <img src="img/bg3.jpg" alt="" class="img-raised" />
-                  </div>
-                  <div class="col-md-6">
-                    <img src="img/bg8.jpg" alt="" class="img-raised" />
-                    <img src="img/bg7.jpg" alt="" class="img-raised" />
-                  </div>
-                </div>
-              </div>
-            </tab-pane>
-
-            <tab-pane title="Messages">
-              <i slot="label" class="now-ui-icons sport_user-run"></i>
-
-              <div class="col-md-10 ml-auto mr-auto">
-                <div class="row collections">
-                  <div class="col-md-6">
-                    <img src="img/bg3.jpg" alt="" class="img-raised" />
-                    <img src="img/bg8.jpg" alt="" class="img-raised" />
-                  </div>
-                  <div class="col-md-6">
-                    <img src="img/bg7.jpg" alt="" class="img-raised" />
-                    <img src="img/bg6.jpg" class="img-raised" />
-                  </div>
-                </div>
-              </div>
-            </tab-pane>
-          </tabs>
-        </div> -->
+          <br />
+          <router-link class="nav-link" to="/editgoal"
+            >Input/Modify Daily Goals</router-link
+          >
+        </h5>
       </div>
     </div>
   </div>
 </template>
 <script>
-//import { Tabs, TabPane } from '@/components';
+import auth from "../firebase.js";
+
+var name, email;
+auth.onAuthStateChanged(function (user) {
+  if (user) {
+    // User is signed in.
+    name = user.displayName;
+    email = user.email;
+  }
+});
 
 export default {
-  name: 'profile',
-  bodyClass: 'profile-page',
-  components: {
-    //Tabs,
-    //TabPane
-  }
+  name: "profile",
+  bodyClass: "profile-page",
+  components: {},
+  data() {
+    return {
+      name: name,
+      email: email,
+    };
+  },
 };
 </script>
 <style></style>

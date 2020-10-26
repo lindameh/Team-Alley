@@ -15,6 +15,16 @@
         <form action="#" @submit.prevent="signup">
           <div class="form-group">
             <input
+              name="name"
+              type="name"
+              class="form-control"
+              placeholder="Username"
+              required
+              v-model="name"
+            />
+          </div>
+          <div class="form-group">
+            <input
               name="email"
               type="email"
               class="form-control"
@@ -58,6 +68,7 @@ export default {
   },
   data() {
     return {
+      name: "",
       email: "",
       password: "",
       error: null,
@@ -70,6 +81,11 @@ export default {
         .auth()
         .createUserWithEmailAndPassword(this.email, this.password)
         .then((data) => {
+          data.user
+            .updateProfile({
+              displayName: this.name,
+            })
+            .then(() => {});
           this.$router.replace({ name: "login" });
         })
         .catch((err) => {
