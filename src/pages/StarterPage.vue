@@ -1,7 +1,19 @@
 <template>
   <div class="starter-page">
-    <div class="section text-center">
-      <h3>Create your next awesome website</h3>
+    <div class="page-header clear-filter" filter-color="white">
+      <parallax
+        class="page-header-image"
+        style="background-image: url('img/running1.jpg')"
+      >
+      </parallax>
+
+      <div class="content-center">
+        <div class="container">
+          <h1 class="h1-seo">The community for health enthusiasts</h1>
+          <h3>Track.Share.Achieve.</h3>
+        </div>
+      </div>
+
     </div>
   </div>
 </template>
