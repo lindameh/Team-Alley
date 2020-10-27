@@ -1,9 +1,9 @@
 <template>
   <div>
-    <div class="page-header page-header-small">
+    <div class="page-header page-header-small clear-filter">
       <parallax
         class="page-header-image"
-        style="background-image: url('img/bg6.jpg')"
+        style="background-image: url('img/bg3.jpg')"
       >
       </parallax>
       <div class="content-center">

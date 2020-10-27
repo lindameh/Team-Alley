@@ -84,7 +84,11 @@ export default {
           data.user
             .updateProfile({
               displayName: this.name,
+              photoURL: "img/ryan.jpg",
             })
+            .then(() => {});
+          data.user
+            .user.sendEmailVerification()
             .then(() => {});
           this.$router.replace({ name: "login" });
         })
