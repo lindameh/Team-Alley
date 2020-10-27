@@ -76,7 +76,6 @@ export default {
   },
   methods: {
     signup() {
-      console.log("signup");
       firebase
         .auth()
         .createUserWithEmailAndPassword(this.email, this.password)
@@ -87,9 +86,8 @@ export default {
               photoURL: "img/ryan.jpg",
             })
             .then(() => {});
-          data.user
-            .user.sendEmailVerification()
-            .then(() => {});
+          data.user.sendEmailVerification().then(() => {});
+          console.log("signup successfully");
           this.$router.replace({ name: "login" });
         })
         .catch((err) => {
