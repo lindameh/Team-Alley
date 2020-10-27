@@ -9,7 +9,6 @@ import Profile from './pages/Profile.vue'
 import SignupNavbar from './layout/SignupNavbar.vue';
 import LoginNavbar from './layout/LoginNavbar.vue';
 import Login from './pages/Login.vue'
-import GuideNavbar from './layout/GuideNavbar.vue';
 import Guide from './pages/Guide.vue'
 import Leaderboard from './pages/Leaderboard.vue'
 import Achievement from './pages/Achievement.vue'
@@ -85,7 +84,7 @@ export default new Router({
     {
       path: '/guide',
       name: 'guide',
-      components: {default: Guide, header: GuideNavbar, footer: StarterFooter},
+      components: {default: Guide, header: Navbar, footer: StarterFooter},
       props: {
         header: { colorOnScroll: 400 },
         footer: { backgroundColor: 'black' }

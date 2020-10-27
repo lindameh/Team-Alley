@@ -1,11 +1,14 @@
 <template>
+
   <navbar position="fixed" type="primary" menu-classes="ml-auto">
     <template>
       <router-link v-popover:popover1 class="navbar-brand" to="/">
         WELife
       </router-link>
+
     </template>
-    <template slot="navbar-menu">
+    <template v-if="user" slot="navbar-menu">
+
       <router-link class="nav-link" to="/achievement">Achievement</router-link>
       <router-link class="nav-link" to="/form">Form</router-link>
       <router-link class="nav-link" to="/leaderboard">Leaderboard</router-link>
@@ -31,19 +34,33 @@
         </nav-link>-->
       </drop-down>
     </template>
+
+    <template v-else slot="navbar-menu">
+      <router-link class="nav-link" to="/signup">Sign Up</router-link>
+      <router-link class="nav-link" to="/login">Login</router-link>
+      <router-link class="nav-link" to="/guide">User Guide</router-link>
+    </template>
+
   </navbar>
 </template>
 
 <script>
-import { DropDown, Navbar} from "@/components";
-import { Popover } from "element-ui";
-import firebase from "firebase";
+import { DropDown, Navbar} from '@/components';
+import { Popover } from 'element-ui';
+import firebase from 'firebase';
+import auth from "../firebase.js";
+
 export default {
-  name: "main-navbar",
+  name: 'guide-navbar',
   components: {
     DropDown,
     Navbar,
-    [Popover.name]: Popover,
+    [Popover.name]: Popover
+  },
+  computed: {
+    user() {
+      return auth.currentUser;
+    },
   },
   methods: {
     logout() {
