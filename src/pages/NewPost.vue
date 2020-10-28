@@ -98,6 +98,9 @@ export default {
                 }).catch((err) => {
                     this.newPost.error = err.message;
                 });
+        },
+        deletePost() {
+            //TODO
         }
   }
 };
