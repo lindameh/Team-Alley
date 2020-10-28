@@ -3,7 +3,7 @@
         <div class="container">
             <div class="row">
 
-                <div v-if="newPost.error" class="alert alert-danger">{{error}}</div>
+                <div v-if="error" class="alert alert-danger">{{error}}</div>
 
                 <div class="col-lg-6 text-center ml-auto mr-auto col-md-8" style="margin-top:10vh">
                     <p>Title</p>
@@ -67,8 +67,8 @@ export default {
             food: false,
             wellness: false,
             hygiene: false,
-            error: null
-        }
+        },
+        error: null
     };
   },
   methods: {
@@ -79,7 +79,7 @@ export default {
         },
         uploadNewPost() {
             this.newPost.username = auth.currentUser.displayName;
-            //this.newPost.time = format_date(new Date());
+            this.newPost.time = this.format_date(new Date());
             database.collection('Posts').add(this.newPost)
                 .then((result) => {
                     console.log("New Post created");
