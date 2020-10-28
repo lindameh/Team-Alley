@@ -17,8 +17,9 @@
 
     <div class="section">
       <div v-if="user" class="container">
-        <h3 class="title">Change Profile Picture</h3>
+        <h3 class="title">Change Profile Picture</h3>      
         <div class="col-md-4 ml-auto mr-auto text-center">
+          <div v-if="photoUpdated" class="alert alert-success">Profile photo updated successfully. Please login again.</div>
           <form @submit.prevent="changeProfilePic">
             <input
               type="file"
@@ -36,6 +37,7 @@
         <h3 class="title">Change Password</h3>
         <div class="col-md-4 ml-auto mr-auto text-center">
           <div v-if="error" class="alert alert-danger">{{ error }}</div>
+          <div v-if="passwordUpdated" class="alert alert-success">Password updated successfully. Please login again.</div>
           <form @submit.prevent="changePassword">
             <input
               type="password"
@@ -76,8 +78,10 @@ export default {
   components: {},
   data() {
     return {
-      tmpPhoto: "",
+      newPhoto: "",
       newPassword: "",
+      photoUpdated: false,
+      passwordUpdated: false,
       error: null,
     };
   },
@@ -110,22 +114,28 @@ export default {
   methods: {
     chooseProfilePic(e) {
       var file = e.target.files[0];
-      this.tmpPhoto = URL.createObjectURL(file);
+      this.newPhoto = URL.createObjectURL(file);
     },
     changeProfilePic() {
       if (this.user) {
         this.user
           .updateProfile({
-            photoURL: this.tmpPhoto,
+            photoURL: this.newPhoto,
           })
-          .then(console.log("profile picture updated successfully"));
+          .then(() => {
+            console.log("profile picture updated successfully");
+            this.photoUpdated = true;
+          });
       }
     },
     changePassword() {
       if (this.user) {
         this.user
           .updatePassword(this.newPassword)
-          .then(console.log("password updated successfully"))
+          .then(() => {
+            console.log("password updated successfully");
+            this.passwordUpdated = true;
+          })
           .catch((err) => {
             this.error = err.message;
           });
