@@ -9,18 +9,19 @@
 
       <div class="container">
         <div class="photo-container">
-          <img id="profilePic" v-bind:src="photo()" alt="" />
+          <img id="profilePic" v-bind:src="photo()" :key="profilePicKey" alt="" />
         </div>
         <h3 class="title">{{ name }}</h3>
       </div>
     </div>
 
-    <div class="section">
+    <div>
       <div v-if="user" class="container">
         <h3 class="title">Change Profile Picture</h3>
         <div class="col-md-4 ml-auto mr-auto text-center">
           <form @submit.prevent="changeProfilePic">
             <input
+              id="photoInput"
               type="file"
               class="form-control"
               accept="image/*"
@@ -38,6 +39,7 @@
           <div v-if="error" class="alert alert-danger">{{ error }}</div>
           <form @submit.prevent="changePassword">
             <input
+              id="passwordInput"
               type="password"
               class="form-control"
               placeholder="New Password"
@@ -59,6 +61,7 @@
         <router-link class="nav-link text-center" to="/editgoal"
           >Input/Modify Daily Goals</router-link
         >
+        <br>
       </div>
 
       <div v-else class="container">
@@ -79,6 +82,7 @@ export default {
     return {
       newPhoto: "",
       newPassword: "",
+      profilePicKey: 0,
       error: null,
     };
   },
@@ -127,7 +131,9 @@ export default {
           })
           .then(() => {
             console.log("profile picture updated successfully");
-            alert("Profile picture updated successfully. Please login again.");
+            document.getElementById("photoInput").value=null;
+            alert("Profile picture updated successfully.");
+            this.profilePicKey += 1;
           });
       }
     },
@@ -137,6 +143,7 @@ export default {
           .updatePassword(this.newPassword)
           .then(() => {
             console.log("password updated successfully");
+            document.getElementById("passwordInput").value=null;
             alert("Password updated successfully. Please login again.");
           })
           .catch((err) => {
