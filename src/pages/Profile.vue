@@ -9,7 +9,7 @@
 
       <div class="container">
         <div class="photo-container">
-          <img v-bind:src="photo" alt="" />
+          <img id="profilePic" v-bind:src="photo()" alt="" />
         </div>
         <h3 class="title">{{ name }}</h3>
       </div>
@@ -17,7 +17,7 @@
 
     <div class="section">
       <div v-if="user" class="container">
-        <h3 class="title">Change Profile Picture</h3>      
+        <h3 class="title">Change Profile Picture</h3>
         <div class="col-md-4 ml-auto mr-auto text-center">
           <form @submit.prevent="changeProfilePic">
             <input
@@ -69,6 +69,7 @@
 </template>
 <script>
 import auth from "../firebase.js";
+import { storage } from "../firebase.js";
 
 export default {
   name: "profile",
@@ -99,24 +100,30 @@ export default {
       }
       return email;
     },
-    photo() {
-      var photoURL;
-      if (this.user) {
-        photoURL = this.user.photoURL;
-      }
-      return photoURL;
-    },
   },
   methods: {
+    photo() {
+      if (this.user) {
+        storage
+          .ref(this.user.photoURL)
+          .getDownloadURL()
+          .then(function (url) {
+            var img = document.getElementById("profilePic");
+            img.src = url;
+          });
+      }
+    },
     chooseProfilePic(e) {
       var file = e.target.files[0];
-      this.newPhoto = URL.createObjectURL(file);
+      this.newPhoto = file;
     },
     changeProfilePic() {
       if (this.user) {
+        var storageRef = storage.ref("profilePicture/" + this.newPhoto.name);
+        storageRef.put(this.newPhoto).then();
         this.user
           .updateProfile({
-            photoURL: this.newPhoto,
+            photoURL: storageRef.fullPath,
           })
           .then(() => {
             console.log("profile picture updated successfully");

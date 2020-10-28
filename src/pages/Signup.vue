@@ -83,7 +83,7 @@ export default {
           data.user
             .updateProfile({
               displayName: this.name,
-              photoURL: "img/ryan.jpg",
+              photoURL: "profilePicture/timg-3.jpg",
             })
             .then(() => {});
           data.user.sendEmailVerification().then(() => {});
