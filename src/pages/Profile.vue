@@ -1,120 +1,137 @@
 <template>
   <div>
-    <div class="page-header clear-filter" filter-color="orange">
+    <div class="page-header page-header-small clear-filter">
       <div
         class="page-header-image"
-        style="background-image:url('img/bg5.jpg')"
-        v-bind:style="height='100px'"
-      >
-      </div>
+        style="background-image: url('img/bg5.jpg')"
+        v-bind:style="(height = '100px')"
+      ></div>
+
       <div class="container">
         <div class="photo-container">
-          <img src="img/ryan.jpg" alt="" />
+          <img v-bind:src="photo" alt="" />
         </div>
-        <h3 class="title">Username</h3>
-        <a href="/editprofile">Edit Profile Picture</a>
+        <h3 class="title">{{ name }}</h3>
       </div>
     </div>
+
     <div class="section">
-      <div class="container">
-        <div class="button-container">
-          <a href="#button" class="btn btn-primary btn-round btn-lg">Follow</a>
+      <div v-if="user" class="container">
+        <h3 class="title">Change Profile Picture</h3>
+        <div class="col-md-4 ml-auto mr-auto text-center">
+          <form @submit.prevent="changeProfilePic">
+            <input
+              type="file"
+              class="form-control"
+              accept="image/*"
+              @change="chooseProfilePic($event)"
+              required
+            />
+            <button type="submit" class="btn btn-primary btn-round">
+              Submit
+            </button>
+          </form>
         </div>
-        <h3 class="title">My Goals</h3>
-        <h5 class="description">
-          <ol>
-            <li>Lose Weight</li>
-            <li>Limit Calorie Intake</li>
-            <li>Exercise More</li>
-          </ol>
-        </h5>
-        <h3 class="title">Security</h3>
-        <h5 class="description">
-          <a href="/password" >Change Password</a>
-        </h5>
-        <h3 class="title">Data</h3>
-        <h5 class="description">
-           <router-link class="nav-link" to="/editdata">Input/Modify Health Data</router-link>
-          <br/>
-          <router-link class="nav-link" to="/editgoal">Input/Modify Daily Goals</router-link>
-        </h5>
-        <!-- <div class="row">
-          <div class="col-md-6 ml-auto mr-auto">
-            <h4 class="title text-center">My Portfolio</h4>
-          </div>
-          <tabs
-            pills
-            class="nav-align-center"
-            tab-content-classes="gallery"
-            tab-nav-classes="nav-pills-just-icons"
-            type="primary"
-          >
-            <tab-pane title="Profile">
-              <i slot="label" class="now-ui-icons design_image"></i>
 
-              <div class="col-md-10 ml-auto mr-auto">
-                <div class="row collections">
-                  <div class="col-md-6">
-                    <img src="img/bg6.jpg" class="img-raised" />
-                    <img src="img/bg11.jpg" alt="" class="img-raised" />
-                  </div>
-                  <div class="col-md-6">
-                    <img src="img/bg7.jpg" alt="" class="img-raised" />
-                    <img src="img/bg8.jpg" alt="" class="img-raised" />
-                  </div>
-                </div>
-              </div>
-            </tab-pane>
+        <h3 class="title">Change Password</h3>
+        <div class="col-md-4 ml-auto mr-auto text-center">
+          <div v-if="error" class="alert alert-danger">{{ error }}</div>
+          <form @submit.prevent="changePassword">
+            <input
+              type="password"
+              class="form-control"
+              placeholder="New Password"
+              v-model="newPassword"
+              required
+            />
+            <button type="submit" class="btn btn-primary btn-round">
+              Submit
+            </button>
+          </form>
+        </div>
 
-            <tab-pane title="Home">
-              <i slot="label" class="now-ui-icons location_world"></i>
+        <h3 class="title">Health Data</h3>
+        <router-link class="nav-link text-center" to="/editdata"
+          >Input/Modify Health Data</router-link
+        >
 
-              <div class="col-md-10 ml-auto mr-auto">
-                <div class="row collections">
-                  <div class="col-md-6">
-                    <img src="img/bg1.jpg" alt="" class="img-raised" />
-                    <img src="img/bg3.jpg" alt="" class="img-raised" />
-                  </div>
-                  <div class="col-md-6">
-                    <img src="img/bg8.jpg" alt="" class="img-raised" />
-                    <img src="img/bg7.jpg" alt="" class="img-raised" />
-                  </div>
-                </div>
-              </div>
-            </tab-pane>
+        <h3 class="title">Daily Goals</h3>
+        <router-link class="nav-link text-center" to="/editgoal"
+          >Input/Modify Daily Goals</router-link
+        >
+      </div>
 
-            <tab-pane title="Messages">
-              <i slot="label" class="now-ui-icons sport_user-run"></i>
-
-              <div class="col-md-10 ml-auto mr-auto">
-                <div class="row collections">
-                  <div class="col-md-6">
-                    <img src="img/bg3.jpg" alt="" class="img-raised" />
-                    <img src="img/bg8.jpg" alt="" class="img-raised" />
-                  </div>
-                  <div class="col-md-6">
-                    <img src="img/bg7.jpg" alt="" class="img-raised" />
-                    <img src="img/bg6.jpg" class="img-raised" />
-                  </div>
-                </div>
-              </div>
-            </tab-pane>
-          </tabs>
-        </div> -->
+      <div v-else class="container">
+        <div class="alert alert-danger">Please log in first</div>
       </div>
     </div>
   </div>
 </template>
 <script>
-//import { Tabs, TabPane } from '@/components';
+import auth from "../firebase.js";
 
 export default {
-  name: 'profile',
-  bodyClass: 'profile-page',
-  components: {
-    //Tabs,
-    //TabPane
-  }
+  name: "profile",
+  bodyClass: "profile-page",
+  components: {},
+  data() {
+    return {
+      tmpPhoto: "",
+      newPassword: "",
+      error: null,
+    };
+  },
+  computed: {
+    user() {
+      return auth.currentUser;
+    },
+    name() {
+      var displayName;
+      if (this.user) {
+        displayName = this.user.displayName;
+      }
+      return displayName;
+    },
+    email() {
+      var email;
+      if (this.user) {
+        email = this.user.email;
+      }
+      return email;
+    },
+    photo() {
+      var photoURL;
+      if (this.user) {
+        photoURL = this.user.photoURL;
+      }
+      return photoURL;
+    },
+  },
+  methods: {
+    chooseProfilePic(e) {
+      var file = e.target.files[0];
+      this.tmpPhoto = URL.createObjectURL(file);
+    },
+    changeProfilePic() {
+      if (this.user) {
+        this.user
+          .updateProfile({
+            photoURL: this.tmpPhoto,
+          })
+          .then(console.log("profile picture updated successfully"));
+      }
+    },
+    changePassword() {
+      if (this.user) {
+        this.user
+          .updatePassword(this.newPassword)
+          .then(console.log("password updated successfully"))
+          .catch((err) => {
+            this.error = err.message;
+          });
+      }
+    },
+  },
 };
 </script>
 <style></style>
