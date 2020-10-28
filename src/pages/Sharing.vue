@@ -134,11 +134,11 @@ export default {
     [Button.name]: Button
   },
   methods: {
-    // getSharings() {
-    //   #TODO: Load data from firebase
-    //   Check if there are any sharing
-    //   render each sharing into a card component
-    // },
+    getPosts() {
+      // #TODO: Load data from firebase
+      // Check if there are any sharing
+      // render each sharing into a card component
+    }
   },
 };
 </script>

@@ -2,21 +2,23 @@
     <div class="section">
         <div class="container">
             <div class="row">
+
+                <div v-if="error" class="alert alert-danger">{{error}}</div>
+
                 <div class="col-lg-6 text-center ml-auto mr-auto col-md-8" style="margin-top:10vh">
                     <p>Title</p>
                     <fg-input
-                        class="input-lg"
                         placeholder="Title"
-                        v-model="form.title"
-                        addon-left-icon="now-ui-icons users_circle-08"
+                        v-model="newPost.title"
+                        required
                     >
                     </fg-input>
                     <p>Category</p>
                     <div class="row category">
-                        <n-checkbox class="col-md-3" v-model="sport">Sports</n-checkbox>
-                        <n-checkbox class="col-md-3" v-model="food">Food</n-checkbox>
-                        <n-checkbox class="col-md-3" v-model="wellness">Wellness</n-checkbox>
-                        <n-checkbox class="col-md-3" v-model="hygiene">Hygiene</n-checkbox>
+                        <n-checkbox class="col-md-3" v-model="newPost.sport">Sports</n-checkbox>
+                        <n-checkbox class="col-md-3" v-model="newPost.food">Food</n-checkbox>
+                        <n-checkbox class="col-md-3" v-model="newPost.wellness">Wellness</n-checkbox>
+                        <n-checkbox class="col-md-3" v-model="newPost.hygiene">Hygiene</n-checkbox>
                     </div>
                     <p>Content</p>
                     <div class="textarea-container">
@@ -25,12 +27,14 @@
                         name="name"
                         rows="10"
                         cols="100"
-                        v-model="form.message"
+                        v-model="newPost.message"
                         placeholder="Sharing is Caring"
+                        required
                         ></textarea>
                     </div>
                     <div class="send-button">
                         <n-button type="primary" round block size="lg"
+                                  v-on:click.prevent.once="uploadNewPost"
                         >Send Message</n-button
                         >
                     </div>
@@ -41,6 +45,9 @@
 </template>
 <script>
 import { Button, FormGroupInput, Checkbox } from '@/components';
+import auth, { database } from "../firebase.js";
+import moment from 'moment';
+
 export default {
   name: 'newpost',
   bodyClass: 'newpost-page',
@@ -51,17 +58,50 @@ export default {
   },
   data() {
     return {
-        category: {
+        newPost: {
+            username: '',
+            time: '',
+            title: '',
+            message: '',
             sport: false,
             food: false,
             wellness: false,
-            hygiene: false
+            hygiene: false,
         },
-        form: {
-            title: '',
-            message: ''
-        }
+        error: null
     };
+  },
+  methods: {
+        format_date(value){
+            if (value) {
+                return moment(String(value)).format('DD/MM/YYYY hh:mm')
+            }
+        },
+        uploadNewPost() {
+            this.newPost.username = auth.currentUser.displayName;
+            this.newPost.time = this.format_date(new Date());
+            database.collection('Posts').add(this.newPost)
+                .then((result) => {
+                    console.log("New Post created");
+                    alert("New Post created");
+                    this.newPost = {
+                        username: '',
+                        time: '',
+                        title: '',
+                        message: '',
+                        sport: false,
+                        food: false,
+                        wellness: false,
+                        hygiene: false,
+                        error: null
+                    }
+                }).catch((err) => {
+                    this.newPost.error = err.message;
+                });
+        },
+        deletePost() {
+            //TODO
+        }
   }
 };
 </script>
