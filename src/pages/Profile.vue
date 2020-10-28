@@ -19,7 +19,6 @@
       <div v-if="user" class="container">
         <h3 class="title">Change Profile Picture</h3>      
         <div class="col-md-4 ml-auto mr-auto text-center">
-          <div v-if="photoUpdated" class="alert alert-success">Profile photo updated successfully. Please login again.</div>
           <form @submit.prevent="changeProfilePic">
             <input
               type="file"
@@ -37,7 +36,6 @@
         <h3 class="title">Change Password</h3>
         <div class="col-md-4 ml-auto mr-auto text-center">
           <div v-if="error" class="alert alert-danger">{{ error }}</div>
-          <div v-if="passwordUpdated" class="alert alert-success">Password updated successfully. Please login again.</div>
           <form @submit.prevent="changePassword">
             <input
               type="password"
@@ -80,8 +78,6 @@ export default {
     return {
       newPhoto: "",
       newPassword: "",
-      photoUpdated: false,
-      passwordUpdated: false,
       error: null,
     };
   },
@@ -124,7 +120,7 @@ export default {
           })
           .then(() => {
             console.log("profile picture updated successfully");
-            this.photoUpdated = true;
+            alert("Profile picture updated successfully. Please login again.");
           });
       }
     },
@@ -134,7 +130,7 @@ export default {
           .updatePassword(this.newPassword)
           .then(() => {
             console.log("password updated successfully");
-            this.passwordUpdated = true;
+            alert("Password updated successfully. Please login again.");
           })
           .catch((err) => {
             this.error = err.message;
