@@ -1,7 +1,7 @@
 <template>
 
   <div class="section">
-    <div class="container">
+    <div v-if="user" class="container">
 
       <router-link class="nav-link write-img float-right" 
                    to="/newpost" 
@@ -11,7 +11,7 @@
       </router-link>
 
       <tabs type="primary" tabContentClasses="tab-subcategories"
-            square centered class="row">
+            square centered >
             
         <tab-pane>
         <span slot="label">
@@ -61,6 +61,15 @@
         </tab-pane>
 
       </tabs>
+
+      <ul>
+          <li v-for="post in postsList" v-bind:key="post.id">
+              <h2>{{post.title}}</h2>
+              <h6>By: {{post.username}} Posted on:{{post.time}}</h6>
+              <p>{{post.message}}</p>
+              <img v-bind:src="post.photo"/>
+          </li>
+      </ul>
 
       <!--Card-->
       <div class="col-md-10 mr-auto ml-auto">
@@ -117,12 +126,17 @@
       </div>
 
     </div>
+
+    <div v-else class="container">
+      <div class="alert alert-danger">Please log in first</div>
+    </div>
   </div>
 </template>
 
 <script>
-import { Card, Tabs, TabPane } from '../components'
-import { Button } from '@/components'
+import { Card, Tabs, TabPane } from '../components';
+import { Button } from '@/components';
+import auth, { database } from "../firebase.js";
 
 export default {
   name: "sharing",
@@ -133,11 +147,40 @@ export default {
     TabPane,
     [Button.name]: Button
   },
+  data(){
+    return{
+      postsList:[],
+    }
+  },
+  computed: {
+    user() {
+      return auth.currentUser;
+    }
+  },
   methods: {
     getPosts() {
       // #TODO: Load data from firebase
       // Check if there are any sharing
       // render each sharing into a card component
+      database.collection('Posts').get().then((querySnapShot) => {
+        let post = {}
+        querySnapShot.forEach(doc => {
+            post = doc.data()
+            post.id = doc.id
+            post.photo = this.user.photoURL
+            console.log(post)
+            this.postsList.push(post)      
+        })
+      })
+      console.log("Getting Posts")
+    },
+    created: function() {
+      console.log("created")
+      this.getPosts()
+    },
+    mounted: function() {
+      console.log("mounted")
+      this.getPosts()
     }
   },
 };
