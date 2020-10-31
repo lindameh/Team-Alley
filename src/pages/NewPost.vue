@@ -121,7 +121,7 @@ export default {
                         sport: false,
                         food: false,
                         wellness: false,
-                        hygiene: false,
+                        hygiene: false
                     }
                     this.error = null
                 }).catch((err) => {
