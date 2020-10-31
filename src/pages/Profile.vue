@@ -20,53 +20,59 @@
       </div>
     </div>
 
-    <div>
+    <div style="padding-bottom: 50px">
       <div v-if="user" class="container">
-        <h3 class="title">Change Profile Picture</h3>
-        <div class="col-md-4 ml-auto mr-auto text-center">
-          <form @submit.prevent="changeProfilePic">
-            <input
-              id="photoInput"
-              type="file"
-              class="form-control"
-              accept="image/*"
-              @change="chooseProfilePic($event)"
-              required
-            />
-            <button type="submit" class="btn btn-primary btn-round">
-              Submit
-            </button>
-          </form>
+        <div class="row">
+          <div>
+            <h3 class="title" style="text-align: left">Functions</h3>
+            <h5>Change Profile Picture</h5>
+            <form class="form-inline" @submit.prevent="changeProfilePic">
+              <input
+                id="photoInput"
+                type="file"
+                class="form-control"
+                accept="image/*"
+                style="width: 70%"
+                @change="chooseProfilePic($event)"
+                required
+              />
+              <button type="submit" class="btn btn-primary btn-round">
+                Submit
+              </button>
+            </form>
+            <br/>
+            <h5>Change Password</h5>
+            <div v-if="error" class="alert alert-danger">{{ error }}</div>
+            <form class="form-inline" @submit.prevent="changePassword">
+              <input
+                id="passwordInput"
+                type="password"
+                class="form-control"
+                placeholder="New Password"
+                style="width: 70%"
+                v-model="newPassword"
+                required
+              />
+              <button type="submit" class="btn btn-primary btn-round">
+                Submit
+              </button>
+            </form>
+          </div>
+
+          <div class="col-md-6 ml-auto mr-auto">
+            <h3 class="title" style="text-align: left">Your Data</h3>
+            <h5>Health Data</h5>
+            <router-link class="nav-link" to="/editdata"
+              >Input/Modify Health Data</router-link
+            >
+            <br/>
+            <br/>
+            <h5>Daily Goals</h5>
+            <router-link class="nav-link" to="/editgoal"
+              >Input/Modify Daily Goals</router-link
+            >
+          </div>
         </div>
-
-        <h3 class="title">Change Password</h3>
-        <div class="col-md-4 ml-auto mr-auto text-center">
-          <div v-if="error" class="alert alert-danger">{{ error }}</div>
-          <form @submit.prevent="changePassword">
-            <input
-              id="passwordInput"
-              type="password"
-              class="form-control"
-              placeholder="New Password"
-              v-model="newPassword"
-              required
-            />
-            <button type="submit" class="btn btn-primary btn-round">
-              Submit
-            </button>
-          </form>
-        </div>
-
-        <h3 class="title">Health Data</h3>
-        <router-link class="nav-link text-center" to="/editdata"
-          >Input/Modify Health Data</router-link
-        >
-
-        <h3 class="title">Daily Goals</h3>
-        <router-link class="nav-link text-center" to="/editgoal"
-          >Input/Modify Daily Goals</router-link
-        >
-        <br />
       </div>
 
       <div v-else class="container">
