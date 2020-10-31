@@ -9,7 +9,12 @@
 
       <div class="container">
         <div class="photo-container">
-          <img id="profilePic" v-bind:src="photo()" :key="profilePicKey" alt="" />
+          <img
+            id="profilePic"
+            v-bind:src="photo()"
+            :key="profilePicKey"
+            alt=""
+          />
         </div>
         <h3 class="title">{{ name }}</h3>
       </div>
@@ -61,7 +66,7 @@
         <router-link class="nav-link text-center" to="/editgoal"
           >Input/Modify Daily Goals</router-link
         >
-        <br>
+        <br />
       </div>
 
       <div v-else class="container">
@@ -73,6 +78,7 @@
 <script>
 import auth from "../firebase.js";
 import { storage } from "../firebase.js";
+import firebase from "firebase";
 
 export default {
   name: "profile",
@@ -131,7 +137,7 @@ export default {
           })
           .then(() => {
             console.log("profile picture updated successfully");
-            document.getElementById("photoInput").value=null;
+            document.getElementById("photoInput").value = null;
             alert("Profile picture updated successfully.");
             this.profilePicKey += 1;
           });
@@ -143,8 +149,17 @@ export default {
           .updatePassword(this.newPassword)
           .then(() => {
             console.log("password updated successfully");
-            document.getElementById("passwordInput").value=null;
+            document.getElementById("passwordInput").value = null;
             alert("Password updated successfully. Please login again.");
+            firebase
+              .auth()
+              .signOut()
+              .then(() => {
+                console.log("logout successfully");
+                this.$router.replace({
+                  name: "login",
+                });
+              });
           })
           .catch((err) => {
             this.error = err.message;
