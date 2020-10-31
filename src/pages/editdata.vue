@@ -12,7 +12,12 @@
         <div class="form-row">
           <div class="form-group col-md-6">
             <label for="inputGender" style="color: black">Gender*</label>
-            <select id="inputGender" class="form-control">
+            <select
+              id="inputGender"
+              class="form-control"
+              v-model="item.gender"
+              required
+            >
               <option selected>FEMALE</option>
               <option>MALE</option>
             </select>
@@ -23,6 +28,8 @@
               type="number"
               class="form-control"
               id="inputAge"
+              v-model="item.age"
+              required
               placeholder="30"
             />
           </div>
@@ -35,6 +42,8 @@
             class="form-control"
             id="inputTemperature"
             placeholder="170"
+            v-model="item.height"
+            required
           />
         </div>
         <div class="form-group">
@@ -44,6 +53,8 @@
             class="form-control"
             id="inputWeight"
             placeholder="60.0"
+            v-model="item.weight"
+            required
           />
         </div>
 
@@ -51,7 +62,12 @@
           <label for="inputPhysicalActivity" style="color: black"
             >Physical Activity Level*</label
           >
-          <select id="inputPhysicalActivity" class="form-control">
+          <select
+            id="inputPhysicalActivity"
+            class="form-control"
+            v-model="item.pal"
+            required
+          >
             <option selected>Sedentary (little or no exercise)</option>
             <option>Moderately active</option>
             <option>Vigorously active</option>
@@ -67,6 +83,8 @@
             class="form-control"
             id="inputExerciseDuration"
             placeholder="60.0"
+            v-model="item.weightGoal"
+            required
           />
         </div>
         <div class="form-group">
@@ -78,9 +96,11 @@
             class="form-control"
             id="inputExerciseDuration"
             placeholder="None"
+            v-model="item.specialPhysicalCondition"
+            required
           />
         </div>
-        <button class="btn btn-primary btn-round" @click="alertMsg">
+        <button class="btn btn-primary btn-round" v-on:click="addItem">
           SUBMIT
         </button>
       </form>
@@ -88,18 +108,117 @@
   </div>
 </template>
 <script>
-//import { Tabs, TabPane } from '@/components';
+import auth, { database } from "../firebase.js";
 
 export default {
   name: "editdata",
   bodyClass: "form-page",
-  components: {
-    //Tabs,
-    //TabPane
+  components: {},
+  data() {
+    return {
+      item: {
+        name: "",
+        gender: "",
+        height: "",
+        weight: "",
+        pal: "",
+        weightGoal: "",
+        specialPhysicalCondition: "",
+        age: "",
+        calorieMax: "",
+        calorieMin: "",
+      },
+    };
   },
   methods: {
-    alertMsg() {
-      alert("You have successfully submitted health data!");
+    computeCal() {
+      if (this.item.pal == "Sedentary (little or no exercise)") {
+        this.item.l = 1.2;
+      } else if (this.item.pal == "Moderately active") {
+        this.item.l = 1.375;
+      } else if (this.item.pal == "Vigorously active") {
+        this.item.l = 1.55;
+      } else {
+        this.item.l = 1.8;
+      }
+
+      if (this.item.gender == "FEMALE") {
+        this.item.s = -161;
+      } else {
+        this.item.s = 5;
+      }
+      this.item.BMR =
+        (10 * this.item.weight +
+          6.25 * this.item.height -
+          5 * this.item.age +
+          this.item.s) *
+        this.item.l;
+      this.item.calorieMax = this.item.BMR + 500;
+      this.item.calorieMin = this.item.BMR - 500;
+    },
+    addItem() {
+      const usersRef = database.collection("Users").doc(auth.currentUser.email);
+      usersRef.get().then((docSnapshot) => {
+        if (docSnapshot.exists) {
+          this.item.flag = true;
+        } else {
+          this.item.flag = false;
+        }
+      });
+
+      if (
+        this.item.gender == "" ||
+        this.item.height == "" ||
+        this.item.weight == "" ||
+        this.item.pal == "" ||
+        this.item.weightGoal == "" ||
+        this.item.specialPhysicalCondition == "" ||
+        this.item.age == ""
+      ) {
+        alert("Please fill in empth fields!");
+      } else if (this.item.flag) {
+        console.log("User health data update");
+        alert("You have successfully updated health data!");
+        this.computeCal();
+        database
+          .collection("Users")
+          .doc(auth.currentUser.email)
+          .update({
+            gender: this.item.gender,
+            height: this.item.height,
+            weight: this.item.weight,
+            pal: this.item.pal,
+            weightGoal: this.item.weightGoal,
+            specialPhysicalCondition: this.item.specialPhysicalCondition,
+            age: this.item.age,
+            calorieMax: this.item.calorieMax,
+            calorieMin: this.item.calorieMin,
+          })
+          .catch((err) => {
+            this.item.error = err.message;
+          });
+      } else {
+        console.log("User health data input");
+        alert("You have successfully submitted health data!");
+        this.computeCal();
+        database
+          .collection("Users")
+          .doc(auth.currentUser.email)
+          .set({
+            gender: this.item.gender,
+            height: this.item.height,
+            weight: this.item.weight,
+            pal: this.item.pal,
+            weightGoal: this.item.weightGoal,
+            specialPhysicalCondition: this.item.specialPhysicalCondition,
+            age: this.item.age,
+            calorieMax: this.item.calorieMax,
+            calorieMin: this.item.calorieMin,
+          })
+          .catch((err) => {
+            this.item.error = err.message;
+          });
+      }
     },
   },
 };

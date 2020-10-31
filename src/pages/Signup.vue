@@ -58,6 +58,7 @@
 <script>
 import { Card, Button, FormGroupInput } from "@/components";
 import firebase from "firebase";
+
 export default {
   name: "signup",
   bodyClass: "login-page",
