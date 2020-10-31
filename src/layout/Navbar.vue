@@ -64,11 +64,11 @@ export default {
   },
   methods: {
     logout() {
-      console.log("logout");
       firebase
         .auth()
         .signOut()
         .then(() => {
+          console.log("logout successfully");
           this.$router.replace({
             name: "login",
           });

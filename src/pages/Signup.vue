@@ -83,11 +83,12 @@ export default {
           data.user
             .updateProfile({
               displayName: this.name,
-              photoURL: "img/ryan.jpg",
+              photoURL: 'profilePicture/timg-3.jpeg',
             })
             .then(() => {});
           data.user.sendEmailVerification().then(() => {});
           console.log("signup successfully");
+          alert("Sign up successfully! Please login.")
           this.$router.replace({ name: "login" });
         })
         .catch((err) => {
