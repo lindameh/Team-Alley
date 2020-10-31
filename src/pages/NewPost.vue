@@ -17,7 +17,7 @@
                     </fg-input>
                     <p>Category</p>
                     <div class="row category">
-                        <n-checkbox class="col-md-3" v-model="newPost.sport">Sports</n-checkbox>
+                        <n-checkbox class="col-md-3" v-model="newPost.sports">Sports</n-checkbox>
                         <n-checkbox class="col-md-3" v-model="newPost.food">Food</n-checkbox>
                         <n-checkbox class="col-md-3" v-model="newPost.wellness">Wellness</n-checkbox>
                         <n-checkbox class="col-md-3" v-model="newPost.hygiene">Hygiene</n-checkbox>
@@ -71,7 +71,7 @@ export default {
                 time: '',
                 title: '',
                 message: '',
-                sport: false,
+                sports: false,
                 food: false,
                 wellness: false,
                 hygiene: false,
@@ -118,12 +118,13 @@ export default {
                         time: '',
                         title: '',
                         message: '',
-                        sport: false,
+                        sports: false,
                         food: false,
                         wellness: false,
                         hygiene: false
                     }
                     this.error = null
+                    this.$router.replace({ name: "sharing" });
                 }).catch((err) => {
                     this.newPost.error = err.message;
                 });

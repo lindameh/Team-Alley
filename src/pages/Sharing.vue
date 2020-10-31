@@ -23,7 +23,7 @@
         {{ getAll }}
         <!--Render posts into cards-->
         <SharingCard 
-          v-for="post in postsList" 
+          v-for="post in allPostsList" 
           v-bind:key="post.id" 
           v-bind:post="post"></SharingCard>
 
@@ -33,24 +33,60 @@
         <span slot="label">
           <i class="now-ui-icons sport_user-run"></i>Sports
         </span>
+
+        <!--Get Posts from firebase-->
+        {{ getSports }}
+        <!--Render posts into cards-->
+        <SharingCard 
+          v-for="post in sportsPostsList" 
+          v-bind:key="post.id" 
+          v-bind:post="post"></SharingCard>
+
         </tab-pane>
         
         <tab-pane>
         <span slot="label">
           <i class="now-ui-icons shopping_basket"></i>Food
         </span>
+
+        <!--Get Posts from firebase-->
+        {{ getFood }}
+        <!--Render posts into cards-->
+        <SharingCard 
+          v-for="post in foodPostsList" 
+          v-bind:key="post.id" 
+          v-bind:post="post"></SharingCard>
+
         </tab-pane>
         
         <tab-pane>
         <span slot="label">
           <i class="now-ui-icons ui-2_favourite-28"></i>Wellness
         </span>
+
+        <!--Get Posts from firebase-->
+        {{ getWellness }}
+        <!--Render posts into cards-->
+        <SharingCard 
+          v-for="post in wellnessPostsList" 
+          v-bind:key="post.id" 
+          v-bind:post="post"></SharingCard>
+
         </tab-pane>
 
         <tab-pane>
         <span slot="label">
           <i class="now-ui-icons media-2_sound-wave"></i>Hygiene
         </span>
+
+        <!--Get Posts from firebase-->
+        {{ getHygiene }}
+        <!--Render posts into cards-->
+        <SharingCard 
+          v-for="post in hygienePostsList" 
+          v-bind:key="post.id" 
+          v-bind:post="post"></SharingCard>
+
         </tab-pane>
 
       </tabs>
@@ -80,7 +116,11 @@ export default {
   },
   data(){
     return{
-      postsList:[],
+      allPostsList:[],
+      sportsPostsList:[],
+      foodPostsList:[],
+      wellnessPostsList:[],
+      hygienePostsList:[]
     }
   },
   computed: {
@@ -89,6 +129,22 @@ export default {
     },
     getAll() {
       this.getAllPosts();
+      return null;
+    },
+    getSports() {
+      this.getSportsPosts();
+      return null;
+    },
+    getFood() {
+      this.getFoodPosts();
+      return null;
+    },
+    getWellness() {
+      this.getWellnessPosts();
+      return null;
+    },
+    getHygiene() {
+      this.getHygienePosts();
       return null;
     }
   },
@@ -102,16 +158,16 @@ export default {
               post.id = doc.id
               post.photo = this.user.photoURL
               console.log(post)
-              this.postsList.push(post)      
+              this.allPostsList.push(post)      
         })
         .catch((err) => {
           console.log("Error getting documents: " + err)
         })
       })
-      console.log("Getting Posts from method")
+      console.log("Getting All Posts")
     },
     getSportsPosts() {
-      database.collection('Posts').get()
+      database.collection('Posts').where("sports", "==", true).get()
         .then((querySnapShot) => {
           let post = {}
           querySnapShot.forEach(doc => {
@@ -119,14 +175,65 @@ export default {
               post.id = doc.id
               post.photo = this.user.photoURL
               console.log(post)
-              this.postsList.push(post)      
+              this.sportsPostsList.push(post)      
         })
         .catch((err) => {
           console.log("Error getting documents: " + err)
         })
       })
-      console.log("Getting Posts from method")
+      console.log("Getting Sports Posts")
     },
+    getFoodPosts() {
+      database.collection('Posts').where("food", "==", true).get()
+        .then((querySnapShot) => {
+          let post = {}
+          querySnapShot.forEach(doc => {
+              post = doc.data()
+              post.id = doc.id
+              post.photo = this.user.photoURL
+              console.log(post)
+              this.foodPostsList.push(post)      
+        })
+        .catch((err) => {
+          console.log("Error getting documents: " + err)
+        })
+      })
+      console.log("Getting Food Posts")
+    },
+    getWellnessPosts() {
+      database.collection('Posts').where("wellness", "==", true).get()
+        .then((querySnapShot) => {
+          let post = {}
+          querySnapShot.forEach(doc => {
+              post = doc.data()
+              post.id = doc.id
+              post.photo = this.user.photoURL
+              console.log(post)
+              this.wellnessPostsList.push(post)      
+        })
+        .catch((err) => {
+          console.log("Error getting documents: " + err)
+        })
+      })
+      console.log("Getting Wellness Posts")
+    },
+    getHygienePosts() {
+      database.collection('Posts').where("hygiene", "==", true).get()
+        .then((querySnapShot) => {
+          let post = {}
+          querySnapShot.forEach(doc => {
+              post = doc.data()
+              post.id = doc.id
+              post.photo = this.user.photoURL
+              console.log(post)
+              this.hygienePostsList.push(post)      
+        })
+        .catch((err) => {
+          console.log("Error getting documents: " + err)
+        })
+      })
+      console.log("Getting Hygiene Posts")
+    }
   },
 };
 </script>
