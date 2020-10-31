@@ -1,7 +1,8 @@
 <template>
 
   <div class="section">
-    <div v-if="user" class="container">
+    <!--<div v-if="user" class="container">-->
+    <div class="container">
 
       <router-link class="nav-link write-img float-right" 
                    to="/newpost" 
@@ -62,14 +63,18 @@
 
       </tabs>
 
-      <ul>
+      <h5>
+        {{ get }}
+      <ol>
           <li v-for="post in postsList" v-bind:key="post.id">
               <h2>{{post.title}}</h2>
-              <h6>By: {{post.username}} Posted on:{{post.time}}</h6>
+              <h6>By: {{post.username}} Posted on: {{post.time}}</h6>
               <p>{{post.message}}</p>
               <img v-bind:src="post.photo"/>
           </li>
-      </ul>
+      </ol>
+      </h5>
+
 
       <!--Card-->
       <div class="col-md-10 mr-auto ml-auto">
@@ -127,9 +132,9 @@
 
     </div>
 
-    <div v-else class="container">
+    <!--<div v-else class="container">
       <div class="alert alert-danger">Please log in first</div>
-    </div>
+    </div>-->
   </div>
 </template>
 
@@ -149,12 +154,39 @@ export default {
   },
   data(){
     return{
-      postsList:[],
+      postsList:[{
+                        username: 'tom',
+                        id: 1,
+                        userEmail: '',
+                        time: 'DD/MM/YYYY',
+                        title: 'sports',
+                        message: 'stuff',
+                        sport: false,
+                        food: false,
+                        wellness: false,
+                        hygiene: false,
+                    },
+                    {
+                        username: 'Tim',
+                        id: 2,
+                        userEmail: '',
+                        time: 'DD/MM/YYYY',
+                        title: 'Food',
+                        message: 'Chicken',
+                        sport: false,
+                        food: false,
+                        wellness: false,
+                        hygiene: false,
+                    }],
     }
   },
   computed: {
     user() {
       return auth.currentUser;
+    },
+    get() {
+      this.getPosts();
+      return null;
     }
   },
   methods: {
@@ -162,17 +194,21 @@ export default {
       // #TODO: Load data from firebase
       // Check if there are any sharing
       // render each sharing into a card component
-      database.collection('Posts').get().then((querySnapShot) => {
-        let post = {}
-        querySnapShot.forEach(doc => {
-            post = doc.data()
-            post.id = doc.id
-            post.photo = this.user.photoURL
-            console.log(post)
-            this.postsList.push(post)      
+      database.collection('Posts').get()
+        .then((querySnapShot) => {
+          let post = {}
+          querySnapShot.forEach(doc => {
+              post = doc.data()
+              post.id = doc.id
+              post.photo = this.user.photoURL
+              console.log(post)
+              this.postsList.push(post)      
+        })
+        .catch((err) => {
+          console.log("Error getting documents: " + err)
         })
       })
-      console.log("Getting Posts")
+      console.log("Getting Posts from method")
     },
     created: function() {
       console.log("created")
@@ -180,6 +216,26 @@ export default {
     },
     mounted: function() {
       console.log("mounted")
+      this.getPosts()
+    },
+    beforeCreate: function() {
+      console.log("beforeCreate()")
+      this.getPosts()
+    },
+    beforeMount: function() {
+      console.log("beforeMount()");
+      this.getPosts()
+    },
+    beforeUpdate: function() {
+      console.log("beforeUpdate()")
+      this.getPosts()
+    },
+    updated: function() {
+      this.getPosts()
+      console.log("updated()")
+    },
+    beforeDestroy: function() {
+      console.log("beforeDestroy()")
       this.getPosts()
     }
   },

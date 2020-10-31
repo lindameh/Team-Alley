@@ -122,8 +122,8 @@ export default {
                         food: false,
                         wellness: false,
                         hygiene: false,
-                        error: null
                     }
+                    this.error = null
                 }).catch((err) => {
                     this.newPost.error = err.message;
                 });
