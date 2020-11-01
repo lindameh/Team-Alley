@@ -159,10 +159,10 @@ export default {
               post.photo = this.user.photoURL
               console.log(post)
               this.allPostsList.push(post)      
+          })
         })
         .catch((err) => {
           console.log("Error getting documents: " + err)
-        })
       })
       console.log("Getting All Posts")
     },
@@ -176,10 +176,10 @@ export default {
               post.photo = this.user.photoURL
               console.log(post)
               this.sportsPostsList.push(post)      
+          })
         })
         .catch((err) => {
           console.log("Error getting documents: " + err)
-        })
       })
       console.log("Getting Sports Posts")
     },
@@ -193,10 +193,10 @@ export default {
               post.photo = this.user.photoURL
               console.log(post)
               this.foodPostsList.push(post)      
+          })
         })
         .catch((err) => {
-          console.log("Error getting documents: " + err)
-        })
+          console.log("Error getting documents: " + err)    
       })
       console.log("Getting Food Posts")
     },
@@ -210,10 +210,10 @@ export default {
               post.photo = this.user.photoURL
               console.log(post)
               this.wellnessPostsList.push(post)      
+          })
         })
         .catch((err) => {
           console.log("Error getting documents: " + err)
-        })
       })
       console.log("Getting Wellness Posts")
     },
@@ -227,10 +227,10 @@ export default {
               post.photo = this.user.photoURL
               console.log(post)
               this.hygienePostsList.push(post)      
+          })
         })
         .catch((err) => {
           console.log("Error getting documents: " + err)
-        })
       })
       console.log("Getting Hygiene Posts")
     }

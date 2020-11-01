@@ -13,7 +13,7 @@
             <h5 class="card-title">{{post.title}}</h5>
             <p class="card-text">By: {{post.username}}</p>
             <p class="card-text">Posted on: {{post.time}}</p>              
-            <n-button type="primary">See More</n-button>                   
+            <n-button type="primary" v-on:click.prevent.once="navigate">See More</n-button>                   
         </div>
         </div>
     </card>
@@ -35,6 +35,12 @@ export default {
   props: {
       post: {
           type: Object
+      }
+  },
+  methods: {
+      navigate() {
+          this.$router.push({ path: `/post/${this.post.id}` })
+          //this.$router.push({ path: `/post/random` })
       }
   }
 }
