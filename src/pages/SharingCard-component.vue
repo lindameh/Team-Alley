@@ -40,7 +40,6 @@ export default {
   methods: {
       navigate() {
           this.$router.push({ path: `/post/${this.post.id}` })
-          //this.$router.push({ path: `/post/random` })
       }
   }
 }
