@@ -101,6 +101,7 @@
         <h2 style="color: black">Food</h2>
         <h5 style="color: black">
           Choose a level between our recommended range:
+          
         </h5>
 
         <div class="form-group">
@@ -118,6 +119,7 @@
         </div>
 
         <button class="btn btn-primary btn-round" v-on:click="addItem">
+          
           SUBMIT
         </button>
       </form>
@@ -149,16 +151,22 @@ export default {
     };
   },
   methods: {
-    addItem() {
+    calMax(){
       const usersRef = database.collection("Users").doc(auth.currentUser.email);
       usersRef.get().then((docSnapshot) => {
         if (docSnapshot.exists) {
-          this.item.flag = true;
+          const document = snapshot.data();
+          this.item.calMax = document.calorieMax;
         } else {
-          this.item.flag = false;
+          this.item.flag = 2000;
         }
       });
       
+    },
+
+
+
+    addItem() {
       if (
         this.item.exercise == "" ||
         this.item.work == "" ||
@@ -169,9 +177,6 @@ export default {
         this.item.hand == ""
       ) {
         alert("Please fill in empty fields!");
-      } else if (!this.item.flag) {
-        console.log("Health data is empty");
-        alert("Please fill in health data first!");
       } else {
         console.log("User daily goals input");
         alert("You have successfully submitted daily goals!");

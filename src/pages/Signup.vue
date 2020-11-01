@@ -58,6 +58,7 @@
 <script>
 import { Card, Button, FormGroupInput } from "@/components";
 import firebase from "firebase";
+import auth, { database } from "../firebase.js";
 
 export default {
   name: "signup",
@@ -94,6 +95,18 @@ export default {
         .catch((err) => {
           this.error = err.message;
         });
+
+      database
+        .collection("Users")
+        .doc(this.email)
+        .set({
+          name: this.name,
+          calorieMin: 0,
+          calorieMax: 0,
+        })
+        .catch((err) => {
+          this.item.error = err.message;
+        });        
     },
   },
 };

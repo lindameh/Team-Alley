@@ -157,15 +157,6 @@ export default {
       this.item.calorieMin = this.item.BMR - 500;
     },
     addItem() {
-      const usersRef = database.collection("Users").doc(auth.currentUser.email);
-      usersRef.get().then((docSnapshot) => {
-        if (docSnapshot.exists) {
-          this.item.flag = true;
-        } else {
-          this.item.flag = false;
-        }
-      });
-
       if (
         this.item.gender == "" ||
         this.item.height == "" ||
@@ -176,9 +167,9 @@ export default {
         this.item.age == ""
       ) {
         alert("Please fill in empth fields!");
-      } else if (this.item.flag) {
-        console.log("User health data update");
-        alert("You have successfully updated health data!");
+      } else {
+        console.log("User health data input");
+        alert("You have successfully submitted health data!");
         this.computeCal();
         database
           .collection("Users")
@@ -193,27 +184,7 @@ export default {
             age: this.item.age,
             calorieMax: this.item.calorieMax,
             calorieMin: this.item.calorieMin,
-          })
-          .catch((err) => {
-            this.item.error = err.message;
-          });
-      } else {
-        console.log("User health data input");
-        alert("You have successfully submitted health data!");
-        this.computeCal();
-        database
-          .collection("Users")
-          .doc(auth.currentUser.email)
-          .set({
-            gender: this.item.gender,
-            height: this.item.height,
-            weight: this.item.weight,
-            pal: this.item.pal,
-            weightGoal: this.item.weightGoal,
-            specialPhysicalCondition: this.item.specialPhysicalCondition,
-            age: this.item.age,
-            calorieMax: this.item.calorieMax,
-            calorieMin: this.item.calorieMin,
+            name: auth.currentUser.displayName,
           })
           .catch((err) => {
             this.item.error = err.message;
