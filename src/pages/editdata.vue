@@ -100,7 +100,7 @@
             required
           />
         </div>
-        <button class="btn btn-primary btn-round" v-on:click="addItem">
+        <button class="btn btn-primary btn-round" v-on:click.prevent="addItem">
           SUBMIT
         </button>
       </form>

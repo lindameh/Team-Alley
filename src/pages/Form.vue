@@ -51,7 +51,7 @@
         <button
           type="submit"
           class="btn btn-primary btn-round"
-          v-on:click="addMorning"
+          v-on:click.prevent="addMorning"
         >
           Submit for Morning
         </button>
@@ -96,7 +96,7 @@
         <button
           type="submit"
           class="btn btn-primary btn-round"
-          v-on:click="addAfternoon"
+          v-on:click.prevent="addAfternoon"
         >
           Submit for Afternoon
         </button>
@@ -217,7 +217,7 @@
             />
           </div>
         </div>
-        <button class="btn btn-primary btn-round" v-on:click="addEvening">
+        <button class="btn btn-primary btn-round" v-on:click.prevent="addEvening">
           Submit for Evening
         </button>
       </form>
@@ -242,19 +242,19 @@ export default {
         time: "",
         breakfast1: "",
         breakfast2: "",
-        handMorning: "",
+        handMorning: 0,
         lunch1: "",
         lunch2: "",
-        handAfternoon: "",
+        handAfternoon: 0,
         dinner1: "",
         dinner2: "",
         dinner3: "",
-        exercise: "",
-        work: "",
-        leisure: "",
-        temperature: "",
-        handEvening: "",
-        mask: "",
+        exercise: 0,
+        work:0,
+        leisure: 0,
+        temperature: 0,
+        handEvening: 0,
+        mask: 0,
         unique: "",
       },
     };
