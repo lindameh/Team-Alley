@@ -1,30 +1,28 @@
 <template>
+  
   <div>
     {{get}}
-    <div class="page-header page-header-small clear-filter">
-      <div
-        class="page-header-image"
-        style="background-image: url('img/bg5.jpg')"
-        v-bind:style="(height = '100px')"
-      ></div>
-
-      <div class="container">
-        <div class="photo-container">
-          <img v-bind:src="post.photo" alt="" />
-        </div>
-        <h1><strong>{{post.title}}</strong></h1>
-        <h3 class="text-muted">{{post.username}}</h3>
-      </div>
 
       <div class="section">
         <div class="container">
+
+          <div class="container">
+            <div class="photo-container">
+              <img v-bind:src="post.photo" alt="" />
+            </div>
+            <h1 class="p-3 mb-2 bg-dark text-white text-center"><strong>{{post.title}}</strong></h1>
+            <h3 class="text-muted text-center">{{post.username}}</h3>
+          </div>
+
           <p class="text-center">{{post.time}}</p>
-          <h3>{{post.message}}</h3>
+          <div class="border border-warning">
+            <h3 class="col-md-12 ml-auto mr-auto text-justify">{{post.message}}</h3>
+          </div>
        </div>
       </div>
 
-    </div>
   </div>
+
 </template>
 <script>
 import { Tabs, TabPane } from '../components';
