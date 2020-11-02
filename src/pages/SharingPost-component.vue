@@ -2,9 +2,8 @@
   
   <div>
     {{get}}
-
       <div class="section">
-        <div class="container">
+        <div v-if="user" class="container">
 
           <div class="container">
             <div class="photo-container">
@@ -18,14 +17,16 @@
           <div class="border border-warning">
             <h3 class="col-md-12 ml-auto mr-auto text-justify">{{post.message}}</h3>
           </div>
-       </div>
-      </div>
+        </div>
 
+        <div v-else class="container">
+          <div class="alert alert-danger">Please log in first</div>
+        </div>
+      </div>
   </div>
 
 </template>
 <script>
-import { Tabs, TabPane } from '../components';
 import { Button } from '@/components';
 import auth, { database } from "../firebase.js";
 
@@ -33,23 +34,11 @@ export default {
   name: "post-body",
   bodyClass: "post-body-page",
   components: {
-    //Tabs,
-    //TabPane,
     [Button.name]: Button,
   },
   data() {
     return {
-      post: {
-          // username: '',
-          // userEmail: '',
-          // time: '',
-          // title: '',
-          // message: '',
-          // sports: null,
-          // food: null,
-          // wellness: null,
-          // hygiene: null,
-      }
+      post: {}
     };
   },
   computed: {
@@ -59,13 +48,6 @@ export default {
     },
     user() {
       return auth.currentUser;
-    },
-    name() {
-      var displayName;
-      if (this.user) {
-        displayName = this.user.displayName;
-      }
-      return displayName;
     }
   },
   methods: {

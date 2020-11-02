@@ -1,7 +1,7 @@
 <template>
 
   <div class="section">
-    <!--<div v-if="user" class="container">-->
+  <div v-if="user" class="container">
     <div class="container">
 
       <router-link class="nav-link write-img float-right" 
@@ -92,10 +92,11 @@
       </tabs>
 
     </div>
+  </div>
 
-    <!--<div v-else class="container">
+    <div v-else class="container">
       <div class="alert alert-danger">Please log in first</div>
-    </div>-->
+    </div>
   </div>
 </template>
 

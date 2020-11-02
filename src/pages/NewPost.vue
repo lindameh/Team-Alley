@@ -7,7 +7,6 @@
 
                 <div class="col-lg-6 text-center ml-auto mr-auto col-md-8" style="margin-top:10vh">
                     <form>
-                    <!--TODO Make the fields required-->
                     <p>Title</p>
                     <fg-input
                         placeholder="Title"
@@ -108,7 +107,6 @@ export default {
             if (
                 this.newPost.title == "" ||
                 this.newPost.message == "" ||
-                //(this.newPost.sports && this.newPost.food && this.newPost.wellness && this.newPost.hygiene)
                 !(this.newPost.sports || this.newPost.food || this.newPost.wellness || this.newPost.hygiene)
             ) {
                 alert("Please fill in empty fields!");

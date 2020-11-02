@@ -2,7 +2,7 @@
 
     <!--Card-->
     <div class="col-md-10 mr-auto ml-auto">
-    <card class="container" >
+    <card v-if="user" class="container" >
         <div class="row">
         <!--Image Here-->
         <div class="col-md-3">
@@ -17,6 +17,10 @@
         </div>
         </div>
     </card>
+
+    <div v-else class="container">
+      <div class="alert alert-danger">Please log in first</div>
+    </div>
     </div>
 
 </template>
@@ -24,6 +28,7 @@
 <script>
 import { Card } from '../components';
 import { Button } from '@/components';
+import auth from "../firebase.js";
 
 export default {
   name: "sharing-card",
@@ -37,6 +42,11 @@ export default {
           type: Object
       }
   },
+  computed: {
+    user() {
+      return auth.currentUser;
+    }
+  },  
   methods: {
       navigate() {
           this.$router.push({ path: `/post/${this.post.id}` })
