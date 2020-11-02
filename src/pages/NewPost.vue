@@ -36,7 +36,7 @@
                     </div>
                     <div class="send-button">
                         <n-button type="primary" round block size="lg"
-                                  v-on:click.prevent.once="uploadNewPost"
+                                  v-on:click.prevent="uploadNewPost"
                         >Send Message</n-button
                         >
                     </div>
@@ -105,29 +105,38 @@ export default {
             }
         },
         uploadNewPost() {
-            this.newPost.username = this.name;
-            this.newPost.userEmail = this.email;            
-            this.newPost.time = this.format_date(new Date());
-            database.collection('Posts').add(this.newPost)
-                .then((result) => {
-                    console.log("New Post created");
-                    alert("New Post created");
-                    this.newPost = {
-                        username: '',
-                        userEmail: '',
-                        time: '',
-                        title: '',
-                        message: '',
-                        sports: false,
-                        food: false,
-                        wellness: false,
-                        hygiene: false
-                    }
-                    this.error = null
-                    this.$router.replace({ name: "sharing" });
-                }).catch((err) => {
-                    this.newPost.error = err.message;
-                });
+            if (
+                this.newPost.title == "" ||
+                this.newPost.message == "" ||
+                //(this.newPost.sports && this.newPost.food && this.newPost.wellness && this.newPost.hygiene)
+                !(this.newPost.sports || this.newPost.food || this.newPost.wellness || this.newPost.hygiene)
+            ) {
+                alert("Please fill in empty fields!");
+            } else {
+                this.newPost.username = this.name;
+                this.newPost.userEmail = this.email;            
+                this.newPost.time = this.format_date(new Date());
+                database.collection('Posts').add(this.newPost)
+                    .then((result) => {
+                        console.log("New Post created");
+                        alert("New Post created");
+                        this.newPost = {
+                            username: '',
+                            userEmail: '',
+                            time: '',
+                            title: '',
+                            message: '',
+                            sports: false,
+                            food: false,
+                            wellness: false,
+                            hygiene: false
+                        }
+                        this.error = null
+                        this.$router.replace({ name: "sharing" });
+                    }).catch((err) => {
+                        this.newPost.error = err.message;
+                    });
+            }
         },
         deletePost() {
             //TODO
