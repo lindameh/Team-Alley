@@ -151,21 +151,6 @@ export default {
     };
   },
   methods: {
-    calMax(){
-      const usersRef = database.collection("Users").doc(auth.currentUser.email);
-      usersRef.get().then((docSnapshot) => {
-        if (docSnapshot.exists) {
-          const document = snapshot.data();
-          this.item.calMax = document.calorieMax;
-        } else {
-          this.item.flag = 2000;
-        }
-      });
-      
-    },
-
-
-
     addItem() {
       if (
         this.item.exercise == "" ||

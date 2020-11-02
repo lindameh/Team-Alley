@@ -127,6 +127,10 @@ export default {
         age: "",
         calorieMax: "",
         calorieMin: "",
+        l: 0,
+        s:0,
+        BMR:0,
+
       },
     };
   },
@@ -166,7 +170,7 @@ export default {
         this.item.specialPhysicalCondition == "" ||
         this.item.age == ""
       ) {
-        alert("Please fill in empth fields!");
+        alert("Please fill in empty fields!");
       } else {
         console.log("User health data input");
         alert("You have successfully submitted health data!");
