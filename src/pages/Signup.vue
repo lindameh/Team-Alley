@@ -58,6 +58,8 @@
 <script>
 import { Card, Button, FormGroupInput } from "@/components";
 import firebase from "firebase";
+import auth, { database } from "../firebase.js";
+
 export default {
   name: "signup",
   bodyClass: "login-page",
@@ -83,16 +85,29 @@ export default {
           data.user
             .updateProfile({
               displayName: this.name,
-              photoURL: "img/ryan.jpg",
+              photoURL: 'profilePicture/timg-3.jpeg',
             })
             .then(() => {});
           data.user.sendEmailVerification().then(() => {});
           console.log("signup successfully");
+          alert("Sign up successfully! Please login.")
           this.$router.replace({ name: "login" });
         })
         .catch((err) => {
           this.error = err.message;
         });
+
+      database
+        .collection("Users")
+        .doc(this.email)
+        .set({
+          name: this.name,
+          calorieMin: 0,
+          calorieMax: 0,
+        })
+        .catch((err) => {
+          this.item.error = err.message;
+        });        
     },
   },
 };
