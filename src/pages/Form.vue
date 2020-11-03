@@ -12,33 +12,38 @@
         <div class="form-row">
           <div class="form-group col-md-4">
             <label for="inputBreakfast" style="color: black"
-              >What did you eat for breakfast?*</label
+              >Breakfast Food #1*</label
             >
             <input
               type="text"
               class="form-control"
               id="inputBreakfast"
-              placeholder="Log your breakfast here!"
+              placeholder="Bread"
+              v-model="item.breakfast1"
+            />
+          </div>
+          <div class="form-group col-md-4">
+            <label for="inputBreakfast" style="color: black"
+              >Breakfast Food #2*</label
+            >
+            <input
+              type="text"
+              class="form-control"
+              id="inputBreakfast"
+              placeholder="Milk"
+              v-model="item.breakfast2"
             />
           </div>
           <div class="form-group col-md-4">
             <label for="inputWashHands" style="color: black"
-              >Did you wash your hands before breakfast?*</label
-            >
-            <select id="inputWashHands" class="form-control">
-              <option selected>YES</option>
-              <option>NO</option>
-            </select>
-          </div>
-          <div class="form-group col-md-4">
-            <label for="inputTemperature" style="color: black"
-              >Body Temperature(°C)*</label
+              >No. of times of washing hands in the morning*</label
             >
             <input
-              type="float"
+              type="number"
               class="form-control"
-              id="inputTemperature"
-              placeholder="36.5"
+              id="inputHand"
+              placeholder="3"
+              v-model="item.handMorning"
             />
           </div>
         </div>
@@ -46,7 +51,7 @@
         <button
           type="submit"
           class="btn btn-primary btn-round"
-          @click="alertMsg"
+          v-on:click.prevent="addMorning"
         >
           Submit for Morning
         </button>
@@ -55,65 +60,43 @@
         <h2 class="greeting" style="color: black">Good Afternoon!</h2>
         <div class="form-row">
           <div class="form-group col-md-4">
-            <label for="inputLunch" style="color: black"
-              >What did you eat for lunch?*</label
-            >
+            <label for="inputLunch" style="color: black">Lunch Food #1*</label>
             <input
               type="text"
               class="form-control"
               id="inputLunch"
-              placeholder="Log your lunch here!"
+              placeholder="chicken"
+              v-model="item.lunch1"
             />
           </div>
           <div class="form-group col-md-4">
-            <label for="inputWashHands" style="color: black"
-              >Did you wash your hands before lunch?*</label
-            >
-            <select id="inputWashHands" class="form-control">
-              <option selected>YES</option>
-              <option>NO</option>
-            </select>
+            <label for="inputLunch" style="color: black">Lunch Food #2*</label>
+            <input
+              type="text"
+              class="form-control"
+              id="inputLunch"
+              placeholder="rice"
+              v-model="item.lunch2"
+            />
           </div>
           <div class="form-group col-md-4">
-            <label for="inputExerciseDuration" style="color: black"
-              >Duration of Exercise (min)*</label
+            <label for="inputHand" style="color: black"
+              >No. of times of washing hands in the afternoon*</label
             >
             <input
               type="number"
               class="form-control"
-              id="inputExerciseDuration"
-              placeholder="10"
+              id="inputHand"
+              placeholder="6"
+              v-model="item.handAfternoon"
             />
           </div>
         </div>
-        <div class="form-row">
-          <div class="form-group col-md-6">
-            <label for="inputWorkDuration" style="color: black"
-              >Duration of Work (hour)*</label
-            >
-            <input
-              type="number"
-              class="form-control"
-              id="inputWorkDuration"
-              placeholder="3"
-            />
-          </div>
-          <div class="form-group col-md-6">
-            <label for="inputLeisureDuration" style="color: black"
-              >Duration of Leisure (hour)*</label
-            >
-            <input
-              type="number"
-              class="form-control"
-              id="inputLeisureDuration"
-              placeholder="1"
-            />
-          </div>
-        </div>
+
         <button
           type="submit"
           class="btn btn-primary btn-round"
-          @click="alertMsg"
+          v-on:click.prevent="addAfternoon"
         >
           Submit for Afternoon
         </button>
@@ -123,72 +106,118 @@
         <div class="form-row">
           <div class="form-group col-md-4">
             <label for="inputDinner" style="color: black"
-              >What did you eat for dinner?*</label
+              >Dinner Food #1*</label
             >
             <input
               type="text"
               class="form-control"
               id="inputDinner"
-              placeholder="Log your dinner here!"
+              placeholder="Ramen"
+              v-model="item.dinner1"
             />
           </div>
           <div class="form-group col-md-4">
-            <label for="inputWashHands" style="color: black"
-              >Did you wash your hands before dinner?*</label
-            >
-            <select id="inputWashHands" class="form-control">
-              <option selected>YES</option>
-              <option>NO</option>
-            </select>
-          </div>
-          <div class="form-group col-md-4">
-            <label for="inputExerciseDuration" style="color: black"
-              >Duration of Exercise (min)*</label
+            <label for="inputDinner" style="color: black"
+              >Dinner Food #2*</label
             >
             <input
-              type="number"
+              type="text"
               class="form-control"
-              id="inputExerciseDuration"
-              placeholder="10"
+              id="inputDinner"
+              placeholder="Kimchi"
+              v-model="item.dinner2"
+            />
+          </div>
+          <div class="form-group col-md-4">
+            <label for="inputDinner" style="color: black"
+              >Dinner Food #3*</label
+            >
+            <input
+              type="text"
+              class="form-control"
+              id="inputDinner"
+              placeholder="Beer"
+              v-model="item.dinner3"
+            />
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group col-md-4">
+            <label for="inputWashHands" style="color: black"
+              >No. of times of washing hands in the evening*</label
+            >
+            <input
+              type="text"
+              class="form-control"
+              id="inputHand"
+              placeholder="3"
+              v-model="item.handEvening"
+            />
+          </div>
+          <div class="form-group col-md-4">
+            <label for="inputTemperature" style="color: black"
+              >No. of times of taking temperature today*</label
+            >
+            <input
+              type="text"
+              class="form-control"
+              id="inputTemperature"
+              placeholder="2"
+              v-model="item.temperature"
+            />
+          </div>
+          <div class="form-group col-md-4">
+            <label for="inputMask" style="color: black"
+              >No. of times of of washing masks today*</label
+            >
+            <input
+              type="text"
+              class="form-control"
+              id="inputMask"
+              placeholder="1"
+              v-model="item.mask"
             />
           </div>
         </div>
         <div class="form-row">
           <div class="form-group col-md-4">
             <label for="inputWorkDuration" style="color: black"
-              >Duration of Work (hour)*</label
+              >Duration of work today (hour)*</label
             >
             <input
               type="number"
               class="form-control"
               id="inputWorkDuration"
-              placeholder="3"
+              placeholder="7"
+              v-model="item.work"
             />
           </div>
           <div class="form-group col-md-4">
             <label for="inputLeisureDuration" style="color: black"
-              >Duration of Leisure (hour)*</label
+              >Duration of leisure today (hour)*</label
             >
             <input
               type="number"
               class="form-control"
               id="inputLeisureDuration"
               placeholder="1"
+              v-model="item.leisure"
             />
           </div>
           <div class="form-group col-md-4">
             <label for="inputTemperature" style="color: black"
-              >Body Temperature(°C)*</label
+              >Duration of exercise today (min)*</label
             >
             <input
               type="float"
               class="form-control"
-              id="inputTemperature"
-              placeholder="36.5"
+              id="inputExercise"
+              placeholder="80"
+              v-model="item.exercise"
             />
           </div>
         </div>
-        <button class="btn btn-primary btn-round" @click="alertMsg">
+        <button class="btn btn-primary btn-round" v-on:click.prevent="addEvening">
           Submit for Evening
         </button>
       </form>
@@ -197,6 +226,8 @@
 </template>
 <script>
 //import { Tabs, TabPane } from '@/components';
+import auth, { database } from "../firebase.js";
+import moment from "moment";
 
 export default {
   name: "form",
@@ -205,11 +236,132 @@ export default {
     //Tabs,
     //TabPane
   },
+  data() {
+    return {
+      item: {
+        time: "",
+        breakfast1: "",
+        breakfast2: "",
+        handMorning: 0,
+        lunch1: "",
+        lunch2: "",
+        handAfternoon: 0,
+        dinner1: "",
+        dinner2: "",
+        dinner3: "",
+        exercise: 0,
+        work:0,
+        leisure: 0,
+        temperature: 0,
+        handEvening: 0,
+        mask: 0,
+        unique: "",
+      },
+    };
+  },
   methods: {
-    alertMsg() {
-      alert(
-        "You have submitted the form successfully!" + "\n" + "Continue Logging!"
-      );
+    format_date(value) {
+      if (value) {
+        return moment(String(value)).format("DD/MM/YYYY");
+      }
+    },
+
+    addMorning() {
+      this.item.unique = String(moment(String(new Date())).format("DDMMYYYY"));
+      if (
+        this.item.breakfast1 == "" ||
+        this.item.handMorning == ""
+      ) {
+        alert("Please fill in empty fields!");
+      } else {
+        this.item.time = this.format_date(new Date());
+
+        alert("You have successfully submitted morning log!");
+        database
+          .collection("Users")
+          .doc(auth.currentUser.email)
+          .collection("Daily")
+          .doc(this.item.unique)
+          .set({
+            time: this.item.time,
+            morning: {
+              breakfast1: this.item.breakfast1,
+              breakfast2: this.item.breakfast2,
+              handMorning: this.item.handMorning,
+            },
+          })
+          .catch((err) => {
+            this.item.error = err.message;
+          });
+        console.log("successful log morning data");
+      }
+    },
+
+    addAfternoon() {
+      this.item.unique = String(moment(String(new Date())).format("DDMMYYYY"));
+      if (
+        this.item.lunch1 == "" ||
+        this.item.handAfternoon == ""
+      ) {
+        alert("Please fill in empty fields!");
+      } else {
+        alert("You have successfully submitted afternoon log!");
+        database
+          .collection("Users")
+          .doc(auth.currentUser.email)
+          .collection("Daily")
+          .doc(this.item.unique)
+          .update({
+            afternoon: {
+              lunch1: this.item.lunch1,
+              lunch2: this.item.lunch2,
+              handAfternoon: this.item.handAfternoon,
+            },
+          })
+          .catch((err) => {
+            this.item.error = err.message;
+          });
+          console.log("successful log afternoon data");
+      }
+    },
+
+    addEvening() {
+      this.item.unique = String(moment(String(new Date())).format("DDMMYYYY"));
+      if (
+        this.item.dinner1 == "" ||
+        this.item.handEvening == "" ||
+        this.item.exercise == "" ||
+        this.item.mask == "" ||
+        this.item.temperature == "" ||
+        this.item.leisure == "" ||
+        this.item.work == ""
+      ) {
+        alert("Please fill in empty fields!");
+      } else {
+        alert("You have successfully submitted evening log!");
+        database
+          .collection("Users")
+          .doc(auth.currentUser.email)
+          .collection("Daily")
+          .doc(this.item.unique)
+          .update({
+            evening: {
+              dinner1: this.item.dinner1,
+              dinner2: this.item.dinner2,
+              dinner3: this.item.dinner3,
+              handEvening: this.item.handEvening,
+              exercise: this.item.exercise,
+              work: this.item.work,
+              mask: this.item.mask,
+              temperature: this.item.temperature,
+              leisure: this.item.leisure,
+            },
+          })
+          .catch((err) => {
+            this.item.error = err.message;
+          });
+          console.log("successful log evening data");
+      }
     },
   },
 };
@@ -224,7 +376,6 @@ form {
   height: 1500px;
   min-height: calc(100vh - 80px);
 }
-
 .form-control {
   height: 80%;
 }
