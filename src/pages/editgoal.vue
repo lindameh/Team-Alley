@@ -22,6 +22,8 @@
             class="form-control"
             id="inputExerciseDuration"
             placeholder="45"
+            v-model="item.exercise"
+            required
           />
         </div>
 
@@ -35,6 +37,8 @@
             class="form-control"
             id="inputWorkDuration"
             placeholder="7"
+            v-model="item.work"
+            required
           />
         </div>
 
@@ -47,6 +51,8 @@
             class="form-control"
             id="inputLeisureDuration"
             placeholder="1.5"
+            v-model="item.leisure"
+            required
           />
         </div>
         <h2 style="color: black">Hygiene</h2>
@@ -60,6 +66,8 @@
               class="form-control"
               id="inputTemperature"
               placeholder="2"
+              v-model="item.temperature"
+              required
             />
           </div>
           <div class="form-group col-md-4">
@@ -71,6 +79,8 @@
               class="form-control"
               id="inputMask"
               placeholder="1"
+              v-model="item.mask"
+              required
             />
           </div>
           <div class="form-group col-md-4">
@@ -82,6 +92,8 @@
               class="form-control"
               id="inputHands"
               placeholder="5"
+              v-model="item.hand"
+              required
             />
           </div>
         </div>
@@ -89,6 +101,7 @@
         <h2 style="color: black">Food</h2>
         <h5 style="color: black">
           Choose a level between our recommended range:
+          
         </h5>
 
         <div class="form-group">
@@ -100,10 +113,13 @@
             class="form-control"
             id="inputHands"
             placeholder="1850"
+            v-model="item.calorie"
+            required
           />
         </div>
 
-        <button class="btn btn-primary btn-round" @click="alertMsg">
+        <button class="btn btn-primary btn-round" v-on:click.prevent="addItem">
+          
           SUBMIT
         </button>
       </form>
@@ -112,6 +128,7 @@
 </template>
 <script>
 //import { Tabs, TabPane } from '@/components';
+import auth, { database } from "../firebase.js";
 
 export default {
   name: "editgoal",
@@ -120,9 +137,52 @@ export default {
     //Tabs,
     //TabPane
   },
+  data() {
+    return {
+      item: {
+        exercise: "",
+        work: "",
+        leisure: "",
+        mask: "",
+        temperature: "",
+        calorie: "",
+        hand: "",
+      },
+    };
+  },
   methods: {
-    alertMsg() {
-      alert("You have successfully submitted health goal!");
+    addItem() {
+      if (
+        this.item.exercise == "" ||
+        this.item.work == "" ||
+        this.item.leisure == "" ||
+        this.item.mask == "" ||
+        this.item.temperature == "" ||
+        this.item.calorie == "" ||
+        this.item.hand == ""
+      ) {
+        alert("Please fill in empty fields!");
+      } else {
+        console.log("User daily goals input");
+        alert("You have successfully submitted daily goals!");
+        database
+          .collection("Users")
+          .doc(auth.currentUser.email)
+          .update({
+            dailyTarget: {
+              exercise: this.item.exercise,
+              work: this.item.work,
+              leisure: this.item.leisure,
+              mask: this.item.mask,
+              temperature: this.item.temperature,
+              calorie: this.item.calorie,
+              hand: this.item.hand,
+            },
+          })
+          .catch((err) => {
+            this.item.error = err.message;
+          });
+      }
     },
   },
 };
