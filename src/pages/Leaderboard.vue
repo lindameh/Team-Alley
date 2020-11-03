@@ -1,72 +1,24 @@
 <template>
   <div>
-
     <div class="section">
       <div class="container">
         <h2 class="title">Leaderboard</h2>
-        <div class="Header">
-          <h1 class="Header__title">Top 10</h1>
-        </div>
-
+        <div class="Header"><h1 class="Header__title">Top 10</h1></div>
+        
         <div class="CompetitorList">
           <div class="Athlete">
-            <div class="Athlete__rank">
-              <h5>1</h5>
-            </div>
-            <h2 class="Athlete__name">Adam</h2>
-            <h4 class="Athlete__reps"> 100 </h4>
+            <div class="Athlete__rank"><h5>Rank</h5></div>
+            <h2 class="Athlete__name">Name</h2>
+            <h4 class="Athlete__reps">Score</h4>
           </div>
-
-          <div class="Athlete">
-            <div class="Athlete__rank">
-              <h5>2</h5>
-            </div>
-            <h2 class="Athlete__name">Bob</h2>
-            <h4 class="Athlete__reps"> 99 </h4>
-          </div>
-
-          <div class="Athlete">
-            <div class="Athlete__rank">
-              <h5>3</h5>
-            </div>
-            <h2 class="Athlete__name">Charles</h2>
-            <h4 class="Athlete__reps"> 95 </h4>
-          </div>
-
-        </div>
-
-        <hr class="pad2">
-        <div class="Header">
-          <h1 class="Header__title">Not quite there yet</h1>
-        </div>
-
-        <div class="CompetitorList">
-          <div class="Athlete">
-            <div class="Athlete__rank">
-              <h5>98</h5>
-            </div>
-            <h2 class="Athlete__name">Xavier</h2>
-            <h4 class="Athlete__reps"> 10 </h4>
-          </div>
-
-          <div class="Athlete">
-            <div class="Athlete__rank">
-              <h5>99</h5>
-            </div>
-            <h2 class="Athlete__name">Yacob</h2>
-            <h4 class="Athlete__reps"> 9 </h4>
-          </div>
-
-          <div class="Athlete">
-            <div class="Athlete__rank">
-              <h5>100</h5>
-            </div>
-            <h2 class="Athlete__name">Zeus</h2>
-            <h4 class="Athlete__reps"> 5 </h4>
+          
+          <div class="Athlete" v-for="(user,index) in top10" :key="user">
+              <div class="Athlete__rank"><h5 class="Athlete__rank">{{ index+1 }}</h5></div>
+              <h2 class="Athlete__name">{{user.name}}</h2>
+              <h4 class="Athlete__reps">{{user.score}} </h4>
           </div>
           
         </div>
-
 
 
 
@@ -77,19 +29,40 @@
 
 
 
-
 <script>
+import { database } from "../firebase.js"
+
 export default {
-  
   data(){
     return{
-      itemsList:[ 
-      {name:'user1',score:100},
-      {name:'user2',score:90},
-    ],
-      paraText:''
+      datasets:[],
+      top10:[],
     }
-  }
+  },
+  methods: {
+    fetchItems: function () {
+      database.collection('Users').get().then(querySnapShot => {
+        let data = [];
+        querySnapShot.forEach(doc => { 
+            data.push(doc.data())
+        })
+        this.datasets = data;
+        this.getTop();
+      })
+    },
+    getTop: function(){
+      database.collection('Users').orderBy('score', 'desc').limit(10).get().then(querySnapShot => {
+        let rank = [];
+        querySnapShot.forEach(doc => { 
+            rank.push(doc.data())
+        })
+        this.top10 = rank;
+      })
+    }
+	},
+  created(){
+        this.fetchItems();
+  },
 }
 
 </script>
