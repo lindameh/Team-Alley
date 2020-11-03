@@ -30,6 +30,7 @@
 
 
 <script>
+import { database } from "../firebase.js"
 
 export default {
   data(){
