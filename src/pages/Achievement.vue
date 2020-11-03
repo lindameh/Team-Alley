@@ -6,8 +6,6 @@
         <!--Remove after testing-->
         {{getSportsAmountToday}}
         {{getSportsGoalToday}}
-        <br/>
-        {{email}}
         <!--Testing until here-->
         <h3>{{ todaydate }}</h3>
         <h4>Sports</h4>
@@ -70,7 +68,9 @@ export default {
     return {
       todaydate: "23 Sept 2020",
       sportsAmountToday: 0,
-      sportsGoal: 0
+      sportsGoal: 0,
+      sportsData: {},
+      data: {}
     };
   },
   computed: {
@@ -91,15 +91,14 @@ export default {
       }
       return email;
     },
-    dateToday() {
-      return format_date(new Date())
-    },
     dailySportsProgress() {
-      return this.getSportsAmountToday / this.getSportsGoalToday * 100; 
+      var progress = this.getSportsAmountToday / this.getSportsGoalToday * 100;
+      return progress.toFixed(2); 
     },
     getSportsAmountToday() {
-      //TODO
-      return 5
+      this.getSportsData()
+      return this.sportsAmountToday
+      //return 5
     },
     getSportsGoalToday() {
       this.getSportsGoal()
@@ -110,37 +109,29 @@ export default {
   methods: {
     format_date(value){
       if (value) {
-        return moment(String(value)).format('DD/MM/YYYY')
+        return moment(String(value)).format('DDMMYYYY')
       }
     },
     getSportsGoal() {
       database.collection("Users").doc(this.email).get()
-        // .then((querySnapshot) => {
-        //   querySnapshot.forEach((doc) => {
-        //     console.log(doc.data())
-        //   })
-        // })
         .then((doc) => {
-          if (doc.exists) console.log('exisits')
-          console.log(doc)
-          data = doc.data()
-          console.log(data)
-          this.sportsGoal = user.dailyTarget.exercise
+          this.sportsData = doc.data()
+          this.sportsGoal = this.sportsData.dailyTarget.exercise
         })
         .catch((err) => {
           console.log("Error getting document:", err);
         });
     },
     getSportsData() {
-      database.collection("Users").doc(this.email).collection("Daily").doc(this.dateToday).get()
-        .then((snapShot) => {
-          doc = snapShot.doc
-          sportsToday = 0
-          if (doc.evening.exercise) {
-            sportsToday = doc.evening.exercise
-          }
-          this.sportsAmountToday = sportsToday
-        })
+      database.collection("Users").doc(this.email).collection("Daily").doc(this.format_date(new Date())).get()
+      //database.collection("Users").doc(this.email).collection("Daily").doc("02112020").get()
+        .then((doc) => {
+          this.data = doc.data()
+          console.log(this.format_date(new Date()))
+          console.log(this.data)
+          console.log(this.data.evening.exercise)
+          this.sportsAmountToday = this.data.evening.exercise
+        })        
         .catch((err) => {
           this.newPost.error = err.message;
         });
