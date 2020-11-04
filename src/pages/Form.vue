@@ -1,5 +1,7 @@
 <template>
   <div>
+    {{loadGoals}}
+    {{loadData}}
     <div class="page-header clear-filter" color="orange">
       <div
         class="page-header-image"
@@ -225,16 +227,38 @@
   </div>
 </template>
 <script>
-//import { Tabs, TabPane } from '@/components';
 import auth, { database } from "../firebase.js";
 import moment from "moment";
 
 export default {
   name: "form",
   bodyClass: "form-page",
-  components: {
-    //Tabs,
-    //TabPane
+  computed: {
+    user() {
+      return auth.currentUser;
+    },
+    name() {
+      var displayName;
+      if (this.user) {
+        displayName = this.user.displayName;
+      }
+      return displayName;
+    },
+    email() {
+      var email;
+      if (this.user) {
+        email = this.user.email;
+      }
+      return email;
+    },
+    loadGoals() {
+      this.getGoals()
+      return null;
+    },
+    loadData() {
+      this.getData()
+      return null;
+    }
   },
   data() {
     return {
@@ -256,13 +280,16 @@ export default {
         handEvening: 0,
         mask: 0,
         unique: "",
+        goals: {},
+        dailyData: {}
+
       },
     };
   },
   methods: {
     format_date(value) {
       if (value) {
-        return moment(String(value)).format("DD/MM/YYYY");
+        return moment(String(value)).format("DDMMYYYY");
       }
     },
 
@@ -355,6 +382,10 @@ export default {
               mask: this.item.mask,
               temperature: this.item.temperature,
               leisure: this.item.leisure,
+              sportsScore: {
+                dailySportsProgress: this.item.exercise / this.item.goals.exercise * 100,
+                dailySportsScore: 25 * this.item.exercise / this.item.goals.exercise
+              }
             },
           })
           .catch((err) => {
@@ -363,7 +394,38 @@ export default {
           console.log("successful log evening data");
       }
     },
-  },
+
+    //Methods for score and progress
+    getGoals() {
+      database.collection("Users").doc(this.email).get()
+        .then((doc) => {
+          if (doc.exists) {
+            this.item.goals = doc.data().dailyTarget
+            console.log(this.item.goals.exercise)
+          } else {
+            console.log("no goal")
+          }
+        })
+        .catch((err) => {
+          console.log("Error getting document:", err);
+        });
+    },
+    getData() {
+      database.collection("Users").doc(this.email).collection("Daily").doc(this.format_date(new Date())).get()
+      //database.collection("Users").doc(this.email).collection("Daily").doc("03112020").get()
+        .then((doc) => {
+          if (doc.exists) {
+            this.item.dailyData = doc.data()
+            console.log(this.item.dailyData)
+          } else {
+            console.log("no data")
+          }
+        })        
+        .catch((err) => {
+          this.newPost.error = err.message;
+        });
+    }
+  }
 };
 </script>
 <style scoped>
