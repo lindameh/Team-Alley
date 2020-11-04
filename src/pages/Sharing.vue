@@ -1,6 +1,7 @@
 <template>
 
   <div class="section">
+  <div v-if="user" class="container">
     <div class="container">
 
       <router-link class="nav-link write-img float-right" 
@@ -11,133 +12,228 @@
       </router-link>
 
       <tabs type="primary" tabContentClasses="tab-subcategories"
-            square centered class="row">
+            square centered >
             
         <tab-pane>
         <span slot="label">
           <i class="now-ui-icons objects_umbrella-13"></i>All
         </span>
+
+        <!--Get Posts from firebase-->
+        {{ getAll }}
+        <!--Render posts into cards-->
+        <SharingCard 
+          v-for="post in allPostsList" 
+          v-bind:key="post.id" 
+          v-bind:post="post"></SharingCard>
+
         </tab-pane>
         
         <tab-pane>
         <span slot="label">
-          <i class="now-ui-icons sport_user-run"></i>Sport
+          <i class="now-ui-icons sport_user-run"></i>Sports
         </span>
-        <!--Card-->
-        <div class="col-md-10 mr-auto ml-auto">
-          <card class="container" >
-            <div class="row">
-              <!--Image Here-->
-              <div class="col-md-3">
-                <img slot="image" class="card-img-top sharing-img" src='img/ryan.jpg' alt="">
-              </div>
-              <!--Content Here-->
-              <div class="col-md-9">
-                <h5 class="card-title">Tips to lose Weight</h5>
-                <p class="card-text">I have been using my time in quarantine to research on the best weight losing method!</p>
-                <n-button type="primary">See More</n-button>                
-              </div>
-            </div>
-          </card>
-        </div>
+
+        <!--Get Posts from firebase-->
+        {{ getSports }}
+        <!--Render posts into cards-->
+        <SharingCard 
+          v-for="post in sportsPostsList" 
+          v-bind:key="post.id" 
+          v-bind:post="post"></SharingCard>
+
         </tab-pane>
         
         <tab-pane>
         <span slot="label">
           <i class="now-ui-icons shopping_basket"></i>Food
         </span>
+
+        <!--Get Posts from firebase-->
+        {{ getFood }}
+        <!--Render posts into cards-->
+        <SharingCard 
+          v-for="post in foodPostsList" 
+          v-bind:key="post.id" 
+          v-bind:post="post"></SharingCard>
+
         </tab-pane>
         
         <tab-pane>
         <span slot="label">
           <i class="now-ui-icons ui-2_favourite-28"></i>Wellness
         </span>
+
+        <!--Get Posts from firebase-->
+        {{ getWellness }}
+        <!--Render posts into cards-->
+        <SharingCard 
+          v-for="post in wellnessPostsList" 
+          v-bind:key="post.id" 
+          v-bind:post="post"></SharingCard>
+
         </tab-pane>
 
         <tab-pane>
         <span slot="label">
           <i class="now-ui-icons media-2_sound-wave"></i>Hygiene
         </span>
+
+        <!--Get Posts from firebase-->
+        {{ getHygiene }}
+        <!--Render posts into cards-->
+        <SharingCard 
+          v-for="post in hygienePostsList" 
+          v-bind:key="post.id" 
+          v-bind:post="post"></SharingCard>
+
         </tab-pane>
 
       </tabs>
 
-      <!--Card-->
-      <div class="col-md-10 mr-auto ml-auto">
-        <card class="container" >
-          <div class="row">
-            <!--Image Here-->
-            <div class="col-md-3">
-              <img slot="image" class="card-img-top sharing-img" src='img/ryan.jpg' alt="">
-            </div>
-            <!--Content Here-->
-            <div class="col-md-9">
-              <h5 class="card-title">Tips to lose Weight</h5>
-              <p class="card-text">I have been using my time in quarantine to research on the best weight losing method!</p>
-              <n-button type="primary">See More</n-button>                
-            </div>
-          </div>
-        </card>
-      </div>
+    </div>
+  </div>
 
-      <!--Card-->
-      <div class="col-md-10 mr-auto ml-auto">
-        <card class="container" >
-          <div class="row">
-            <!--Image Here-->
-            <div class="col-md-3">
-              <img slot="image" class="card-img-top sharing-img" src='img/eva.jpg' alt="">
-            </div>
-            <!--Content Here-->
-            <div class="col-md-9">
-              <h5 class="card-title">My Diet Progress</h5>
-              <p class="card-text">Join me on my dieting journey and road to losing weight!</p>
-              <n-button type="primary">See More</n-button>                
-            </div>
-          </div>
-        </card>
-      </div>
-
-      <!--Card-->
-      <div class="col-md-10 mr-auto ml-auto">
-        <card class="container" >
-          <div class="row">
-            <!--Image Here-->
-            <div class="col-md-3">
-              <img slot="image" class="card-img-top sharing-img" src='img/julie.jpg' alt="">
-            </div>
-            <!--Content Here-->
-            <div class="col-md-9">
-              <h5 class="card-title">Healthy and Tasty recipes</h5>
-              <p class="card-text">Here are some healthy but Tasty recipes you guys can try out!</p>
-              <n-button type="primary">See More</n-button>                   
-            </div>
-          </div>
-        </card>
-      </div>
-
+    <div v-else class="container">
+      <div class="alert alert-danger">Please log in first</div>
     </div>
   </div>
 </template>
 
 <script>
-import { Card, Tabs, TabPane } from '../components'
-import { Button } from '@/components'
+import { Tabs, TabPane } from '../components';
+import { Button } from '@/components';
+import auth, { database } from "../firebase.js";
+import SharingCard from "./SharingCard-component.vue";
 
 export default {
   name: "sharing",
   bodyClass: "sharing-page",
   components: {
-    Card,
     Tabs,
     TabPane,
-    [Button.name]: Button
+    [Button.name]: Button,
+    SharingCard
+  },
+  data(){
+    return{
+      allPostsList:[],
+      sportsPostsList:[],
+      foodPostsList:[],
+      wellnessPostsList:[],
+      hygienePostsList:[]
+    }
+  },
+  computed: {
+    user() {
+      return auth.currentUser;
+    },
+    getAll() {
+      this.getAllPosts();
+      return null;
+    },
+    getSports() {
+      this.getSportsPosts();
+      return null;
+    },
+    getFood() {
+      this.getFoodPosts();
+      return null;
+    },
+    getWellness() {
+      this.getWellnessPosts();
+      return null;
+    },
+    getHygiene() {
+      this.getHygienePosts();
+      return null;
+    }
   },
   methods: {
-    getPosts() {
-      // #TODO: Load data from firebase
-      // Check if there are any sharing
-      // render each sharing into a card component
+    getAllPosts() {
+      database.collection('Posts').get()
+        .then((querySnapShot) => {
+          let post = {}
+          querySnapShot.forEach(doc => {
+              post = doc.data()
+              post.id = doc.id
+              post.photo = this.user.photoURL
+              console.log(post)
+              this.allPostsList.push(post)      
+          })
+        })
+        .catch((err) => {
+          console.log("Error getting documents: " + err)
+      })
+      console.log("Getting All Posts")
+    },
+    getSportsPosts() {
+      database.collection('Posts').where("sports", "==", true).get()
+        .then((querySnapShot) => {
+          let post = {}
+          querySnapShot.forEach(doc => {
+              post = doc.data()
+              post.id = doc.id
+              post.photo = this.user.photoURL
+              console.log(post)
+              this.sportsPostsList.push(post)      
+          })
+        })
+        .catch((err) => {
+          console.log("Error getting documents: " + err)
+      })
+      console.log("Getting Sports Posts")
+    },
+    getFoodPosts() {
+      database.collection('Posts').where("food", "==", true).get()
+        .then((querySnapShot) => {
+          let post = {}
+          querySnapShot.forEach(doc => {
+              post = doc.data()
+              post.id = doc.id
+              post.photo = this.user.photoURL
+              console.log(post)
+              this.foodPostsList.push(post)      
+          })
+        })
+        .catch((err) => {
+          console.log("Error getting documents: " + err)    
+      })
+      console.log("Getting Food Posts")
+    },
+    getWellnessPosts() {
+      database.collection('Posts').where("wellness", "==", true).get()
+        .then((querySnapShot) => {
+          let post = {}
+          querySnapShot.forEach(doc => {
+              post = doc.data()
+              post.id = doc.id
+              post.photo = this.user.photoURL
+              console.log(post)
+              this.wellnessPostsList.push(post)      
+          })
+        })
+        .catch((err) => {
+          console.log("Error getting documents: " + err)
+      })
+      console.log("Getting Wellness Posts")
+    },
+    getHygienePosts() {
+      database.collection('Posts').where("hygiene", "==", true).get()
+        .then((querySnapShot) => {
+          let post = {}
+          querySnapShot.forEach(doc => {
+              post = doc.data()
+              post.id = doc.id
+              post.photo = this.user.photoURL
+              console.log(post)
+              this.hygienePostsList.push(post)      
+          })
+        })
+        .catch((err) => {
+          console.log("Error getting documents: " + err)
+      })
+      console.log("Getting Hygiene Posts")
     }
   },
 };
