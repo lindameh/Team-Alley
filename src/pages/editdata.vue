@@ -172,8 +172,7 @@ export default {
       ) {
         alert("Please fill in empty fields!");
       } else {
-        console.log("User health data input");
-        alert("You have successfully submitted health data!");
+        console.log("User health data input"); 
         this.computeCal();
         database
           .collection("Users")
@@ -193,6 +192,8 @@ export default {
           .catch((err) => {
             this.item.error = err.message;
           });
+        alert("You have successfully submitted health data!");
+        this.$router.replace({ name: "profile" });
       }
     },
   },

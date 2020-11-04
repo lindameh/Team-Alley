@@ -163,8 +163,7 @@ export default {
       ) {
         alert("Please fill in empty fields!");
       } else {
-        console.log("User daily goals input");
-        alert("You have successfully submitted daily goals!");
+        console.log("User daily goals input");  
         database
           .collection("Users")
           .doc(auth.currentUser.email)
@@ -182,6 +181,8 @@ export default {
           .catch((err) => {
             this.item.error = err.message;
           });
+        alert("You have successfully submitted daily goals!");
+        this.$router.replace({ name: "profile" });
       }
     },
   },

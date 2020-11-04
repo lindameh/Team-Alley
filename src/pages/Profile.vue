@@ -93,7 +93,7 @@
             </div>
             <br />
             <br />
-            <div v-if="data.dailyTarget.exercise">
+            <div v-if="data.dailyTarget">
               <div class="row">
                 <h5>Daily Goals</h5>
                 <router-link class="nav-link" to="/editgoal"
