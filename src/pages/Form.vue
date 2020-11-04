@@ -281,18 +281,15 @@ export default {
         mask: 0,
         unique: "",
         goals: {},
-        dailyData: {},
-        sportsScore: {
-          dailySportsScore: 0,
-          dailySportsProgress: 0
-        }
+        dailyData: {}
+
       },
     };
   },
   methods: {
     format_date(value) {
       if (value) {
-        return moment(String(value)).format("DD/MM/YYYY");
+        return moment(String(value)).format("DDMMYYYY");
       }
     },
 
@@ -385,6 +382,10 @@ export default {
               mask: this.item.mask,
               temperature: this.item.temperature,
               leisure: this.item.leisure,
+              sportsScore: {
+                dailySportsProgress: this.item.exercise / this.item.goals.exercise * 100,
+                dailySportsScore: 25 * this.item.exercise / this.item.goals.exercise
+              }
             },
           })
           .catch((err) => {
@@ -398,10 +399,12 @@ export default {
     getGoals() {
       database.collection("Users").doc(this.email).get()
         .then((doc) => {
-          var data = {}
-          data = doc.data()
-          this.goals = data.dailyTarget
-          console.log(this.goals)
+          if (doc.exists) {
+            this.item.goals = doc.data().dailyTarget
+            console.log(this.item.goals.exercise)
+          } else {
+            console.log("no goal")
+          }
         })
         .catch((err) => {
           console.log("Error getting document:", err);
@@ -411,26 +414,12 @@ export default {
       database.collection("Users").doc(this.email).collection("Daily").doc(this.format_date(new Date())).get()
       //database.collection("Users").doc(this.email).collection("Daily").doc("03112020").get()
         .then((doc) => {
-          this.dailyData = doc.data()
-          console.log(this.dailyData)
-        })        
-        .catch((err) => {
-          this.newPost.error = err.message;
-        });
-    },
-    //Need to change
-    getSportsData() {
-      //database.collection("Users").doc(this.email).collection("Daily").doc(this.format_date(new Date())).get()
-      database.collection("Users").doc(this.email).collection("Daily").doc("03112020").get()
-        .then((doc) => {
-          var data = {}
-          data = doc.data()
-          console.log(this.format_date(new Date()))
-          console.log(this.data)
-          console.log(this.data.evening.exercise)
-          var progress = this.data.evening.exercise / this.goals.exercise * 100          
-          this.sportsScore.dailySportsProgress = progress.toFixed(2)
-
+          if (doc.exists) {
+            this.item.dailyData = doc.data()
+            console.log(this.item.dailyData)
+          } else {
+            console.log("no data")
+          }
         })        
         .catch((err) => {
           this.newPost.error = err.message;
