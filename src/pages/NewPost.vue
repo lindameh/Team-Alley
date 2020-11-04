@@ -3,6 +3,7 @@
         <div v-if="user" class="container">
             <div class="row">
 
+                {{getPhoto}}
                 <div v-if="error" class="alert alert-danger">{{error}}</div>
 
                 <div class="col-lg-6 text-center ml-auto mr-auto col-md-8" style="margin-top:10vh">
@@ -51,7 +52,7 @@
 </template>
 <script>
 import { Button, FormGroupInput, Checkbox } from '@/components';
-import auth, { database } from "../firebase.js";
+import auth, { database, storage } from "../firebase.js";
 import moment from 'moment';
 
 export default {
@@ -74,6 +75,7 @@ export default {
                 food: false,
                 wellness: false,
                 hygiene: false,
+                photoURL: ""
             },
             error: null
         };
@@ -96,8 +98,25 @@ export default {
             }
             return email;
         },
+        getPhoto() {
+            this.photo()
+            return null;
+        }
     },
     methods: {
+        photo() {
+            if (this.user) {
+                storage
+                .ref(this.user.photoURL)
+                .getDownloadURL()
+                .then((url) => {
+                    this.newPost.photoURL = url
+                })
+                .catch((err) => {
+                    this.newPost.error = err.message;
+                })
+            }
+        },
         format_date(value){
             if (value) {
                 return moment(String(value)).format('DD/MM/YYYY hh:mm')
@@ -114,6 +133,7 @@ export default {
                 this.newPost.username = this.name;
                 this.newPost.userEmail = this.email;            
                 this.newPost.time = this.format_date(new Date());
+                this.photo();
                 database.collection('Posts').add(this.newPost)
                     .then((result) => {
                         console.log("New Post created");
@@ -127,7 +147,8 @@ export default {
                             sports: false,
                             food: false,
                             wellness: false,
-                            hygiene: false
+                            hygiene: false,
+                            photoURL: ""
                         }
                         this.error = null
                         this.$router.replace({ name: "sharing" });
