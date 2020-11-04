@@ -40,7 +40,7 @@
                 Submit
               </button>
             </form>
-            <br/>
+            <br />
             <h5>Change Password</h5>
             <div v-if="error" class="alert alert-danger">{{ error }}</div>
             <form class="form-inline" @submit.prevent="changePassword">
@@ -60,17 +60,73 @@
           </div>
 
           <div class="col-md-6 ml-auto mr-auto">
-            <h3 class="title" style="text-align: left">Your Data</h3>
-            <h5>Health Data</h5>
-            <router-link class="nav-link" to="/editdata"
-              >Input/Modify Health Data</router-link
-            >
-            <br/>
-            <br/>
-            <h5>Daily Goals</h5>
-            <router-link class="nav-link" to="/editgoal"
-              >Input/Modify Daily Goals</router-link
-            >
+            <h3 class="title" style="text-align: left">
+              Your Data{{ getdata2 }}
+            </h3>
+            <div v-if="data.gender">
+              <div class="row">
+                <h5>Health Data</h5>
+                <router-link class="nav-link" to="/editdata"
+                  >Modify</router-link
+                >
+              </div>
+              <div class="row">
+                <div class="col">
+                  Gender: {{ data.gender }}<br />
+                  Age: {{ data.age }}<br />
+                  Height: {{ data.height }}<br />
+                  Weight: {{ data.weight }}
+                </div>
+                <div class="col">
+                  Weight Goal: {{ data.weightGoal }}<br />
+                  Physical Activity Level: {{ data.pal }}<br />
+                  Special Physical Condition:
+                  {{ data.specialPhysicalCondition }}
+                </div>
+              </div>
+            </div>
+            <div v-else>
+              <h5>Health Data</h5>
+              <router-link class="nav-link" to="/editdata"
+                >Input Health Data</router-link
+              >
+            </div>
+            <br />
+            <br />
+            <div v-if="data.dailyTarget.exercise">
+              <div class="row">
+                <h5>Daily Goals</h5>
+                <router-link class="nav-link" to="/editgoal"
+                  >Modify</router-link
+                >
+              </div>
+              <div class="row">
+                <div class="col">
+                  EXERCISE<br />
+                  Duration of exercise:
+                  {{ data.dailyTarget.exercise }} min<br /><br />
+                  HYGIENE<br />
+                  Taking temperature:
+                  {{ data.dailyTarget.temperature }} times<br />
+                  Washing mask: {{ data.dailyTarget.mask }} times<br />
+                  Washing hands: {{ data.dailyTarget.hand }} times<br />
+                </div>
+                <div class="col">
+                  FOOD<br />
+                  Calorie intake:
+                  {{ data.dailyTarget.calorie }} kCal<br /><br />
+                  WELLNESS<br />
+                  Duration of work: {{ data.dailyTarget.work }} hr<br />
+                  Duration of leisure: {{ data.dailyTarget.leisure }} hr<br />
+                </div>
+              </div>
+            </div>
+            <div v-else>
+              <h5>Daily Goals</h5>
+              <router-link class="nav-link" to="/editgoal"
+                >Input Daily Goals</router-link
+              >
+            </div>
           </div>
         </div>
       </div>
@@ -83,7 +139,7 @@
 </template>
 <script>
 import auth from "../firebase.js";
-import { storage } from "../firebase.js";
+import { database, storage } from "../firebase.js";
 import firebase from "firebase";
 
 export default {
@@ -96,6 +152,7 @@ export default {
       newPassword: "",
       profilePicKey: 0,
       error: null,
+      data: {},
     };
   },
   computed: {
@@ -115,6 +172,10 @@ export default {
         email = this.user.email;
       }
       return email;
+    },
+    getdata2() {
+      this.getdata();
+      return null;
     },
   },
   methods: {
@@ -171,6 +232,18 @@ export default {
             this.error = err.message;
           });
       }
+    },
+    getdata() {
+      database
+        .collection("Users")
+        .doc(this.email)
+        .get()
+        .then((doc) => {
+          this.data = doc.data();
+        })
+        .catch((err) => {
+          console.log("Error getting document:", err);
+        });
     },
   },
 };
