@@ -1,5 +1,7 @@
 <template>
   <div>
+    {{loadGoals}}
+    {{loadData}}
     <div class="page-header clear-filter" color="orange">
       <div
         class="page-header-image"
@@ -225,16 +227,38 @@
   </div>
 </template>
 <script>
-//import { Tabs, TabPane } from '@/components';
 import auth, { database } from "../firebase.js";
 import moment from "moment";
 
 export default {
   name: "form",
   bodyClass: "form-page",
-  components: {
-    //Tabs,
-    //TabPane
+  computed: {
+    user() {
+      return auth.currentUser;
+    },
+    name() {
+      var displayName;
+      if (this.user) {
+        displayName = this.user.displayName;
+      }
+      return displayName;
+    },
+    email() {
+      var email;
+      if (this.user) {
+        email = this.user.email;
+      }
+      return email;
+    },
+    loadGoals() {
+      this.getGoals()
+      return null;
+    },
+    loadData() {
+      this.getData()
+      return null;
+    }
   },
   data() {
     return {
@@ -256,6 +280,12 @@ export default {
         handEvening: 0,
         mask: 0,
         unique: "",
+        goals: {},
+        dailyData: {},
+        sportsScore: {
+          dailySportsScore: 0,
+          dailySportsProgress: 0
+        }
       },
     };
   },
@@ -363,7 +393,50 @@ export default {
           console.log("successful log evening data");
       }
     },
-  },
+
+    //Methods for score and progress
+    getGoals() {
+      database.collection("Users").doc(this.email).get()
+        .then((doc) => {
+          var data = {}
+          data = doc.data()
+          this.goals = data.dailyTarget
+          console.log(this.goals)
+        })
+        .catch((err) => {
+          console.log("Error getting document:", err);
+        });
+    },
+    getData() {
+      database.collection("Users").doc(this.email).collection("Daily").doc(this.format_date(new Date())).get()
+      //database.collection("Users").doc(this.email).collection("Daily").doc("03112020").get()
+        .then((doc) => {
+          this.dailyData = doc.data()
+          console.log(this.dailyData)
+        })        
+        .catch((err) => {
+          this.newPost.error = err.message;
+        });
+    },
+    //Need to change
+    getSportsData() {
+      //database.collection("Users").doc(this.email).collection("Daily").doc(this.format_date(new Date())).get()
+      database.collection("Users").doc(this.email).collection("Daily").doc("03112020").get()
+        .then((doc) => {
+          var data = {}
+          data = doc.data()
+          console.log(this.format_date(new Date()))
+          console.log(this.data)
+          console.log(this.data.evening.exercise)
+          var progress = this.data.evening.exercise / this.goals.exercise * 100          
+          this.sportsScore.dailySportsProgress = progress.toFixed(2)
+
+        })        
+        .catch((err) => {
+          this.newPost.error = err.message;
+        });
+    }
+  }
 };
 </script>
 <style scoped>

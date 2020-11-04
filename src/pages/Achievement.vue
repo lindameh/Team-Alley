@@ -67,9 +67,6 @@ export default {
   data() {
     return {
       todaydate: "23 Sept 2020",
-      sportsAmountToday: 0,
-      sportsGoal: 0,
-      sportsData: {},
       data: {}
     };
   },
@@ -92,18 +89,8 @@ export default {
       return email;
     },
     dailySportsProgress() {
-      var progress = this.getSportsAmountToday / this.getSportsGoalToday * 100;
-      return progress.toFixed(2); 
-    },
-    getSportsAmountToday() {
-      this.getSportsData()
-      return this.sportsAmountToday
-      //return 5
-    },
-    getSportsGoalToday() {
-      this.getSportsGoal()
-      return this.sportsGoal
-      //return 10
+      this.getSportsProgress;
+      return null;
     }
   },
   methods: {
@@ -112,17 +99,8 @@ export default {
         return moment(String(value)).format('DDMMYYYY')
       }
     },
-    getSportsGoal() {
-      database.collection("Users").doc(this.email).get()
-        .then((doc) => {
-          this.sportsData = doc.data()
-          this.sportsGoal = this.sportsData.dailyTarget.exercise
-        })
-        .catch((err) => {
-          console.log("Error getting document:", err);
-        });
-    },
-    getSportsData() {
+    //Need to change
+    getSportsProgress() {
       database.collection("Users").doc(this.email).collection("Daily").doc(this.format_date(new Date())).get()
       //database.collection("Users").doc(this.email).collection("Daily").doc("02112020").get()
         .then((doc) => {
