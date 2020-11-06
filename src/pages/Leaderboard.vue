@@ -49,10 +49,8 @@
               <h4 class="Athlete__reps">Score</h4>
             </div>       
           </div>
-
           </tab-pane>
           
-
 
           <tab-pane>
           <span slot="label">
@@ -70,7 +68,6 @@
           </tab-pane>
           
 
-
           <tab-pane>
           <span slot="label">
             <i class="now-ui-icons ui-2_favourite-28"></i>Wellness
@@ -87,8 +84,6 @@
           </tab-pane>
 
 
-
-
           <tab-pane>
           <span slot="label">
             <i class="now-ui-icons media-2_sound-wave"></i>Hygiene
@@ -103,8 +98,9 @@
             </div>       
           </div>
           </tab-pane>
-        </tabs>
 
+
+        </tabs>
       </div>
     </div>
   </div>
