@@ -158,7 +158,6 @@ export default {
               post = doc.data()
               post.id = doc.id
               post.photo = this.user.photoURL
-              console.log(post)
               this.allPostsList.push(post)      
           })
         })
@@ -175,7 +174,6 @@ export default {
               post = doc.data()
               post.id = doc.id
               post.photo = this.user.photoURL
-              console.log(post)
               this.sportsPostsList.push(post)      
           })
         })
@@ -192,7 +190,6 @@ export default {
               post = doc.data()
               post.id = doc.id
               post.photo = this.user.photoURL
-              console.log(post)
               this.foodPostsList.push(post)      
           })
         })
@@ -209,7 +206,6 @@ export default {
               post = doc.data()
               post.id = doc.id
               post.photo = this.user.photoURL
-              console.log(post)
               this.wellnessPostsList.push(post)      
           })
         })
@@ -226,7 +222,6 @@ export default {
               post = doc.data()
               post.id = doc.id
               post.photo = this.user.photoURL
-              console.log(post)
               this.hygienePostsList.push(post)      
           })
         })

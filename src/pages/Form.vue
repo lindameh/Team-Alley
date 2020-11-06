@@ -437,23 +437,22 @@ export default {
         leisureProgress = leisureProgress + this.dailyData.evening.leisure;
         sportsProgress = sportsProgress + this.dailyData.evening.exercise;
       }
+      var sportsScore = (sportsProgress / this.goals.exercise) * 100;
+      var hygieneScore = (maskProgress / this.goals.mask + handProgress / this.goals.hand) / 2 * 100;
+      var wellnessScore = (leisureProgress / this.goals.leisure + temperatureProgress / this.goals.temperature) / 2 * 100;
+      var foodScore = foodProgress / this.goals.calorie;
+      var overallScore = (sportsScore + hygieneScore + wellnessScore + foodScore) / 4;
       database
         .collection("Users")
         .doc(auth.currentUser.email)
         .collection("Daily")
         .doc(this.item.unique)
         .update({
-          sportsScore: (sportsProgress / this.goals.exercise) * 100,
-          hygieneScore:
-            ((maskProgress / this.goals.mask + handProgress / this.goals.hand) /
-              2) *
-            100,
-          wellnessScore:
-            ((leisureProgress / this.goals.leisure +
-              temperatureProgress / this.goals.temperature) /
-              2) *
-            100,
-          foodScore: foodProgress / this.goals.calorie,
+          sportsScore: sportsScore.toFixed(0),
+          hygieneScore: hygieneScore.toFixed(0),
+          wellnessScore: wellnessScore.toFixed(0),
+          foodScore: foodScore.toFixed(0),
+          overallScore: overallScore,
         })
         .catch((err) => {
           this.item.error = err.message;
