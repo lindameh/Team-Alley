@@ -1,7 +1,5 @@
 <template>
   <div>
-    {{loadGoals}}
-    {{loadData}}
     <div class="page-header clear-filter" color="orange">
       <div
         class="page-header-image"
@@ -45,7 +43,7 @@
               class="form-control"
               id="inputHand"
               placeholder="3"
-              v-model="item.handMorning"
+              v-model.number="item.handMorning"
             />
           </div>
         </div>
@@ -90,7 +88,7 @@
               class="form-control"
               id="inputHand"
               placeholder="6"
-              v-model="item.handAfternoon"
+              v-model.number="item.handAfternoon"
             />
           </div>
         </div>
@@ -149,11 +147,11 @@
               >No. of times of washing hands in the evening*</label
             >
             <input
-              type="text"
+              type="number"
               class="form-control"
               id="inputHand"
               placeholder="3"
-              v-model="item.handEvening"
+              v-model.number="item.handEvening"
             />
           </div>
           <div class="form-group col-md-4">
@@ -161,11 +159,11 @@
               >No. of times of taking temperature today*</label
             >
             <input
-              type="text"
+              type="number"
               class="form-control"
               id="inputTemperature"
               placeholder="2"
-              v-model="item.temperature"
+              v-model.number="item.temperature"
             />
           </div>
           <div class="form-group col-md-4">
@@ -173,11 +171,11 @@
               >No. of times of of washing masks today*</label
             >
             <input
-              type="text"
+              type="number"
               class="form-control"
               id="inputMask"
               placeholder="1"
-              v-model="item.mask"
+              v-model.number="item.mask"
             />
           </div>
         </div>
@@ -191,7 +189,7 @@
               class="form-control"
               id="inputWorkDuration"
               placeholder="7"
-              v-model="item.work"
+              v-model.number="item.work"
             />
           </div>
           <div class="form-group col-md-4">
@@ -203,7 +201,7 @@
               class="form-control"
               id="inputLeisureDuration"
               placeholder="1"
-              v-model="item.leisure"
+              v-model.number="item.leisure"
             />
           </div>
           <div class="form-group col-md-4">
@@ -211,15 +209,18 @@
               >Duration of exercise today (min)*</label
             >
             <input
-              type="float"
+              type="number"
               class="form-control"
               id="inputExercise"
               placeholder="80"
-              v-model="item.exercise"
+              v-model.number="item.exercise"
             />
           </div>
         </div>
-        <button class="btn btn-primary btn-round" v-on:click.prevent="addEvening">
+        <button
+          class="btn btn-primary btn-round"
+          v-on:click.prevent="addEvening"
+        >
           Submit for Evening
         </button>
       </form>
@@ -231,7 +232,7 @@ import auth, { database } from "../firebase.js";
 import moment from "moment";
 
 export default {
-  name: "form",
+  name: "dailyForm",
   bodyClass: "form-page",
   computed: {
     user() {
@@ -250,14 +251,6 @@ export default {
         email = this.user.email;
       }
       return email;
-    },
-    loadGoals() {
-      this.getGoals()
-      return null;
-    },
-    loadData() {
-      this.getData()
-      return null;
     }
   },
   data() {
@@ -274,16 +267,15 @@ export default {
         dinner2: "",
         dinner3: "",
         exercise: 0,
-        work:0,
+        work: 0,
         leisure: 0,
         temperature: 0,
         handEvening: 0,
         mask: 0,
         unique: "",
-        goals: {},
-        dailyData: {}
-
       },
+      goals: {},
+      dailyData: {},
     };
   },
   methods: {
@@ -295,15 +287,16 @@ export default {
 
     addMorning() {
       this.item.unique = String(moment(String(new Date())).format("DDMMYYYY"));
-      if (
-        this.item.breakfast1 == "" ||
-        this.item.handMorning == ""
-      ) {
+      if (this.item.breakfast1 == "" || this.item.handMorning == "") {
         alert("Please fill in empty fields!");
       } else {
         this.item.time = this.format_date(new Date());
-
         alert("You have successfully submitted morning log!");
+        this.dailyData.morning = {
+          breakfast1: this.item.breakfast1,
+          breakfast2: this.item.breakfast2,
+          handMorning: this.item.handMorning,
+        };
         database
           .collection("Users")
           .doc(auth.currentUser.email)
@@ -320,19 +313,22 @@ export default {
           .catch((err) => {
             this.item.error = err.message;
           });
+        this.updateScore();
         console.log("successful log morning data");
       }
     },
 
     addAfternoon() {
       this.item.unique = String(moment(String(new Date())).format("DDMMYYYY"));
-      if (
-        this.item.lunch1 == "" ||
-        this.item.handAfternoon == ""
-      ) {
+      if (this.item.lunch1 == "" || this.item.handAfternoon == "") {
         alert("Please fill in empty fields!");
       } else {
         alert("You have successfully submitted afternoon log!");
+        this.dailyData.afternoon = {
+          lunch1: this.item.lunch1,
+          lunch2: this.item.lunch2,
+          handAfternoon: this.item.handAfternoon,
+        };
         database
           .collection("Users")
           .doc(auth.currentUser.email)
@@ -348,7 +344,8 @@ export default {
           .catch((err) => {
             this.item.error = err.message;
           });
-          console.log("successful log afternoon data");
+        this.updateScore();
+        console.log("successful log afternoon data");
       }
     },
 
@@ -366,6 +363,17 @@ export default {
         alert("Please fill in empty fields!");
       } else {
         alert("You have successfully submitted evening log!");
+        this.dailyData.evening = {
+          dinner1: this.item.dinner1,
+          dinner2: this.item.dinner2,
+          dinner3: this.item.dinner3,
+          handEvening: this.item.handEvening,
+          exercise: this.item.exercise,
+          work: this.item.work,
+          mask: this.item.mask,
+          temperature: this.item.temperature,
+          leisure: this.item.leisure,
+        };
         database
           .collection("Users")
           .doc(auth.currentUser.email)
@@ -382,49 +390,110 @@ export default {
               mask: this.item.mask,
               temperature: this.item.temperature,
               leisure: this.item.leisure,
-              sportsScore: {
-                dailySportsProgress: this.item.exercise / this.item.goals.exercise * 100,
-                dailySportsScore: 25 * this.item.exercise / this.item.goals.exercise
-              }
             },
           })
           .catch((err) => {
             this.item.error = err.message;
           });
-          console.log("successful log evening data");
+        this.updateScore();
+        console.log("successful log evening data");
       }
     },
 
-    //Methods for score and progress
+    //method to update score after user submit morning, afternoon or evening form
+    updateScore() {
+      var foodProgress = 0;
+      var handProgress = 0;
+      var temperatureProgress = 0;
+      var maskProgress = 0;
+      var workProgress = 0;
+      var leisureProgress = 0;
+      var sportsProgress = 0;
+      if (this.dailyData.morning) {
+        foodProgress = foodProgress + 300;
+        handProgress = handProgress + this.dailyData.morning.handMorning;
+      }
+      if (this.dailyData.afternoon) {
+        foodProgress = foodProgress + 500;
+        handProgress = handProgress + this.dailyData.afternoon.handAfternoon;
+      }
+      if (this.dailyData.evening) {
+        foodProgress = foodProgress + 500;
+        handProgress = handProgress + this.dailyData.evening.handEvening;
+        temperatureProgress =
+          temperatureProgress + this.dailyData.evening.temperature;
+        maskProgress = maskProgress + this.dailyData.evening.mask;
+        workProgress = workProgress + this.dailyData.evening.work;
+        leisureProgress = leisureProgress + this.dailyData.evening.leisure;
+        sportsProgress = sportsProgress + this.dailyData.evening.exercise;
+      }
+      var sportsScore = (sportsProgress / this.goals.exercise) * 100;
+      var hygieneScore = (maskProgress / this.goals.mask + handProgress / this.goals.hand) / 2 * 100;
+      var wellnessScore = (leisureProgress / this.goals.leisure + temperatureProgress / this.goals.temperature) / 2 * 100;
+      var foodScore = 100*(Math.max( (1-(Math.abs(foodProgress - this.goals.calorie) / this.goals.calorie)) , 0));
+      var overallScore = (sportsScore + hygieneScore + wellnessScore + foodScore) / 4;
+      database
+        .collection("Users")
+        .doc(auth.currentUser.email)
+        .collection("Daily")
+        .doc(this.item.unique)
+        .update({
+          sportsScore: sportsScore,
+          hygieneScore: hygieneScore,
+          wellnessScore: wellnessScore,
+          foodScore: foodScore,
+          overallScore: overallScore,
+        })
+        .catch((err) => {
+          this.item.error = err.message;
+        });
+      console.log("Update score successfully");
+    },
+
+    //method to get user daily goal from firebase
     getGoals() {
-      database.collection("Users").doc(this.email).get()
+      database
+        .collection("Users")
+        .doc(this.email)
+        .get()
         .then((doc) => {
           if (doc.exists) {
-            this.item.goals = doc.data().dailyTarget
-            console.log(this.item.goals.exercise)
+            this.goals = doc.data().dailyTarget;
+            console.log("Get goal successfully");
           } else {
-            console.log("no goal")
+            console.log("no goal");
           }
         })
         .catch((err) => {
           console.log("Error getting document:", err);
         });
     },
+
+    // method to get user daily data from firebase
     getData() {
-      database.collection("Users").doc(this.email).collection("Daily").doc(this.format_date(new Date())).get()
-      //database.collection("Users").doc(this.email).collection("Daily").doc("03112020").get()
+      database
+        .collection("Users")
+        .doc(this.email)
+        .collection("Daily")
+        .doc(this.format_date(new Date()))
+        .get()
+        //database.collection("Users").doc(this.email).collection("Daily").doc("03112020").get()
         .then((doc) => {
           if (doc.exists) {
-            this.item.dailyData = doc.data()
-            console.log(this.item.dailyData)
+            this.dailyData = doc.data();
+            console.log("Get daily data successfully");
           } else {
-            console.log("no data")
+            console.log("no daily data");
           }
-        })        
+        })
         .catch((err) => {
           this.newPost.error = err.message;
         });
-    }
+    },
+  },
+  created() {
+    this.getGoals();
+    this.getData();
   }
 };
 </script>
