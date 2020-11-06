@@ -22,7 +22,7 @@
             class="form-control"
             id="inputExerciseDuration"
             placeholder="45"
-            v-model="item.exercise"
+            v-model.number="item.exercise"
             required
           />
         </div>
@@ -33,11 +33,11 @@
             >Duration of Working (hr/day)*</label
           >
           <input
-            type="float"
+            type="number"
             class="form-control"
             id="inputWorkDuration"
             placeholder="7"
-            v-model="item.work"
+            v-model.number="item.work"
             required
           />
         </div>
@@ -47,11 +47,11 @@
             >Duration of Leisure (hr/day)*</label
           >
           <input
-            type="float"
+            type="number"
             class="form-control"
             id="inputLeisureDuration"
             placeholder="1.5"
-            v-model="item.leisure"
+            v-model.number="item.leisure"
             required
           />
         </div>
@@ -66,7 +66,7 @@
               class="form-control"
               id="inputTemperature"
               placeholder="2"
-              v-model="item.temperature"
+              v-model.number="item.temperature"
               required
             />
           </div>
@@ -79,7 +79,7 @@
               class="form-control"
               id="inputMask"
               placeholder="1"
-              v-model="item.mask"
+              v-model.number="item.mask"
               required
             />
           </div>
@@ -92,7 +92,7 @@
               class="form-control"
               id="inputHands"
               placeholder="5"
-              v-model="item.hand"
+              v-model.number="item.hand"
               required
             />
           </div>
@@ -113,7 +113,7 @@
             class="form-control"
             id="inputHands"
             placeholder="1850"
-            v-model="item.calorie"
+            v-model.number="item.calorie"
             required
           />
         </div>
@@ -163,8 +163,7 @@ export default {
       ) {
         alert("Please fill in empty fields!");
       } else {
-        console.log("User daily goals input");
-        alert("You have successfully submitted daily goals!");
+        console.log("User daily goals input");  
         database
           .collection("Users")
           .doc(auth.currentUser.email)
@@ -182,6 +181,8 @@ export default {
           .catch((err) => {
             this.item.error = err.message;
           });
+        alert("You have successfully submitted daily goals!");
+        this.$router.replace({ name: "profile" });
       }
     },
   },
