@@ -15,7 +15,8 @@
 
           <p class="text-center">{{post.time}}</p>
           <div class="border border-warning">
-            <h3 class="col-md-12 ml-auto mr-auto text-justify">{{post.message}}</h3>
+            <!-- <h3 class="col-md-12 ml-auto mr-auto text-justify">{{post.message}}</h3> -->
+            <h3 class="col-md-12 ml-auto mr-auto text-justify">{{this.textbody}}</h3>
           </div>
         </div>
 
@@ -38,7 +39,8 @@ export default {
   },
   data() {
     return {
-      post: {}
+      post: {},
+      textbody: ""
     };
   },
   computed: {
@@ -55,6 +57,7 @@ export default {
       database.collection('Posts').doc(this.$route.params.id).get()
         .then((doc) => {
           this.post = doc.data()
+          this.textbody = doc.data().message.replaceAll("\\n", "\n")
           console.log(doc.data())
         })
         .catch((err) => {
