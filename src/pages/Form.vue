@@ -221,7 +221,7 @@
         </div>
         <button
           class="btn btn-primary btn-round"
-          v-on:click.prevent="updateScore"
+          v-on:click.prevent="addEvening"
         >
           Submit for Evening
         </button>
