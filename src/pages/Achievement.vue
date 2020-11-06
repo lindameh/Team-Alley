@@ -100,7 +100,7 @@ export default {
     getSportsScore() {
       database.collection("Users").doc(this.email).collection("Daily").doc(this.format_date(new Date())).get()
         .then((doc) => {
-          this.sportsScore = doc.data().sportsScore;
+          this.sportsScore = doc.data().sportsScore.toFixed(0);
         })        
         .catch((err) => {
           this.error = err.message;
@@ -110,7 +110,7 @@ export default {
     getFoodScore() {
       database.collection("Users").doc(this.email).collection("Daily").doc(this.format_date(new Date())).get()
         .then((doc) => {
-          this.foodScore = doc.data().foodScore;
+          this.foodScore = doc.data().foodScore.toFixed(0);
         })        
         .catch((err) => {
           this.error = err.message;
@@ -120,7 +120,7 @@ export default {
     getWellnessScore() {
       database.collection("Users").doc(this.email).collection("Daily").doc(this.format_date(new Date())).get()
         .then((doc) => {
-          this.wellnessScore = doc.data().wellnessScore;
+          this.wellnessScore = doc.data().wellnessScore.toFixed(0);
         })        
         .catch((err) => {
           this.error = err.message;
@@ -130,7 +130,7 @@ export default {
     getHygieneScore() {
       database.collection("Users").doc(this.email).collection("Daily").doc(this.format_date(new Date())).get()
         .then((doc) => {
-          this.hygieneScore = doc.data().hygieneScore;
+          this.hygieneScore = doc.data().hygieneScore.toFixed(0);
         })        
         .catch((err) => {
           this.error = err.message;

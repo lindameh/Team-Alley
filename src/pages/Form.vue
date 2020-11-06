@@ -448,10 +448,10 @@ export default {
         .collection("Daily")
         .doc(this.item.unique)
         .update({
-          sportsScore: sportsScore.toFixed(0),
-          hygieneScore: hygieneScore.toFixed(0),
-          wellnessScore: wellnessScore.toFixed(0),
-          foodScore: foodScore.toFixed(0),
+          sportsScore: sportsScore,
+          hygieneScore: hygieneScore,
+          wellnessScore: wellnessScore,
+          foodScore: foodScore,
           overallScore: overallScore,
         })
         .catch((err) => {
