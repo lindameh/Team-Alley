@@ -452,14 +452,12 @@ export default {
         .collection("Users")
         .doc(auth.currentUser.email)
         .update({
-          score: {
             sportsScore: sportsScore,
             hygieneScore: hygieneScore,
             wellnessScore: wellnessScore,
             foodScore: foodScore,
             overallScore: overallScore,
             scoreDate: this.item.unique,
-          },
         })
         .catch((err) => {
           this.item.error = err.message;
