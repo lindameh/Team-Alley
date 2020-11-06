@@ -1,7 +1,5 @@
 <template>
   <div>
-    {{ loadGoals }}
-    {{ loadData }}
     <div class="page-header clear-filter" color="orange">
       <div
         class="page-header-image"
@@ -253,15 +251,7 @@ export default {
         email = this.user.email;
       }
       return email;
-    },
-    loadGoals() {
-      this.getGoals();
-      return null;
-    },
-    loadData() {
-      this.getData();
-      return null;
-    },
+    }
   },
   data() {
     return {
@@ -440,7 +430,7 @@ export default {
       var sportsScore = (sportsProgress / this.goals.exercise) * 100;
       var hygieneScore = (maskProgress / this.goals.mask + handProgress / this.goals.hand) / 2 * 100;
       var wellnessScore = (leisureProgress / this.goals.leisure + temperatureProgress / this.goals.temperature) / 2 * 100;
-      var foodScore = foodProgress / this.goals.calorie;
+      var foodScore = 100*(Math.max( (1-(Math.abs(foodProgress - this.goals.calorie) / this.goals.calorie)) , 0));
       var overallScore = (sportsScore + hygieneScore + wellnessScore + foodScore) / 4;
       database
         .collection("Users")
@@ -501,6 +491,10 @@ export default {
         });
     },
   },
+  created() {
+    this.getGoals();
+    this.getData();
+  }
 };
 </script>
 <style scoped>
