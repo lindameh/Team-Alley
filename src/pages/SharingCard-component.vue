@@ -6,7 +6,7 @@
         <div class="row">
         <!--Image Here-->
         <div class="col-md-3">
-            <img slot="image" class="card-img-top sharing-img" v-bind:src="post.photo" alt="">
+            <img slot="image" class="card-img-top sharing-img" v-bind:src="post.photoURL" alt="">
         </div>
         <!--Content Here-->
         <div class="col-md-9">
