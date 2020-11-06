@@ -116,14 +116,27 @@ export default {
   },
   methods: {
     getAllPosts() {
-      database.collection('Posts').get()
+      database.collection('Posts').orderBy("time", "desc").get()
         .then((querySnapShot) => {
           let post = {}
           querySnapShot.forEach(doc => {
               post = doc.data()
               post.id = doc.id
               post.photo = this.user.photoURL
-              this.allPostsList.push(post)      
+              this.allPostsList.push(post)
+              // Testing
+              if (post.sports == true) {
+                this.sportsPostsList.push(post)
+              } 
+              if (post.food == true) {
+                this.foodPostsList.push(post)
+              }
+              if (post.wellness == true) {
+                this.wellnessPostsList.push(post)
+              }
+              if (post.hygiene == true) {
+                this.hygienePostsList.push(post)
+              }
           })
         })
         .catch((err) => {
@@ -131,77 +144,9 @@ export default {
       })
       console.log("Getting All Posts")
     },
-    getSportsPosts() {
-      database.collection('Posts').where("sports", "==", true).get()
-        .then((querySnapShot) => {
-          let post = {}
-          querySnapShot.forEach(doc => {
-              post = doc.data()
-              post.id = doc.id
-              post.photo = this.user.photoURL
-              this.sportsPostsList.push(post)      
-          })
-        })
-        .catch((err) => {
-          console.log("Error getting documents: " + err)
-      })
-      console.log("Getting Sports Posts")
-    },
-    getFoodPosts() {
-      database.collection('Posts').where("food", "==", true).get()
-        .then((querySnapShot) => {
-          let post = {}
-          querySnapShot.forEach(doc => {
-              post = doc.data()
-              post.id = doc.id
-              post.photo = this.user.photoURL
-              this.foodPostsList.push(post)      
-          })
-        })
-        .catch((err) => {
-          console.log("Error getting documents: " + err)    
-      })
-      console.log("Getting Food Posts")
-    },
-    getWellnessPosts() {
-      database.collection('Posts').where("wellness", "==", true).get()
-        .then((querySnapShot) => {
-          let post = {}
-          querySnapShot.forEach(doc => {
-              post = doc.data()
-              post.id = doc.id
-              post.photo = this.user.photoURL
-              this.wellnessPostsList.push(post)      
-          })
-        })
-        .catch((err) => {
-          console.log("Error getting documents: " + err)
-      })
-      console.log("Getting Wellness Posts")
-    },
-    getHygienePosts() {
-      database.collection('Posts').where("hygiene", "==", true).get()
-        .then((querySnapShot) => {
-          let post = {}
-          querySnapShot.forEach(doc => {
-              post = doc.data()
-              post.id = doc.id
-              post.photo = this.user.photoURL
-              this.hygienePostsList.push(post)      
-          })
-        })
-        .catch((err) => {
-          console.log("Error getting documents: " + err)
-      })
-      console.log("Getting Hygiene Posts")
-    }
   },
   created() {
     this.getAllPosts();
-    this.getSportsPosts();
-    this.getFoodPosts();
-    this.getWellnessPosts();
-    this.getHygienePosts();
   }
 };
 </script>
