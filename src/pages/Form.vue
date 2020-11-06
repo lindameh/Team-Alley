@@ -400,6 +400,11 @@ export default {
       }
     },
 
+    //method to get calories for food input
+    getCalories(food) {
+      document.collection("food_data").doc()
+    },
+
     //method to update score after user submit morning, afternoon or evening form
     updateScore() {
       var foodProgress = 0;
