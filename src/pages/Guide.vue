@@ -3,12 +3,12 @@
     <div class="page-header page-header-small clear-filter">
       <parallax
         class="page-header-image"
-        style="background-image: url('img/bg3.jpg')"
+        style="background-image: url('img/wellness2.png')"
       >
       </parallax>
       <div class="content-center">
         <div class="container">
-          <h1 class="title">Welcome to WELife!</h1>
+          <h1 class="title">Need some help?</h1>
         </div>
       </div>
     </div>
@@ -22,7 +22,13 @@
                 Input your health data & set up your daily goals in the PROFILE
                 page
               </li>
+              <br><br>
+              <img src="img/SetGoals.gif">
+              <br><br><br>
               <li>Log your daily activities in the FORM page</li>
+              <br><br>
+              <img src="img/FillForm.gif">
+              <br><br><br>
               <li>
                 Track your daily & weekly progress in the ACHIEVEMENT page
               </li>
@@ -98,4 +104,9 @@ export default {
   },
 };
 </script>
-<style></style>
+
+<style scoped>
+h1 {
+  text-align: right;
+}
+</style>
