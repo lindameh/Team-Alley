@@ -9,7 +9,7 @@
             <div class="photo-container">
               <img v-bind:src="post.photo" alt="" />
             </div>
-            <h1 class="p-3 mb-2 bg-dark text-white text-center"><strong>{{post.title}}</strong></h1>
+            <h1 class="p-3 mb-2 text-center"><strong>{{post.title}}</strong></h1>
             <h3 class="text-muted text-center">{{post.username}}</h3>
           </div>
 
