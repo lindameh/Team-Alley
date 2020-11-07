@@ -47,7 +47,13 @@
               <div class="Athlete__rank"><h5>Rank</h5></div>
               <h2 class="Athlete__name">Name</h2>
               <h4 class="Athlete__reps">Score</h4>
-            </div>       
+            </div>
+
+            <div class="Athlete" v-for="(user,index) in sportsTop10" :key="user">
+                <div class="Athlete__rank"><h5 class="Athlete__rank">{{ index+1 }}</h5></div>
+                <h2 class="Athlete__name">{{user.name}}</h2>
+                <h4 class="Athlete__reps">{{user.sportsScore.toFixed(0)}} </h4>
+            </div>        
           </div>
           </tab-pane>
           
@@ -63,7 +69,13 @@
               <div class="Athlete__rank"><h5>Rank</h5></div>
               <h2 class="Athlete__name">Name</h2>
               <h4 class="Athlete__reps">Score</h4>
-            </div>       
+            </div>
+
+            <div class="Athlete" v-for="(user,index) in foodTop10" :key="user">
+                <div class="Athlete__rank"><h5 class="Athlete__rank">{{ index+1 }}</h5></div>
+                <h2 class="Athlete__name">{{user.name}}</h2>
+                <h4 class="Athlete__reps">{{user.foodScore.toFixed(0)}} </h4>
+            </div>        
           </div>
           </tab-pane>
           
@@ -79,6 +91,12 @@
               <div class="Athlete__rank"><h5>Rank</h5></div>
               <h2 class="Athlete__name">Name</h2>
               <h4 class="Athlete__reps">Score</h4>
+            </div>
+
+            <div class="Athlete" v-for="(user,index) in wellnessTop10" :key="user">
+                <div class="Athlete__rank"><h5 class="Athlete__rank">{{ index+1 }}</h5></div>
+                <h2 class="Athlete__name">{{user.name}}</h2>
+                <h4 class="Athlete__reps">{{user.wellnessScore.toFixed(0)}} </h4>
             </div>       
           </div>
           </tab-pane>
@@ -95,7 +113,13 @@
               <div class="Athlete__rank"><h5>Rank</h5></div>
               <h2 class="Athlete__name">Name</h2>
               <h4 class="Athlete__reps">Score</h4>
-            </div>       
+            </div>
+
+            <div class="Athlete" v-for="(user,index) in hygieneTop10" :key="user">
+                <div class="Athlete__rank"><h5 class="Athlete__rank">{{ index+1 }}</h5></div>
+                <h2 class="Athlete__name">{{user.name}}</h2>
+                <h4 class="Athlete__reps">{{user.hygieneScore.toFixed(0)}} </h4>
+            </div>         
           </div>
           </tab-pane>
 
@@ -121,6 +145,10 @@ export default {
     return{
       datasets:[],
       top10:[],
+      sportsTop10:[],
+      foodTop10:[],
+      wellnessTop10:[],
+      hygieneTop10:[]
     }
   },
   methods: {
@@ -132,15 +160,55 @@ export default {
         })
         this.datasets = data;
         this.getTop();
+        this.getSportsTop();
+        this.getFoodTop();
+        this.getWellnessTop();
+        this.getHygieneTop();
       })
     },
     getTop: function(){
-      database.collection('Users').orderBy('overallScore').limit(10).get().then(querySnapShot => {
+      database.collection('Users').orderBy('overallScore','desc').limit(10).get().then(querySnapShot => {
         let rank = [];
         querySnapShot.forEach(doc => { 
             rank.push(doc.data())
         })
         this.top10 = rank;
+      })
+    },
+    getSportsTop: function(){
+      database.collection('Users').orderBy('sportsScore','desc').limit(10).get().then(querySnapShot => {
+        let rank = [];
+        querySnapShot.forEach(doc => { 
+            rank.push(doc.data())
+        })
+        this.sportsTop10 = rank;
+      })
+    },
+    getWellnessTop: function(){
+      database.collection('Users').orderBy('wellnessScore','desc').limit(10).get().then(querySnapShot => {
+        let rank = [];
+        querySnapShot.forEach(doc => { 
+            rank.push(doc.data())
+        })
+        this.wellnessTop10 = rank;
+      })
+    },
+    getFoodTop: function(){
+      database.collection('Users').orderBy('foodScore','desc').limit(10).get().then(querySnapShot => {
+        let rank = [];
+        querySnapShot.forEach(doc => { 
+            rank.push(doc.data())
+        })
+        this.foodTop10 = rank;
+      })
+    },
+    getHygieneTop: function(){
+      database.collection('Users').orderBy('hygieneScore','desc').limit(10).get().then(querySnapShot => {
+        let rank = [];
+        querySnapShot.forEach(doc => { 
+            rank.push(doc.data())
+        })
+        this.hygieneTop10 = rank;
       })
     }
 	},
