@@ -251,7 +251,7 @@ export default {
         email = this.user.email;
       }
       return email;
-    }
+    },
   },
   data() {
     return {
@@ -427,11 +427,12 @@ export default {
         leisureProgress = leisureProgress + this.dailyData.evening.leisure;
         sportsProgress = sportsProgress + this.dailyData.evening.exercise;
       }
-      var sportsScore = (sportsProgress / this.goals.exercise) * 100;
-      var hygieneScore = (maskProgress / this.goals.mask + handProgress / this.goals.hand) / 2 * 100;
-      var wellnessScore = (leisureProgress / this.goals.leisure + temperatureProgress / this.goals.temperature) / 2 * 100;
-      var foodScore = 100*(Math.max( (1-(Math.abs(foodProgress - this.goals.calorie) / this.goals.calorie)) , 0));
-      var overallScore = (sportsScore + hygieneScore + wellnessScore + foodScore) / 4;
+      var sportsScore = Math.min(sportsProgress / this.goals.exercise, 1) * 100;
+      var hygieneScore = Math.min(maskProgress / this.goals.mask, 1) * 50 + Math.min(handProgress / this.goals.hand, 1) * 50;
+      var wellnessScore = Math.min(leisureProgress / this.goals.leisure, 1) * 50 + Math.min(temperatureProgress / this.goals.temperature, 1) * 50;
+      var foodScore = Math.min(Math.max(1 - Math.abs(foodProgress - this.goals.calorie) / this.goals.calorie, 0), 1) * 100;
+      var overallScore =
+        (sportsScore + hygieneScore + wellnessScore + foodScore) / 4;
       database
         .collection("Users")
         .doc(auth.currentUser.email)
@@ -443,6 +444,20 @@ export default {
           wellnessScore: wellnessScore,
           foodScore: foodScore,
           overallScore: overallScore,
+        })
+        .catch((err) => {
+          this.item.error = err.message;
+        });
+      database
+        .collection("Users")
+        .doc(auth.currentUser.email)
+        .update({
+            sportsScore: sportsScore,
+            hygieneScore: hygieneScore,
+            wellnessScore: wellnessScore,
+            foodScore: foodScore,
+            overallScore: overallScore,
+            scoreDate: this.item.unique,
         })
         .catch((err) => {
           this.item.error = err.message;
@@ -494,7 +509,7 @@ export default {
   created() {
     this.getGoals();
     this.getData();
-  }
+  },
 };
 </script>
 <style scoped>

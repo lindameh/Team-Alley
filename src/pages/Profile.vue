@@ -61,7 +61,7 @@
 
           <div class="col-md-6 ml-auto mr-auto">
             <h3 class="title" style="text-align: left">
-              Your Data{{ getdata2 }}
+              Your Data
             </h3>
             <div v-if="data.gender">
               <div class="row">
@@ -173,10 +173,6 @@ export default {
       }
       return email;
     },
-    getdata2() {
-      this.getdata();
-      return null;
-    },
   },
   methods: {
     photo() {
@@ -246,6 +242,9 @@ export default {
         });
     },
   },
+  created() {
+    this.getdata();
+  }
 };
 </script>
 <style></style>

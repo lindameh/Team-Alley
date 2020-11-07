@@ -27,7 +27,7 @@
             <div class="Athlete" v-for="(user,index) in top10" :key="user">
                 <div class="Athlete__rank"><h5 class="Athlete__rank">{{ index+1 }}</h5></div>
                 <h2 class="Athlete__name">{{user.name}}</h2>
-                <h4 class="Athlete__reps">{{user.score}} </h4>
+                <h4 class="Athlete__reps">{{user.overallScore.toFixed(0)}} </h4>
             </div>       
           </div>
           <!-- Retrieve data for overall ranking and display ranking -->
@@ -135,7 +135,7 @@ export default {
       })
     },
     getTop: function(){
-      database.collection('Users').orderBy('score', 'desc').limit(10).get().then(querySnapShot => {
+      database.collection('Users').orderBy('overallScore').limit(10).get().then(querySnapShot => {
         let rank = [];
         querySnapShot.forEach(doc => { 
             rank.push(doc.data())
