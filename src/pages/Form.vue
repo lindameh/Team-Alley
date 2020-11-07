@@ -251,7 +251,7 @@ export default {
         email = this.user.email;
       }
       return email;
-    },
+    }
   },
   data() {
     return {
@@ -274,6 +274,7 @@ export default {
         mask: 0,
         unique: "",
       },
+      foodCalories: [],
       goals: {},
       dailyData: {},
     };
@@ -410,15 +411,19 @@ export default {
       var leisureProgress = 0;
       var sportsProgress = 0;
       if (this.dailyData.morning) {
-        foodProgress = foodProgress + 300;
+        this.getCalorie(this.dailyData.morning.breakfast1);
+        this.getCalorie(this.dailyData.morning.breakfast2);
         handProgress = handProgress + this.dailyData.morning.handMorning;
       }
       if (this.dailyData.afternoon) {
-        foodProgress = foodProgress + 500;
+        this.getCalorie(this.dailyData.afternoon.lunch1);
+        this.getCalorie(this.dailyData.afternoon.lunch2);
         handProgress = handProgress + this.dailyData.afternoon.handAfternoon;
       }
       if (this.dailyData.evening) {
-        foodProgress = foodProgress + 500;
+        this.getCalorie(this.dailyData.evening.dinner1);
+        this.getCalorie(this.dailyData.evening.dinner2);
+        this.getCalorie(this.dailyData.evening.dinner3);
         handProgress = handProgress + this.dailyData.evening.handEvening;
         temperatureProgress =
           temperatureProgress + this.dailyData.evening.temperature;
@@ -427,10 +432,19 @@ export default {
         leisureProgress = leisureProgress + this.dailyData.evening.leisure;
         sportsProgress = sportsProgress + this.dailyData.evening.exercise;
       }
+      // const snapshot = await this.foodCalories.once('value');
+      // console.log(snapshot);
+      // const value = snapshot.val();
+      foodProgress = this.foodCalories.reduce((a, b) => a + b, 0);
       var sportsScore = Math.min(sportsProgress / this.goals.exercise, 1) * 100;
-      var hygieneScore = Math.min(maskProgress / this.goals.mask, 1) * 50 + Math.min(handProgress / this.goals.hand, 1) * 50;
-      var wellnessScore = Math.min(leisureProgress / this.goals.leisure, 1) * 50 + Math.min(temperatureProgress / this.goals.temperature, 1) * 50;
-      var foodScore = Math.min(Math.max(1 - Math.abs(foodProgress - this.goals.calorie) / this.goals.calorie, 0), 1) * 100;
+      var hygieneScore =
+        Math.min(maskProgress / this.goals.mask, 1) * 50 +
+        Math.min(handProgress / this.goals.hand, 1) * 50;
+      var wellnessScore =
+        Math.min(leisureProgress / this.goals.leisure, 1) * 50 +
+        Math.min(temperatureProgress / this.goals.temperature, 1) * 50;
+      var foodScore =
+        Math.min(Math.max(1 - Math.abs(this.totalCalories - this.goals.calorie) / this.goals.calorie, 0), 1) * 100;
       var overallScore =
         (sportsScore + hygieneScore + wellnessScore + foodScore) / 4;
       database
@@ -452,12 +466,12 @@ export default {
         .collection("Users")
         .doc(auth.currentUser.email)
         .update({
-            sportsScore: sportsScore,
-            hygieneScore: hygieneScore,
-            wellnessScore: wellnessScore,
-            foodScore: foodScore,
-            overallScore: overallScore,
-            scoreDate: this.item.unique,
+          sportsScore: sportsScore,
+          hygieneScore: hygieneScore,
+          wellnessScore: wellnessScore,
+          foodScore: foodScore,
+          overallScore: overallScore,
+          scoreDate: this.item.unique,
         })
         .catch((err) => {
           this.item.error = err.message;
@@ -492,7 +506,6 @@ export default {
         .collection("Daily")
         .doc(this.format_date(new Date()))
         .get()
-        //database.collection("Users").doc(this.email).collection("Daily").doc("03112020").get()
         .then((doc) => {
           if (doc.exists) {
             this.dailyData = doc.data();
@@ -504,6 +517,24 @@ export default {
         .catch((err) => {
           this.newPost.error = err.message;
         });
+    },
+
+    // method to get calories of food from firebase
+    getCalorie(food) {
+      if (food != "") {
+        database
+        .collection("food_data")
+        .where("Description", ">=", food.toUpperCase())
+        .limit(1)
+        .get()
+        .then((querySnapShot) => {
+          querySnapShot.forEach((doc) => {
+            // console.log(food);
+            // console.log(doc.data());
+            this.foodCalories.push(doc.data().Kilocalories);
+          });
+        });
+      }
     },
   },
   created() {
