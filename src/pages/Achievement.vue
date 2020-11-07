@@ -6,17 +6,17 @@
         <h3>{{ todayDate() }}</h3>
         <h4>Sports</h4>
         <n-progress
-          type="primary"
+          type="warning"
           :value="parseInt(sportsScore)"
-          :height="5"
+          :height="8"
           show-value
         >
         </n-progress>
         <h4>Food</h4>
         <n-progress
-          type="warning"
+          type="primary"
           :value="parseInt(foodScore)"
-          :height="5"
+          :height="8"
           show-value
         >
         </n-progress>
@@ -24,7 +24,7 @@
         <n-progress
           type="info"
           :value="parseInt(wellnessScore)"
-          :height="5"
+          :height="8"
           show-value
         >
         </n-progress>
@@ -32,7 +32,7 @@
         <n-progress
           type="success"
           :value="parseInt(hygieneScore)"
-          :height="5"
+          :height="8"
           show-value
         >
         </n-progress>
@@ -44,19 +44,19 @@
       <div class="row">
         <div class="col-md-6">
           <card class="container">
-            <linechart></linechart>
+            <sportsChart></sportsChart>
           </card>
           <card class="container">
-            <doughnut></doughnut>
+            <wellnessChart></wellnessChart>
           </card>
         </div>
 
         <div class="col-md-6">
           <card class="container">
-            <barchart></barchart>
+            <foodChart></foodChart>
           </card>
           <card class="container">
-            <piechart></piechart>
+            <hygieneChart></hygieneChart>
           </card>
         </div>
       </div>
@@ -64,10 +64,10 @@
   </div>
 </template>
 <script>
-import piechart from "../charts/piechart.js";
-import barchart from "../charts/barchart.js";
-import doughnut from "../charts/doughnut.js";
-import linechart from "../charts/linechart.js";
+import sportsChart from "../charts/sportsChart.js";
+import hygieneChart from "../charts/hygieneChart.js";
+import wellnessChart from "../charts/wellnessChart.js";
+import foodChart from "../charts/foodChart.js";
 import { Progress, Card } from "@/components";
 import auth from "../firebase.js";
 import { database } from "../firebase.js";
@@ -78,10 +78,10 @@ export default {
   components: {
     [Progress.name]: Progress,
     Card,
-    piechart,
-    barchart,
-    doughnut,
-    linechart,
+    sportsChart,
+    hygieneChart,
+    wellnessChart,
+    foodChart
   },
   data() {
     return {
@@ -115,15 +115,6 @@ export default {
     todayDate() {
       return moment(String(new Date())).format("D MMM YYYY");
     },
-    // getWeeklyData(){
-    //   database.collection('Users').doc(this.email).collection("Daily").orderBy('time').limit(7).get().then(querySnapShot => {
-    //     let weeklyData = [];
-    //     querySnapShot.forEach(doc => {
-    //         rank.push(doc.data())
-    //     })
-    //     this.top10 = rank;
-    //   })
-    // },
     getTodayScore() {
       database
         .collection("Users")
