@@ -402,8 +402,8 @@ export default {
     },
 
     //method to update score after user submit morning, afternoon or evening form
-    updateScore() {
-      var foodProgress = 0;
+    async updateScore() {
+      //var foodProgress = 0;
       var handProgress = 0;
       var temperatureProgress = 0;
       var maskProgress = 0;
@@ -411,19 +411,19 @@ export default {
       var leisureProgress = 0;
       var sportsProgress = 0;
       if (this.dailyData.morning) {
-        this.getCalorie(this.dailyData.morning.breakfast1);
-        this.getCalorie(this.dailyData.morning.breakfast2);
+      //   await this.getCalorie(this.dailyData.morning.breakfast1);
+      //   await this.getCalorie(this.dailyData.morning.breakfast2);
         handProgress = handProgress + this.dailyData.morning.handMorning;
       }
       if (this.dailyData.afternoon) {
-        this.getCalorie(this.dailyData.afternoon.lunch1);
-        this.getCalorie(this.dailyData.afternoon.lunch2);
+      //   await this.getCalorie(this.dailyData.afternoon.lunch1);
+      //   await this.getCalorie(this.dailyData.afternoon.lunch2);
         handProgress = handProgress + this.dailyData.afternoon.handAfternoon;
       }
       if (this.dailyData.evening) {
-        this.getCalorie(this.dailyData.evening.dinner1);
-        this.getCalorie(this.dailyData.evening.dinner2);
-        this.getCalorie(this.dailyData.evening.dinner3);
+      //   await this.getCalorie(this.dailyData.evening.dinner1);
+      //   await this.getCalorie(this.dailyData.evening.dinner2);
+      //   await this.getCalorie(this.dailyData.evening.dinner3);
         handProgress = handProgress + this.dailyData.evening.handEvening;
         temperatureProgress =
           temperatureProgress + this.dailyData.evening.temperature;
@@ -432,10 +432,14 @@ export default {
         leisureProgress = leisureProgress + this.dailyData.evening.leisure;
         sportsProgress = sportsProgress + this.dailyData.evening.exercise;
       }
-      // const snapshot = await this.foodCalories.once('value');
-      // console.log(snapshot);
-      // const value = snapshot.val();
-      foodProgress = this.foodCalories.reduce((a, b) => a + b, 0);
+      // // const snapshot = await this.foodCalories.once('value');
+      // // console.log(snapshot);
+      // // const value = snapshot.val();
+      // foodProgress = this.foodCalories.reduce((a, b) => a + b, 0);
+      var foodProgress = await this.getAllCal().then(() => {
+        console.log(this.foodCalories.reduce((a, b) => a + b, 0))
+        return this.foodCalories.reduce((a, b) => a + b, 0)
+        });
       var sportsScore = Math.min(sportsProgress / this.goals.exercise, 1) * 100;
       var hygieneScore =
         Math.min(maskProgress / this.goals.mask, 1) * 50 +
@@ -477,6 +481,36 @@ export default {
           this.item.error = err.message;
         });
       console.log("Update score successfully");
+    },
+
+    // get all cal by adding cal of morn, afternoon and evening
+    async getAllCal() {
+      await this.morningCal();
+      await this.afternoonCal();
+      await this.eveningCal();
+      return this.foodCalories.reduce((a, b) => a + b, 0);
+    },
+
+    morningCal() {
+      if (this.dailyData.morning) {
+        this.getCalorie(this.dailyData.morning.breakfast1);
+        this.getCalorie(this.dailyData.morning.breakfast2);
+      }
+    },
+
+    afternoonCal() {
+      if (this.dailyData.afternoon) {
+        this.getCalorie(this.dailyData.afternoon.lunch1);
+        this.getCalorie(this.dailyData.afternoon.lunch2);
+      }
+    },
+
+    eveningCal() {
+      if (this.dailyData.evening) {
+        this.getCalorie(this.dailyData.evening.dinner1);
+        this.getCalorie(this.dailyData.evening.dinner2);
+        this.getCalorie(this.dailyData.evening.dinner3);
+      }
     },
 
     //method to get user daily goal from firebase
@@ -529,9 +563,10 @@ export default {
         .get()
         .then((querySnapShot) => {
           querySnapShot.forEach((doc) => {
-            // console.log(food);
-            // console.log(doc.data());
+            console.log(food);
+            //console.log(doc.data());
             this.foodCalories.push(doc.data().Kilocalories);
+            console.log(this.foodCalories)
           });
         });
       }
