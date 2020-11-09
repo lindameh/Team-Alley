@@ -23,6 +23,9 @@
             <n-button type="danger" class="float-right" v-on:click.prevent.once="deletePost" outline round>
               <i class="now-ui-icons ui-1_simple-remove"></i> Delete Post
             </n-button>
+            <n-button type="info" class="float-right" v-on:click.prevent.once="goToUpdate" outline round>
+              <i class="now-ui-icons arrows-1_cloud-upload-94"></i> Update Post
+            </n-button>
           </div>
         </div>
 
@@ -86,6 +89,9 @@ export default {
         .catch((err) => {
           console.log("Error removing documents: " + err)
       })
+    },
+    goToUpdate() {
+      this.$router.replace({ path: `/update/${this.$route.params.id}` });
     }
   },
 };
