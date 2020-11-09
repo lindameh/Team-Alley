@@ -100,8 +100,8 @@
 
         <h2 style="color: black">Food</h2>
         <h5 style="color: black">
-          Choose a level between our recommended range:
-          
+          Choose a level between our recommended range:{{ getdata2 }}
+          {{ data.calorieMin }} - {{ data.calorieMax }}
         </h5>
 
         <div class="form-group">
@@ -119,7 +119,6 @@
         </div>
 
         <button class="btn btn-primary btn-round" v-on:click.prevent="addItem">
-          
           SUBMIT
         </button>
       </form>
@@ -128,7 +127,9 @@
 </template>
 <script>
 //import { Tabs, TabPane } from '@/components';
-import auth, { database } from "../firebase.js";
+import { database, storage } from "../firebase.js";
+import firebase from "firebase";
+import auth from "../firebase.js";
 
 export default {
   name: "editgoal",
@@ -148,9 +149,44 @@ export default {
         calorie: "",
         hand: "",
       },
+      data: {},
     };
   },
+  computed: {
+    getdata2() {
+      this.getdata();
+      return null;
+    },
+  },
   methods: {
+    checkCalorie() {
+      if (this.item.calorie < this.data.calorieMin) {
+        return true;
+      } else if (this.item.calorie > this.data.calorieMax) {
+        return true;
+      } else {
+        return false;
+      }
+    },
+    getdata() {
+      database
+        .collection("Users")
+        .doc(auth.currentUser.email)
+        .get()
+        .then((doc) => {
+          this.data = doc.data();
+        })
+        .catch((err) => {
+          console.log("Error getting document:", err);
+        });
+    },
+    checkdata() {
+      if ("weight" in this.data) {
+        return false;
+      } else {
+        return true;
+      }
+    },
     addItem() {
       if (
         this.item.exercise == "" ||
@@ -162,8 +198,15 @@ export default {
         this.item.hand == ""
       ) {
         alert("Please fill in empty fields!");
+      } else if (this.checkdata()) {
+        alert("Please fill in your health data first for valid calorie range recommendation!");
+        this.$router.replace({ name: "editdata" });
+      } else if (this.checkCalorie()) {
+        alert(
+          "Your daily calorie goal is not within recommended range, please enter again!"
+        );
       } else {
-        console.log("User daily goals input");  
+        console.log("User daily goals input");
         database
           .collection("Users")
           .doc(auth.currentUser.email)
