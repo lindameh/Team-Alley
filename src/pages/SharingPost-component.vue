@@ -18,6 +18,12 @@
             <!-- <h3 class="col-md-12 ml-auto mr-auto text-justify">{{post.message}}</h3> -->
             <h3 class="col-md-12 ml-auto mr-auto text-justify">{{this.textbody}}</h3>
           </div>
+
+          <div v-if="name==this.post.username">
+            <n-button type="danger" class="float-right" v-on:click.prevent.once="deletePost" outline round>
+              <i class="now-ui-icons ui-1_simple-remove"></i> Delete Post
+            </n-button>
+          </div>
         </div>
 
         <div v-else class="container">
@@ -50,6 +56,13 @@ export default {
     },
     user() {
       return auth.currentUser;
+    },
+    name() {
+      var displayName;
+      if (this.user) {
+        displayName = this.user.displayName;
+      }
+      return displayName;
     }
   },
   methods: {
@@ -63,8 +76,22 @@ export default {
         .catch((err) => {
           console.log("Error getting documents: " + err)
       })
+    },
+    deletePost() {
+      database.collection('Posts').doc(this.$route.params.id).delete()
+        .then(() => {
+          console.log("doc deleted")
+          this.$router.replace({ name: "sharing" });
+        })
+        .catch((err) => {
+          console.log("Error removing documents: " + err)
+      })
     }
   },
 };
 </script>
-<style></style>
+<style scoped>
+.float-right {
+  float:right
+}
+</style>
