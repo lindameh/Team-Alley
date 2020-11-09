@@ -166,10 +166,10 @@ export default {
       alert("You have successfully submitted health data!");
     },
     checkCalorieGoal() {
-      if (".dailyTarget" in this.data) {
+      if ("dailyTarget" in this.data) {
         if (this.data.dailyTarget.calorie < this.item.calorieMin) {
           return true;
-        } else if (tthis.data.dailyTarget.calorie > this.data.calorieMax) {
+        } else if (this.data.dailyTarget.calorie > this.item.calorieMax) {
           return true;
         } else {
           return false;
@@ -229,7 +229,7 @@ export default {
         alert("Please fill in empty fields!");
       } else if (this.checkCalorieGoal()) {
         alert(
-          "Your current daily calorie goal is no longer withint our recommended range, please modify your daily goal!"
+          "Your current daily calorie goal is no longer within our recommended range, please modify your daily goal!"
         );
         this.writeData();
         this.$router.replace({ name: "editgoal" });

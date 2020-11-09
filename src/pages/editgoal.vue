@@ -181,7 +181,7 @@ export default {
         });
     },
     checkdata() {
-      if (".weight" in this.data) {
+      if ("weight" in this.data) {
         return false;
       } else {
         return true;
