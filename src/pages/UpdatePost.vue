@@ -10,16 +10,16 @@
                     <p>Title</p>
                     <fg-input
                         placeholder="Title"
-                        v-model="newPost.title"
+                        v-model="post.title"
                         required
                     >
                     </fg-input>
                     <p>Category</p>
                     <div class="row category">
-                        <n-checkbox class="col-md-3" v-model="newPost.sports">Sports</n-checkbox>
-                        <n-checkbox class="col-md-3" v-model="newPost.food">Food</n-checkbox>
-                        <n-checkbox class="col-md-3" v-model="newPost.wellness">Wellness</n-checkbox>
-                        <n-checkbox class="col-md-3" v-model="newPost.hygiene">Hygiene</n-checkbox>
+                        <n-checkbox class="col-md-3" v-model="post.sports">Sports</n-checkbox>
+                        <n-checkbox class="col-md-3" v-model="post.food">Food</n-checkbox>
+                        <n-checkbox class="col-md-3" v-model="post.wellness">Wellness</n-checkbox>
+                        <n-checkbox class="col-md-3" v-model="post.hygiene">Hygiene</n-checkbox>
                     </div>
                     <p>Content</p>
                     <div class="textarea-container">
@@ -28,15 +28,15 @@
                         name="name"
                         rows="10"
                         cols="100"
-                        v-model="newPost.message"
+                        v-model="post.message"
                         placeholder="Sharing is Caring"
                         required
                         ></textarea>
                     </div>
                     <div class="send-button">
                         <n-button type="primary" round block size="lg"
-                                  v-on:click.prevent="uploadNewPost"
-                        >Send Message</n-button
+                                  v-on:click.prevent="updatePost"
+                        >Update Post</n-button
                         >
                     </div>
                     </form>
@@ -55,8 +55,8 @@ import auth, { database, storage } from "../firebase.js";
 import moment from 'moment';
 
 export default {
-    name: 'newpost',
-    bodyClass: 'newpost-page',
+    name: 'updatepost',
+    bodyClass: 'updatepost-page',
     components: {
         [Button.name]: Button,
         [FormGroupInput.name]: FormGroupInput,
@@ -64,7 +64,7 @@ export default {
     },
     data() {
         return {
-            newPost: {
+            post: {
                 username: this.user,
                 userEmail: this.email,
                 time: '',
@@ -96,6 +96,10 @@ export default {
                 email = this.user.email;
             }
             return email;
+        },
+        getPhoto() {
+            this.photo()
+            return null;
         }
     },
     methods: {
@@ -105,10 +109,10 @@ export default {
                 .ref(this.user.photoURL)
                 .getDownloadURL()
                 .then((url) => {
-                    this.newPost.photoURL = url
+                    this.post.photoURL = url
                 })
                 .catch((err) => {
-                    this.newPost.error = err.message;
+                    this.post.error = err.message;
                 })
             }
         },
@@ -117,23 +121,23 @@ export default {
                 return moment(String(value)).format('DD/MM/YYYY hh:mm')
             }
         },
-        uploadNewPost() {
+        updatePost() {
             if (
-                this.newPost.title == "" ||
-                this.newPost.message == "" ||
-                !(this.newPost.sports || this.newPost.food || this.newPost.wellness || this.newPost.hygiene)
+                this.post.title == "" ||
+                this.post.message == "" ||
+                !(this.post.sports || this.post.food || this.post.wellness || this.post.hygiene)
             ) {
                 alert("Please fill in empty fields!");
             } else {
-                this.newPost.username = this.name;
-                this.newPost.userEmail = this.email;            
-                this.newPost.time = this.format_date(new Date());
+                this.post.username = this.name;
+                this.post.userEmail = this.email;            
+                this.post.time = this.format_date(new Date());
                 this.photo();
-                database.collection('Posts').add(this.newPost)
+                database.collection('Posts').doc(this.$route.params.id).update(this.post)
                     .then((result) => {
-                        console.log("New Post created");
-                        alert("New Post created");
-                        this.newPost = {
+                        console.log("Post Updated");
+                        alert("Post Updated successfully");
+                        this.post = {
                             username: '',
                             userEmail: '',
                             time: '',
@@ -148,13 +152,25 @@ export default {
                         this.error = null
                         this.$router.replace({ name: "sharing" });
                     }).catch((err) => {
-                        this.newPost.error = err.message;
+                        this.post.error = err.message;
                     });
             }
+        },
+        getPost() {
+            database.collection('Posts').doc(this.$route.params.id).get()
+                .then((doc) => {
+                    console.log(doc.data())
+                    console.log(this.post)
+                    this.post = doc.data()
+                })
+                .catch((err) => {
+                    this.post.error = err.message;
+                })
         }
     },
     created() {
         this.photo();
+        this.getPost();
     }
 };
 </script>
