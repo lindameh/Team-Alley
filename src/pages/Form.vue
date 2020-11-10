@@ -443,7 +443,8 @@ export default {
           wellnessScore: wellnessScore,
           foodScore: foodScore,
           overallScore: overallScore,
-          handTotal: handProgress
+          handTotal: handProgress,
+          calorieTotal: foodProgress
         })
         .catch((err) => {
           this.item.error = err.message;

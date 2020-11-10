@@ -47,16 +47,19 @@
             <sportsChart></sportsChart>
           </card>
           <card class="container">
-            <wellnessChart></wellnessChart>
+            <foodChart></foodChart>
+          </card>
+          <card class="container">
+            <hygieneChart></hygieneChart>
           </card>
         </div>
 
         <div class="col-md-6">
           <card class="container">
-            <foodChart></foodChart>
+            <calorieChart></calorieChart>
           </card>
           <card class="container">
-            <hygieneChart></hygieneChart>
+            <wellnessChart></wellnessChart>
           </card>
         </div>
       </div>
@@ -68,6 +71,7 @@ import sportsChart from "../charts/sportsChart.js";
 import hygieneChart from "../charts/hygieneChart.js";
 import wellnessChart from "../charts/wellnessChart.js";
 import foodChart from "../charts/foodChart.js";
+import calorieChart from "../charts/calorieChart.js";
 import { Progress, Card } from "@/components";
 import auth from "../firebase.js";
 import { database } from "../firebase.js";
@@ -81,7 +85,8 @@ export default {
     sportsChart,
     hygieneChart,
     wellnessChart,
-    foodChart
+    foodChart,
+    calorieChart
   },
   data() {
     return {
