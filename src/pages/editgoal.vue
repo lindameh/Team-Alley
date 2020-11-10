@@ -189,13 +189,13 @@ export default {
     },
     addItem() {
       if (
-        this.item.exercise == "" ||
-        this.item.work == "" ||
-        this.item.leisure == "" ||
-        this.item.mask == "" ||
-        this.item.temperature == "" ||
-        this.item.calorie == "" ||
-        this.item.hand == ""
+        this.item.exercise === "" ||
+        this.item.work === "" ||
+        this.item.leisure === "" ||
+        this.item.mask === "" ||
+        this.item.temperature === "" ||
+        this.item.calorie === "" ||
+        this.item.hand === ""
       ) {
         alert("Please fill in empty fields!");
       } else if (this.checkdata()) {

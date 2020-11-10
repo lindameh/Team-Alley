@@ -281,13 +281,13 @@ export default {
   methods: {
     format_date(value) {
       if (value) {
-        return moment(String(value)).format("DDMMYYYY");
+        return moment(String(value)).format("YYYYMMDD");
       }
     },
 
     addMorning() {
-      this.item.unique = String(moment(String(new Date())).format("DDMMYYYY"));
-      if (this.item.breakfast1 == "" || this.item.handMorning == "") {
+      this.item.unique = String(moment(String(new Date())).format("YYYYMMDD"));
+      if (this.item.handMorning === "") {
         alert("Please fill in empty fields!");
       } else {
         this.item.time = this.format_date(new Date());
@@ -320,7 +320,7 @@ export default {
 
     addAfternoon() {
       this.item.unique = String(moment(String(new Date())).format("DDMMYYYY"));
-      if (this.item.lunch1 == "" || this.item.handAfternoon == "") {
+      if ( this.item.handAfternoon === "") {
         alert("Please fill in empty fields!");
       } else {
         alert("You have successfully submitted afternoon log!");
@@ -352,13 +352,13 @@ export default {
     addEvening() {
       this.item.unique = String(moment(String(new Date())).format("DDMMYYYY"));
       if (
-        this.item.dinner1 == "" ||
-        this.item.handEvening == "" ||
-        this.item.exercise == "" ||
-        this.item.mask == "" ||
-        this.item.temperature == "" ||
-        this.item.leisure == "" ||
-        this.item.work == ""
+        
+        this.item.handEvening === "" ||
+        this.item.exercise === "" ||
+        this.item.mask === "" ||
+        this.item.temperature === "" ||
+        this.item.leisure === "" ||
+        this.item.work === ""
       ) {
         alert("Please fill in empty fields!");
       } else {
