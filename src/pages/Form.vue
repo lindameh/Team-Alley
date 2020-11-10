@@ -274,6 +274,7 @@ export default {
         mask: 0,
         unique: "",
       },
+      food: [],
       foodCalories: [],
       goals: {},
       dailyData: {},
@@ -402,28 +403,26 @@ export default {
     },
 
     //method to update score after user submit morning, afternoon or evening form
-    updateScore() {
-      var foodProgress = 0;
-      var handProgress = 0;
-      var temperatureProgress = 0;
-      var maskProgress = 0;
-      var workProgress = 0;
-      var leisureProgress = 0;
-      var sportsProgress = 0;
+    async updateScore() {
+      var foodProgress = 0, handProgress = 0, temperatureProgress = 0;
+      var maskProgress = 0, workProgress = 0, leisureProgress = 0, sportsProgress = 0;
+      // get morning data, if any
       if (this.dailyData.morning) {
-        this.getCalorie(this.dailyData.morning.breakfast1);
-        this.getCalorie(this.dailyData.morning.breakfast2);
+        this.food.push(this.dailyData.morning.breakfast1);
+        this.food.push(this.dailyData.morning.breakfast2);
         handProgress = handProgress + this.dailyData.morning.handMorning;
       }
+      // get afternoon data, if any
       if (this.dailyData.afternoon) {
-        this.getCalorie(this.dailyData.afternoon.lunch1);
-        this.getCalorie(this.dailyData.afternoon.lunch2);
+        this.food.push(this.dailyData.afternoon.lunch1);
+        this.food.push(this.dailyData.afternoon.lunch2);
         handProgress = handProgress + this.dailyData.afternoon.handAfternoon;
       }
+      // get evening data, if any
       if (this.dailyData.evening) {
-        this.getCalorie(this.dailyData.evening.dinner1);
-        this.getCalorie(this.dailyData.evening.dinner2);
-        this.getCalorie(this.dailyData.evening.dinner3);
+        this.food.push(this.dailyData.evening.dinner1);
+        this.food.push(this.dailyData.evening.dinner2);
+        this.food.push(this.dailyData.evening.dinner3);
         handProgress = handProgress + this.dailyData.evening.handEvening;
         temperatureProgress =
           temperatureProgress + this.dailyData.evening.temperature;
@@ -432,10 +431,22 @@ export default {
         leisureProgress = leisureProgress + this.dailyData.evening.leisure;
         sportsProgress = sportsProgress + this.dailyData.evening.exercise;
       }
-      // const snapshot = await this.foodCalories.once('value');
-      // console.log(snapshot);
-      // const value = snapshot.val();
+      // get food calories from firebase
+      for (var i = 0; i < this.food.length; i++) {
+        let ref = database
+          .collection("food_data")
+          .where("Description", ">=", this.food[i].toUpperCase())
+          .limit(1);
+        let allCalories = await ref.get();
+        for(const doc of allCalories.docs){
+          console.log(doc.data());
+          this.foodCalories.push(doc.data().Kilocalories);
+        }
+      } 
+      // calculate total food calories
       foodProgress = this.foodCalories.reduce((a, b) => a + b, 0);
+      console.log("food progress:",foodProgress);
+      // calculate scores
       var sportsScore = Math.min(sportsProgress / this.goals.exercise, 1) * 100;
       var hygieneScore =
         Math.min(maskProgress / this.goals.mask, 1) * 50 +
@@ -444,9 +455,10 @@ export default {
         Math.min(leisureProgress / this.goals.leisure, 1) * 50 +
         Math.min(temperatureProgress / this.goals.temperature, 1) * 50;
       var foodScore =
-        Math.min(Math.max(1 - Math.abs(this.totalCalories - this.goals.calorie) / this.goals.calorie, 0), 1) * 100;
+        Math.min(Math.max(1 - Math.abs(foodProgress - this.goals.calorie) / this.goals.calorie, 0), 1) * 100;
       var overallScore =
         (sportsScore + hygieneScore + wellnessScore + foodScore) / 4;
+      // save scores in daily collection for achievement page
       database
         .collection("Users")
         .doc(auth.currentUser.email)
@@ -462,6 +474,7 @@ export default {
         .catch((err) => {
           this.item.error = err.message;
         });
+      // save latest scores in user collection for leaderboard page
       database
         .collection("Users")
         .doc(auth.currentUser.email)
@@ -518,28 +531,11 @@ export default {
           this.newPost.error = err.message;
         });
     },
-
-    // method to get calories of food from firebase
-    getCalorie(food) {
-      if (food != "") {
-        database
-        .collection("food_data")
-        .where("Description", ">=", food.toUpperCase())
-        .limit(1)
-        .get()
-        .then((querySnapShot) => {
-          querySnapShot.forEach((doc) => {
-            // console.log(food);
-            // console.log(doc.data());
-            this.foodCalories.push(doc.data().Kilocalories);
-          });
-        });
-      }
-    },
   },
   created() {
     this.getGoals();
     this.getData();
+    // this.getCalorie("chocolate");
   },
 };
 </script>
