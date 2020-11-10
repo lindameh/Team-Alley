@@ -54,6 +54,13 @@ export default {
             food.push(doc.data().evening.dinner3)
           }
         })
+
+        var index = food.indexOf("");
+        while (index > -1) {
+          food.splice(index, 1);
+          index = food.indexOf("");
+        }
+
         var freq = []
         freq = this.freqCount(food)
         this.datacollection.labels = freq[0]
