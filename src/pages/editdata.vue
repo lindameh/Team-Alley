@@ -111,7 +111,6 @@
 import { database, storage } from "../firebase.js";
 import firebase from "firebase";
 import auth from "../firebase.js";
-
 export default {
   name: "editdata",
   bodyClass: "form-page",
@@ -200,7 +199,6 @@ export default {
       } else {
         this.item.l = 1.8;
       }
-
       if (this.item.gender == "FEMALE") {
         this.item.s = -161;
       } else {
@@ -253,7 +251,6 @@ form {
   height: 1500px;
   min-height: calc(100vh - 80px);
 }
-
 .form-control {
   height: 80%;
 }
