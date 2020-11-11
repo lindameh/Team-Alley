@@ -8,9 +8,7 @@
       ></div>
 
       <form>
-        <h2 class="greeting" style="color: black">
-          Good Morning!
-        </h2>
+        <h2 class="greeting" style="color: black">Good Morning!</h2>
         <div class="form-row">
           <div class="form-group col-md-4">
             <label for="inputBreakfast" style="color: black"
@@ -253,7 +251,7 @@ export default {
         email = this.user.email;
       }
       return email;
-    }
+    },
   },
   data() {
     return {
@@ -305,13 +303,17 @@ export default {
         alert(
           "Please make sure both health data and daily goals are filled before submitting for daily log"
         );
-        this.$router.replace({ name: "profile" });
+        this.$router.replace({ name: "achievement" });
       } else {
         this.item.unique = String(
           moment(String(new Date())).format("DDMMYYYY")
         );
         if (this.item.handMorning === "") {
           alert("Please fill in empty fields!");
+        } else if (this.item.handMorning < 0) {
+          alert(
+            "Input value cannot be negative. Please check again before submission!"
+          );
         } else {
           this.item.time = this.format_date(new Date());
           alert("You have successfully submitted morning log!");
@@ -341,7 +343,7 @@ export default {
             this.updateScore();
             this.item.flag = false;
             console.log("successful log morning data");
-            this.$router.replace({ name: "profile" });
+            this.$router.replace({ name: "achievement" });
           } else {
             console.log("first time inputting data today");
             database
@@ -362,7 +364,7 @@ export default {
               });
             this.updateScore();
             console.log("successful log morning data");
-            this.$router.replace({ name: "profile" });
+            this.$router.replace({ name: "achievement" });
           }
         }
       }
@@ -373,13 +375,17 @@ export default {
         alert(
           "Please make sure both health data and daily goals are filled before submitting for daily log"
         );
-        this.$router.replace({ name: "profile" });
+        this.$router.replace({ name: "achievement" });
       } else {
         this.item.unique = String(
           moment(String(new Date())).format("DDMMYYYY")
         );
         if (this.item.handAfternoon === "") {
           alert("Please fill in empty fields!");
+        } else if (this.item.handAfternoon < 0) {
+          alert(
+            "Input value  cannot be negative. Please check again before submission!"
+          );
         } else {
           alert("You have successfully submitted afternoon log!");
           this.dailyData.afternoon = {
@@ -407,7 +413,7 @@ export default {
             this.updateScore();
             this.item.flag = false;
             console.log("successful log afternoon data");
-            this.$router.replace({ name: "profile" });
+            this.$router.replace({ name: "achievement" });
           } else {
             console.log("first time inputting data today");
             database
@@ -427,7 +433,7 @@ export default {
               });
             this.updateScore();
             console.log("successful log afternoon data");
-            this.$router.replace({ name: "profile" });
+            this.$router.replace({ name: "achievement" });
           }
         }
       }
@@ -438,7 +444,7 @@ export default {
         alert(
           "Please make sure both health data and daily goals are filled before submitting for daily log"
         );
-        this.$router.replace({ name: "profile" });
+        this.$router.replace({ name: "achievement" });
       } else {
         this.item.unique = String(
           moment(String(new Date())).format("DDMMYYYY")
@@ -452,6 +458,17 @@ export default {
           this.item.work === ""
         ) {
           alert("Please fill in empty fields!");
+        } else if (
+          this.item.handEvening < 0 ||
+          this.item.exercise < 0 ||
+          this.item.mask < 0 ||
+          this.item.temperature < 0 ||
+          this.item.leisure < 0||
+          this.item.work < 0
+        ) {
+          alert(
+            "Input value cannot be negative. Please check again before submission!"
+          );
         } else {
           alert("You have successfully submitted evening log!");
           this.dailyData.evening = {
@@ -490,7 +507,7 @@ export default {
               });
             this.updateScore();
             console.log("successful log evening data");
-            this.$router.replace({ name: "profile" });
+            this.$router.replace({ name: "achievement" });
           } else {
             console.log("first time inputting data today");
             database
@@ -516,7 +533,7 @@ export default {
               });
             this.updateScore();
             console.log("successful log evening data");
-            this.$router.replace({ name: "profile" });
+            this.$router.replace({ name: "achievement" });
           }
         }
       }
@@ -524,8 +541,13 @@ export default {
 
     //method to update score after user submit morning, afternoon or evening form
     async updateScore() {
-      var foodProgress = 0, handProgress = 0, temperatureProgress = 0;
-      var maskProgress = 0, workProgress = 0, leisureProgress = 0, sportsProgress = 0;
+      var foodProgress = 0,
+        handProgress = 0,
+        temperatureProgress = 0;
+      var maskProgress = 0,
+        workProgress = 0,
+        leisureProgress = 0,
+        sportsProgress = 0;
       // get morning data, if any
       if (this.dailyData.morning) {
         this.food.push(this.dailyData.morning.breakfast1);
@@ -558,14 +580,14 @@ export default {
           .where("Description", ">=", this.food[i].toUpperCase())
           .limit(1);
         let allCalories = await ref.get();
-        for(const doc of allCalories.docs){
+        for (const doc of allCalories.docs) {
           console.log(doc.data());
           this.foodCalories.push(doc.data().Kilocalories);
         }
-      } 
+      }
       // calculate total food calories
       foodProgress = this.foodCalories.reduce((a, b) => a + b, 0);
-      console.log("food progress:",foodProgress);
+      console.log("food progress:", foodProgress);
       // calculate scores
       var sportsScore = Math.min(sportsProgress / this.goals.exercise, 1) * 100;
       var hygieneScore =
@@ -575,7 +597,14 @@ export default {
         Math.min(leisureProgress / this.goals.leisure, 1) * 50 +
         Math.min(temperatureProgress / this.goals.temperature, 1) * 50;
       var foodScore =
-        Math.min(Math.max(1 - Math.abs(foodProgress - this.goals.calorie) / this.goals.calorie, 0), 1) * 100;
+        Math.min(
+          Math.max(
+            1 -
+              Math.abs(foodProgress - this.goals.calorie) / this.goals.calorie,
+            0
+          ),
+          1
+        ) * 100;
       var overallScore =
         (sportsScore + hygieneScore + wellnessScore + foodScore) / 4;
       // save scores in daily collection for achievement page
@@ -591,7 +620,7 @@ export default {
           foodScore: foodScore,
           overallScore: overallScore,
           handTotal: handProgress,
-          calorieTotal: foodProgress
+          calorieTotal: foodProgress,
         })
         .catch((err) => {
           this.item.error = err.message;
@@ -657,7 +686,6 @@ export default {
           this.newPost.error = err.message;
         });
     },
-
   },
   created() {
     this.getGoals();

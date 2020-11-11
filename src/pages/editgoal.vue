@@ -198,8 +198,22 @@ export default {
         this.item.hand === ""
       ) {
         alert("Please fill in empty fields!");
+      } else if (
+        this.item.exercise < 0 ||
+        this.item.work < 0 ||
+        this.item.leisure < 0 ||
+        this.item.mask < 0 ||
+        this.item.temperature < 0 ||
+        this.item.calorie < 0 ||
+        this.item.hand < 0
+      ) {
+        alert(
+          "Input value cannot be negative. Please check again before submission!"
+        );
       } else if (this.checkdata()) {
-        alert("Please fill in your health data first for valid calorie range recommendation!");
+        alert(
+          "Please fill in your health data first for valid calorie range recommendation!"
+        );
         this.$router.replace({ name: "editdata" });
       } else if (this.checkCalorie()) {
         alert(
