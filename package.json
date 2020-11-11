@@ -7,7 +7,10 @@
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
     "start": "npm run serve",
-    "postinstall": "NODE_ENV=development && npm run client-install && npm run client-build && NODE_ENV=production"
+    "postinstall": "NODE_ENV=development && npm run client-install && npm run client-build && NODE_ENV=production",
+    "client": "npm start --prefix client",
+    "client-build": "npm run build --prefix client",
+    "client-install": "npm install --prefix client"
   },
   "dependencies": {
     "babel-eslint": "^10.1.0",
