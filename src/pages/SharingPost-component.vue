@@ -4,21 +4,29 @@
       <div class="section">
         <div v-if="user" class="container">
 
-          <div class="container">
-            <h1 class="p-3 mb-2 text-center"><strong>{{post.title}}</strong></h1>
-            
-            <div class="photo-container">
-              <img
-                id="profilePic"
-                v-bind:src="this.post.photoURL"
-                :key="profilePicKey"
-                alt=""
-              />
-            </div>
-            <h3 class="text-muted text-center">{{post.username}}</h3>
+          <div>
+            <card type="blog" style="width: 100%;" plain>
+              <img slot="image" class="img rounded img-raised " src="https://demos.creative-tim.com/vue-now-ui-kit-pro/img/project13.jpg">
+              <div class="card-body ml-auto mr-auto">
+                <h6 class="category text-warning">
+                  <i class="now-ui-icons business_bulb-63"></i> {{this.categories}}
+                </h6>
+                <div class="photo-container">
+                  <img
+                    class="profilePic"
+                    v-bind:src="this.post.photoURL"
+                    alt=""
+                  />
+                </div>
+                <p class="card-description text-center">{{post.username}}</p>
+                <p class="card-description text-center">{{post.time}}</p>
+                <h5 class="card-title">
+                  <h1 class="p-3 mb-2 text-center"><strong>{{post.title}}</strong></h1>
+                </h5>
+              </div>
+            </card>
           </div>
 
-          <p class="text-center">{{post.time}}</p>
           <div class="border border-warning">
             <!-- <h3 class="col-md-12 ml-auto mr-auto text-justify">{{post.message}}</h3> -->
             <h3 class="col-md-12 ml-auto mr-auto text-justify">{{this.textbody}}</h3>
@@ -28,7 +36,7 @@
             <n-button type="danger" class="float-right" v-on:click.prevent.once="deletePost" outline round>
               <i class="now-ui-icons ui-1_simple-remove"></i> Delete Post
             </n-button>
-            <n-button type="info" class="float-right ml-auto" v-on:click.prevent.once="goToUpdate" outline round>
+            <n-button type="info" class="float-right" v-on:click.prevent.once="goToUpdate" outline round>
               <i class="now-ui-icons arrows-1_cloud-upload-94"></i> Update Post
             </n-button>
           </div>
@@ -44,17 +52,20 @@
 <script>
 import { Button } from '@/components';
 import auth, { database } from "../firebase.js";
+import { Card } from '../components';
 
 export default {
   name: "post-body",
   bodyClass: "post-body-page",
   components: {
+    Card,
     [Button.name]: Button,
   },
   data() {
     return {
       post: {},
-      textbody: ""
+      textbody: "",
+      categories: ""
     };
   },
   computed: {
@@ -75,7 +86,11 @@ export default {
         .then((doc) => {
           this.post = doc.data()
           this.textbody = doc.data().message.replaceAll("\\n", "\n")
-          console.log(doc.data())
+          if (this.post.food == true) this.categories += "FOOD "
+          if (this.post.hygiene == true) this.categories += "HYGIENE "
+          if (this.post.sports == true) this.categories += "SPORTS "
+          if (this.post.wellness == true) this.categories += "WELLNESS "
+          console.log(this.categories)
         })
         .catch((err) => {
           console.log("Error getting documents: " + err)
@@ -104,7 +119,7 @@ export default {
 .float-right {
   float:right
 }
-img {
+.profilePic {
   border-radius: 50%;
   height: 15vh;
   width: 15vh;
