@@ -28,7 +28,7 @@
               type="number"
               class="form-control"
               id="inputAge"
-              v-model="item.age"
+              v-model.number="item.age"
               required
               placeholder="30"
             />
@@ -42,7 +42,7 @@
             class="form-control"
             id="inputTemperature"
             placeholder="170"
-            v-model="item.height"
+            v-model.number="item.height"
             required
           />
         </div>
@@ -53,7 +53,7 @@
             class="form-control"
             id="inputWeight"
             placeholder="60.0"
-            v-model="item.weight"
+            v-model.number="item.weight"
             required
           />
         </div>
@@ -83,7 +83,7 @@
             class="form-control"
             id="inputExerciseDuration"
             placeholder="60.0"
-            v-model="item.weightGoal"
+            v-model.number="item.weightGoal"
             required
           />
         </div>
@@ -111,7 +111,6 @@
 import { database, storage } from "../firebase.js";
 import firebase from "firebase";
 import auth from "../firebase.js";
-
 export default {
   name: "editdata",
   bodyClass: "form-page",
@@ -200,7 +199,6 @@ export default {
       } else {
         this.item.l = 1.8;
       }
-
       if (this.item.gender == "FEMALE") {
         this.item.s = -161;
       } else {
@@ -218,21 +216,23 @@ export default {
     addItem() {
       this.computeCal();
       if (
-        this.item.gender == "" ||
-        this.item.height == "" ||
-        this.item.weight == "" ||
-        this.item.pal == "" ||
-        this.item.weightGoal == "" ||
-        this.item.specialPhysicalCondition == "" ||
-        this.item.age == ""
+        this.item.gender === "" ||
+        this.item.height === "" ||
+        this.item.weight === "" ||
+        this.item.pal === "" ||
+        this.item.weightGoal === "" ||
+        this.item.specialPhysicalCondition === "" ||
+        this.item.age === ""
       ) {
         alert("Please fill in empty fields!");
       } else if (this.checkCalorieGoal()) {
         alert(
-          "Your current daily calorie goal is no longer within our recommended range, please modify your daily goal!"
+          "Your current daily calorie goal is no longer within our recommended range, you will be directed to goal page to modify your daily goal!"
         );
         this.writeData();
+        this.$router.replace({ name: "profile" });
         this.$router.replace({ name: "editgoal" });
+        
       } else {
         this.writeData();
         this.$router.replace({ name: "profile" });
@@ -251,7 +251,6 @@ form {
   height: 1500px;
   min-height: calc(100vh - 80px);
 }
-
 .form-control {
   height: 80%;
 }

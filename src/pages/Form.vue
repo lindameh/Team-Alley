@@ -8,12 +8,14 @@
       ></div>
 
       <form>
-        <h2 class="greeting" style="color: black">Good Morning!</h2>
+        <h2 class="greeting" style="color: black">
+          Good Morning!
+        </h2>
         <div class="form-row">
           <div class="form-group col-md-4">
             <label for="inputBreakfast" style="color: black"
-              >Breakfast Food #1*</label
-            >
+              >Breakfast Food #1*
+            </label>
             <input
               type="text"
               class="form-control"
@@ -273,6 +275,7 @@ export default {
         handEvening: 0,
         mask: 0,
         unique: "",
+        exist: "",
       },
       goals: {},
       dailyData: {},
@@ -281,122 +284,239 @@ export default {
   methods: {
     format_date(value) {
       if (value) {
-        return moment(String(value)).format("DDMMYYYY");
+        return moment(String(value)).format("YYYYMMDD");
       }
+    },
+    checkuser() {
+      if (this.dailyData) {
+        console.log("everything ready");
+        return false;
+      } else {
+        console.log("data not ready");
+        return true;
+      }
+      return null;
     },
 
     addMorning() {
-      this.item.unique = String(moment(String(new Date())).format("DDMMYYYY"));
-      if (this.item.breakfast1 == "" || this.item.handMorning == "") {
-        alert("Please fill in empty fields!");
+      if (this.checkuser()) {
+        alert(
+          "Please make sure both health data and daily goals are filled before submitting for daily log"
+        );
+        this.$router.replace({ name: "profile" });
       } else {
-        this.item.time = this.format_date(new Date());
-        alert("You have successfully submitted morning log!");
-        this.dailyData.morning = {
-          breakfast1: this.item.breakfast1,
-          breakfast2: this.item.breakfast2,
-          handMorning: this.item.handMorning,
-        };
-        database
-          .collection("Users")
-          .doc(auth.currentUser.email)
-          .collection("Daily")
-          .doc(this.item.unique)
-          .set({
-            time: this.item.time,
-            morning: {
-              breakfast1: this.item.breakfast1,
-              breakfast2: this.item.breakfast2,
-              handMorning: this.item.handMorning,
-            },
-          })
-          .catch((err) => {
-            this.item.error = err.message;
-          });
-        this.updateScore();
-        console.log("successful log morning data");
+        this.item.unique = String(
+          moment(String(new Date())).format("DDMMYYYY")
+        );
+        if (this.item.handMorning === "") {
+          alert("Please fill in empty fields!");
+        } else {
+          this.item.time = this.format_date(new Date());
+          alert("You have successfully submitted morning log!");
+          this.dailyData.morning = {
+            breakfast1: this.item.breakfast1,
+            breakfast2: this.item.breakfast2,
+            handMorning: this.item.handMorning,
+          };
+          if (this.item.exist) {
+            console.log("not first time inputting data today");
+            database
+              .collection("Users")
+              .doc(auth.currentUser.email)
+              .collection("Daily")
+              .doc(this.item.unique)
+              .update({
+                time: this.item.time,
+                morning: {
+                  breakfast1: this.item.breakfast1,
+                  breakfast2: this.item.breakfast2,
+                  handMorning: this.item.handMorning,
+                },
+              })
+              .catch((err) => {
+                this.item.error = err.message;
+              });
+            this.updateScore();
+            this.item.flag = false;
+            console.log("successful log morning data");
+            this.$router.replace({ name: "profile" });
+          } else {
+            console.log("first time inputting data today");
+            database
+              .collection("Users")
+              .doc(auth.currentUser.email)
+              .collection("Daily")
+              .doc(this.item.unique)
+              .set({
+                time: this.item.time,
+                morning: {
+                  breakfast1: this.item.breakfast1,
+                  breakfast2: this.item.breakfast2,
+                  handMorning: this.item.handMorning,
+                },
+              })
+              .catch((err) => {
+                this.item.error = err.message;
+              });
+            this.updateScore();
+            console.log("successful log morning data");
+            this.$router.replace({ name: "profile" });
+          }
+        }
       }
     },
 
     addAfternoon() {
-      this.item.unique = String(moment(String(new Date())).format("DDMMYYYY"));
-      if (this.item.lunch1 == "" || this.item.handAfternoon == "") {
-        alert("Please fill in empty fields!");
+      if (this.checkuser()) {
+        alert(
+          "Please make sure both health data and daily goals are filled before submitting for daily log"
+        );
+        this.$router.replace({ name: "profile" });
       } else {
-        alert("You have successfully submitted afternoon log!");
-        this.dailyData.afternoon = {
-          lunch1: this.item.lunch1,
-          lunch2: this.item.lunch2,
-          handAfternoon: this.item.handAfternoon,
-        };
-        database
-          .collection("Users")
-          .doc(auth.currentUser.email)
-          .collection("Daily")
-          .doc(this.item.unique)
-          .update({
-            afternoon: {
-              lunch1: this.item.lunch1,
-              lunch2: this.item.lunch2,
-              handAfternoon: this.item.handAfternoon,
-            },
-          })
-          .catch((err) => {
-            this.item.error = err.message;
-          });
-        this.updateScore();
-        console.log("successful log afternoon data");
+        this.item.unique = String(
+          moment(String(new Date())).format("DDMMYYYY")
+        );
+        if (this.item.handAfternoon === "") {
+          alert("Please fill in empty fields!");
+        } else {
+          alert("You have successfully submitted afternoon log!");
+          this.dailyData.afternoon = {
+            lunch1: this.item.lunch1,
+            lunch2: this.item.lunch2,
+            handAfternoon: this.item.handAfternoon,
+          };
+          if (this.item.exist) {
+            console.log("not first time inputting data today");
+            database
+              .collection("Users")
+              .doc(auth.currentUser.email)
+              .collection("Daily")
+              .doc(this.item.unique)
+              .update({
+                afternoon: {
+                  lunch1: this.item.lunch1,
+                  lunch2: this.item.lunch2,
+                  handAfternoon: this.item.handAfternoon,
+                },
+              })
+              .catch((err) => {
+                this.item.error = err.message;
+              });
+            this.updateScore();
+            this.item.flag = false;
+            console.log("successful log afternoon data");
+            this.$router.replace({ name: "profile" });
+          } else {
+            console.log("first time inputting data today");
+            database
+              .collection("Users")
+              .doc(auth.currentUser.email)
+              .collection("Daily")
+              .doc(this.item.unique)
+              .set({
+                afternoon: {
+                  lunch1: this.item.lunch1,
+                  lunch2: this.item.lunch2,
+                  handAfternoon: this.item.handAfternoon,
+                },
+              })
+              .catch((err) => {
+                this.item.error = err.message;
+              });
+            this.updateScore();
+            console.log("successful log afternoon data");
+            this.$router.replace({ name: "profile" });
+          }
+        }
       }
     },
 
     addEvening() {
-      this.item.unique = String(moment(String(new Date())).format("DDMMYYYY"));
-      if (
-        this.item.dinner1 == "" ||
-        this.item.handEvening == "" ||
-        this.item.exercise == "" ||
-        this.item.mask == "" ||
-        this.item.temperature == "" ||
-        this.item.leisure == "" ||
-        this.item.work == ""
-      ) {
-        alert("Please fill in empty fields!");
+      if (this.checkuser()) {
+        alert(
+          "Please make sure both health data and daily goals are filled before submitting for daily log"
+        );
+        this.$router.replace({ name: "profile" });
       } else {
-        alert("You have successfully submitted evening log!");
-        this.dailyData.evening = {
-          dinner1: this.item.dinner1,
-          dinner2: this.item.dinner2,
-          dinner3: this.item.dinner3,
-          handEvening: this.item.handEvening,
-          exercise: this.item.exercise,
-          work: this.item.work,
-          mask: this.item.mask,
-          temperature: this.item.temperature,
-          leisure: this.item.leisure,
-        };
-        database
-          .collection("Users")
-          .doc(auth.currentUser.email)
-          .collection("Daily")
-          .doc(this.item.unique)
-          .update({
-            evening: {
-              dinner1: this.item.dinner1,
-              dinner2: this.item.dinner2,
-              dinner3: this.item.dinner3,
-              handEvening: this.item.handEvening,
-              exercise: this.item.exercise,
-              work: this.item.work,
-              mask: this.item.mask,
-              temperature: this.item.temperature,
-              leisure: this.item.leisure,
-            },
-          })
-          .catch((err) => {
-            this.item.error = err.message;
-          });
-        this.updateScore();
-        console.log("successful log evening data");
+        this.item.unique = String(
+          moment(String(new Date())).format("DDMMYYYY")
+        );
+        if (
+          this.item.handEvening === "" ||
+          this.item.exercise === "" ||
+          this.item.mask === "" ||
+          this.item.temperature === "" ||
+          this.item.leisure === "" ||
+          this.item.work === ""
+        ) {
+          alert("Please fill in empty fields!");
+        } else {
+          alert("You have successfully submitted evening log!");
+          this.dailyData.evening = {
+            dinner1: this.item.dinner1,
+            dinner2: this.item.dinner2,
+            dinner3: this.item.dinner3,
+            handEvening: this.item.handEvening,
+            exercise: this.item.exercise,
+            work: this.item.work,
+            mask: this.item.mask,
+            temperature: this.item.temperature,
+            leisure: this.item.leisure,
+          };
+          if (this.item.exist) {
+            console.log("not first time inputting data today");
+            database
+              .collection("Users")
+              .doc(auth.currentUser.email)
+              .collection("Daily")
+              .doc(this.item.unique)
+              .update({
+                evening: {
+                  dinner1: this.item.dinner1,
+                  dinner2: this.item.dinner2,
+                  dinner3: this.item.dinner3,
+                  handEvening: this.item.handEvening,
+                  exercise: this.item.exercise,
+                  work: this.item.work,
+                  mask: this.item.mask,
+                  temperature: this.item.temperature,
+                  leisure: this.item.leisure,
+                },
+              })
+              .catch((err) => {
+                this.item.error = err.message;
+              });
+            this.updateScore();
+            console.log("successful log evening data");
+            this.$router.replace({ name: "profile" });
+          } else {
+            console.log("first time inputting data today");
+            database
+              .collection("Users")
+              .doc(auth.currentUser.email)
+              .collection("Daily")
+              .doc(this.item.unique)
+              .set({
+                evening: {
+                  dinner1: this.item.dinner1,
+                  dinner2: this.item.dinner2,
+                  dinner3: this.item.dinner3,
+                  handEvening: this.item.handEvening,
+                  exercise: this.item.exercise,
+                  work: this.item.work,
+                  mask: this.item.mask,
+                  temperature: this.item.temperature,
+                  leisure: this.item.leisure,
+                },
+              })
+              .catch((err) => {
+                this.item.error = err.message;
+              });
+            this.updateScore();
+            console.log("successful log evening data");
+            this.$router.replace({ name: "profile" });
+          }
+        }
       }
     },
 
@@ -428,11 +548,27 @@ export default {
         sportsProgress = sportsProgress + this.dailyData.evening.exercise;
       }
       var sportsScore = Math.min(sportsProgress / this.goals.exercise, 1) * 100;
-      var hygieneScore = Math.min(maskProgress / this.goals.mask, 1) * 50 + Math.min(handProgress / this.goals.hand, 1) * 50;
-      var wellnessScore = Math.min(leisureProgress / this.goals.leisure, 1) * 50 + Math.min(temperatureProgress / this.goals.temperature, 1) * 50;
-      var foodScore = Math.min(Math.max(1 - Math.abs(foodProgress - this.goals.calorie) / this.goals.calorie, 0), 1) * 100;
+      var hygieneScore =
+        Math.min(maskProgress / this.goals.mask, 1) * 50 +
+        Math.min(handProgress / this.goals.hand, 1) * 50;
+      var wellnessScore =
+        Math.min(leisureProgress / this.goals.leisure, 1) * 50 +
+        Math.min(temperatureProgress / this.goals.temperature, 1) * 50;
+      var foodScore =
+        Math.min(
+          Math.max(1 - Math.abs(foodProgress - this.goals.calorie) / this.goals.calorie, 0),
+          1
+        ) * 100;
       var overallScore =
         (sportsScore + hygieneScore + wellnessScore + foodScore) / 4;
+      console.log(sportsProgress)
+      console.log(foodProgress)
+      console.log(handProgress)
+      console.log(leisureProgress)
+      console.log(sportsScore)
+      console.log(foodScore)
+      console.log(wellnessScore)
+      console.log(hygieneScore)
       database
         .collection("Users")
         .doc(auth.currentUser.email)
@@ -454,12 +590,12 @@ export default {
         .collection("Users")
         .doc(auth.currentUser.email)
         .update({
-            sportsScore: sportsScore,
-            hygieneScore: hygieneScore,
-            wellnessScore: wellnessScore,
-            foodScore: foodScore,
-            overallScore: overallScore,
-            scoreDate: this.item.unique,
+          sportsScore: sportsScore,
+          hygieneScore: hygieneScore,
+          wellnessScore: wellnessScore,
+          foodScore: foodScore,
+          overallScore: overallScore,
+          scoreDate: this.item.unique,
         })
         .catch((err) => {
           this.item.error = err.message;
@@ -488,25 +624,30 @@ export default {
 
     // method to get user daily data from firebase
     getData() {
+      console.log("start checking whether current date document exists");
+      this.item.unique = String(moment(String(new Date())).format("DDMMYYYY"));
       database
         .collection("Users")
         .doc(this.email)
         .collection("Daily")
-        .doc(this.format_date(new Date()))
+        .doc(this.item.unique)
         .get()
         //database.collection("Users").doc(this.email).collection("Daily").doc("03112020").get()
         .then((doc) => {
           if (doc.exists) {
+            this.item.exist = true;
             this.dailyData = doc.data();
-            console.log("Get daily data successfully");
+            console.log("current date document exists");
           } else {
-            console.log("no daily data");
+            this.item.exist = false;
+            console.log("current date document does not exist");
           }
         })
         .catch((err) => {
           this.newPost.error = err.message;
         });
     },
+
   },
   created() {
     this.getGoals();
