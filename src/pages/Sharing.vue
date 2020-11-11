@@ -106,7 +106,8 @@ export default {
       sportsPostsList:[],
       foodPostsList:[],
       wellnessPostsList:[],
-      hygienePostsList:[]
+      hygienePostsList:[],
+      error: ""
     }
   },
   computed: {
@@ -140,9 +141,8 @@ export default {
           })
         })
         .catch((err) => {
-          console.log("Error getting documents: " + err)
+          this.error = err.message;
       })
-      console.log("Getting All Posts")
     },
   },
   created() {

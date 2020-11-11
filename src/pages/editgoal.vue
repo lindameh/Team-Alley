@@ -150,6 +150,7 @@ export default {
         hand: "",
       },
       data: {},
+      error: ""
     };
   },
   computed: {
@@ -177,7 +178,7 @@ export default {
           this.data = doc.data();
         })
         .catch((err) => {
-          console.log("Error getting document:", err);
+          this.error = err.message;
         });
     },
     checkdata() {
@@ -206,7 +207,6 @@ export default {
           "Your daily calorie goal is not within recommended range, please enter again!"
         );
       } else {
-        console.log("User daily goals input");
         database
           .collection("Users")
           .doc(auth.currentUser.email)

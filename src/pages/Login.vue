@@ -69,7 +69,6 @@ export default {
         .auth()
         .signInWithEmailAndPassword(this.email, this.password)
         .then((data) => {
-          console.log("login successfully");
           this.$router.replace({ name: "profile" });
         })
         .catch(err => {

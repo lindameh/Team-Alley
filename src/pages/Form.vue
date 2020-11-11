@@ -281,6 +281,7 @@ export default {
       foodCalories: [],
       goals: {},
       dailyData: {},
+      error: ""
     };
   },
   methods: {
@@ -606,12 +607,10 @@ export default {
         .then((doc) => {
           if (doc.exists) {
             this.goals = doc.data().dailyTarget;
-          } else {
-            console.log("no goal");
           }
         })
         .catch((err) => {
-          console.log("Error getting document:", err);
+          this.error = err.message;
         });
     },
 

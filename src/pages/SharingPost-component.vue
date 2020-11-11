@@ -75,7 +75,6 @@ export default {
         .then((doc) => {
           this.post = doc.data()
           this.textbody = doc.data().message.replaceAll("\\n", "\n")
-          console.log(doc.data())
         })
         .catch((err) => {
           this.error = err.message;

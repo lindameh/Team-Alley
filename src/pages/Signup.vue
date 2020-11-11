@@ -89,7 +89,6 @@ export default {
             })
             .then(() => {});
           data.user.sendEmailVerification().then(() => {});
-          console.log("signup successfully");
           alert("Sign up successfully! Please login.")
           this.$router.replace({ name: "login" });
         })
