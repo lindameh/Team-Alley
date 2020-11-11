@@ -1,15 +1,20 @@
 <template>
   
   <div>
-    {{get}}
       <div class="section">
         <div v-if="user" class="container">
 
           <div class="container">
-            <div class="photo-container">
-              <img v-bind:src="post.photo" alt="" />
-            </div>
             <h1 class="p-3 mb-2 text-center"><strong>{{post.title}}</strong></h1>
+            
+            <div class="photo-container">
+              <img
+                id="profilePic"
+                v-bind:src="this.post.photoURL"
+                :key="profilePicKey"
+                alt=""
+              />
+            </div>
             <h3 class="text-muted text-center">{{post.username}}</h3>
           </div>
 
@@ -19,11 +24,11 @@
             <h3 class="col-md-12 ml-auto mr-auto text-justify">{{this.textbody}}</h3>
           </div>
 
-          <div v-if="name==this.post.username">
+          <div v-if="name==this.post.username" class="buttons">
             <n-button type="danger" class="float-right" v-on:click.prevent.once="deletePost" outline round>
               <i class="now-ui-icons ui-1_simple-remove"></i> Delete Post
             </n-button>
-            <n-button type="info" class="float-right" v-on:click.prevent.once="goToUpdate" outline round>
+            <n-button type="info" class="float-right ml-auto" v-on:click.prevent.once="goToUpdate" outline round>
               <i class="now-ui-icons arrows-1_cloud-upload-94"></i> Update Post
             </n-button>
           </div>
@@ -53,10 +58,6 @@ export default {
     };
   },
   computed: {
-    get() {
-      this.getPost();
-      return null;
-    },
     user() {
       return auth.currentUser;
     },
@@ -94,10 +95,27 @@ export default {
       this.$router.replace({ path: `/update/${this.$route.params.id}` });
     }
   },
+  created() {
+    this.getPost();
+  }
 };
 </script>
 <style scoped>
 .float-right {
   float:right
+}
+img {
+  border-radius: 50%;
+  height: 15vh;
+  width: 15vh;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+.buttons {
+  margin-top: 10vh;
+}
+n-button {
+    margin-left: 10px;
 }
 </style>
