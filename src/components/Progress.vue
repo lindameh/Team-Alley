@@ -16,7 +16,7 @@
         :style="`width: ${value}%;`"
       >
         <slot>
-          <span class="progress-value" v-if="showValue"> {{ value }}% </span>
+          <span class="progress-value" v-if="showValue" style="font-size:14px;color:black"> {{ value }}% </span>
         </slot>
       </div>
     </div>

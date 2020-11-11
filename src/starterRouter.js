@@ -18,6 +18,7 @@ import editgoal from './pages/editgoal.vue'
 import Sharing from './pages/Sharing.vue'
 import NewPost from './pages/NewPost.vue'
 import SharingPost from './pages/SharingPost-component.vue'
+import UpdatePost from './pages/UpdatePost.vue'
 
 Vue.use(Router);
 
@@ -146,6 +147,16 @@ export default new Router({
       path: '/post/:id',
       name: 'post-body-page',
       components: {default: SharingPost, header: Navbar, footer: StarterFooter},
+      props: {
+        header: { colorOnScroll: 400 },
+        footer: { backgroundColor: 'black' }
+      }
+    },
+
+    {
+      path: '/update/:id',
+      name: 'updatepost',
+      components: {default: UpdatePost, header: Navbar, footer: StarterFooter},
       props: {
         header: { colorOnScroll: 400 },
         footer: { backgroundColor: 'black' }

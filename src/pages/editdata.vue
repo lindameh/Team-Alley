@@ -28,7 +28,7 @@
               type="number"
               class="form-control"
               id="inputAge"
-              v-model="item.age"
+              v-model.number="item.age"
               required
               placeholder="30"
             />
@@ -42,7 +42,7 @@
             class="form-control"
             id="inputTemperature"
             placeholder="170"
-            v-model="item.height"
+            v-model.number="item.height"
             required
           />
         </div>
@@ -53,7 +53,7 @@
             class="form-control"
             id="inputWeight"
             placeholder="60.0"
-            v-model="item.weight"
+            v-model.number="item.weight"
             required
           />
         </div>
@@ -83,7 +83,7 @@
             class="form-control"
             id="inputExerciseDuration"
             placeholder="60.0"
-            v-model="item.weightGoal"
+            v-model.number="item.weightGoal"
             required
           />
         </div>
@@ -101,15 +101,16 @@
           />
         </div>
         <button class="btn btn-primary btn-round" v-on:click.prevent="addItem">
-          SUBMIT
+          SUBMIT{{ getdata2 }}
         </button>
       </form>
     </div>
   </div>
 </template>
 <script>
-import auth, { database } from "../firebase.js";
-
+import { database, storage } from "../firebase.js";
+import firebase from "firebase";
+import auth from "../firebase.js";
 export default {
   name: "editdata",
   bodyClass: "form-page",
@@ -128,13 +129,66 @@ export default {
         calorieMax: 0,
         calorieMin: 0,
         l: 0,
-        s:0,
-        BMR:0,
-
+        s: 0,
+        BMR: 0,
       },
+      data: {},
     };
   },
+  computed: {
+    getdata2() {
+      this.getdata();
+      return null;
+    },
+  },
   methods: {
+    writeData() {
+      console.log("User health data input");
+      database
+        .collection("Users")
+        .doc(auth.currentUser.email)
+        .update({
+          gender: this.item.gender,
+          height: this.item.height,
+          weight: this.item.weight,
+          pal: this.item.pal,
+          weightGoal: this.item.weightGoal,
+          specialPhysicalCondition: this.item.specialPhysicalCondition,
+          age: this.item.age,
+          calorieMax: this.item.calorieMax,
+          calorieMin: this.item.calorieMin,
+          name: auth.currentUser.displayName,
+        })
+        .catch((err) => {
+          this.item.error = err.message;
+        });
+      alert("You have successfully submitted health data!");
+    },
+    checkCalorieGoal() {
+      if ("dailyTarget" in this.data) {
+        if (this.data.dailyTarget.calorie < this.item.calorieMin) {
+          return true;
+        } else if (this.data.dailyTarget.calorie > this.item.calorieMax) {
+          return true;
+        } else {
+          return false;
+        }
+      } else {
+        return false;
+      }
+    },
+    getdata() {
+      database
+        .collection("Users")
+        .doc(auth.currentUser.email)
+        .get()
+        .then((doc) => {
+          this.data = doc.data();
+        })
+        .catch((err) => {
+          console.log("Error getting document:", err);
+        });
+    },
     computeCal() {
       if (this.item.pal == "Sedentary (little or no exercise)") {
         this.item.l = 1.2;
@@ -145,7 +199,6 @@ export default {
       } else {
         this.item.l = 1.8;
       }
-
       if (this.item.gender == "FEMALE") {
         this.item.s = -161;
       } else {
@@ -157,42 +210,31 @@ export default {
           5 * this.item.age +
           this.item.s) *
         this.item.l;
-      this.item.calorieMax = this.item.BMR + 500;
-      this.item.calorieMin = this.item.BMR - 500;
+      this.item.calorieMax = Math.round(this.item.BMR + 500);
+      this.item.calorieMin = Math.round(this.item.BMR - 500);
     },
     addItem() {
+      this.computeCal();
       if (
-        this.item.gender == "" ||
-        this.item.height == "" ||
-        this.item.weight == "" ||
-        this.item.pal == "" ||
-        this.item.weightGoal == "" ||
-        this.item.specialPhysicalCondition == "" ||
-        this.item.age == ""
+        this.item.gender === "" ||
+        this.item.height === "" ||
+        this.item.weight === "" ||
+        this.item.pal === "" ||
+        this.item.weightGoal === "" ||
+        this.item.specialPhysicalCondition === "" ||
+        this.item.age === ""
       ) {
         alert("Please fill in empty fields!");
+      } else if (this.checkCalorieGoal()) {
+        alert(
+          "Your current daily calorie goal is no longer within our recommended range, you will be directed to goal page to modify your daily goal!"
+        );
+        this.writeData();
+        this.$router.replace({ name: "profile" });
+        this.$router.replace({ name: "editgoal" });
+        
       } else {
-        console.log("User health data input"); 
-        this.computeCal();
-        database
-          .collection("Users")
-          .doc(auth.currentUser.email)
-          .update({
-            gender: this.item.gender,
-            height: this.item.height,
-            weight: this.item.weight,
-            pal: this.item.pal,
-            weightGoal: this.item.weightGoal,
-            specialPhysicalCondition: this.item.specialPhysicalCondition,
-            age: this.item.age,
-            calorieMax: this.item.calorieMax,
-            calorieMin: this.item.calorieMin,
-            name: auth.currentUser.displayName,
-          })
-          .catch((err) => {
-            this.item.error = err.message;
-          });
-        alert("You have successfully submitted health data!");
+        this.writeData();
         this.$router.replace({ name: "profile" });
       }
     },
@@ -209,7 +251,6 @@ form {
   height: 1500px;
   min-height: calc(100vh - 80px);
 }
-
 .form-control {
   height: 80%;
 }
