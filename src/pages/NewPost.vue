@@ -131,7 +131,6 @@ export default {
                 this.photo();
                 database.collection('Posts').add(this.newPost)
                     .then((result) => {
-                        console.log("New Post created");
                         alert("New Post created");
                         this.newPost = {
                             username: '',

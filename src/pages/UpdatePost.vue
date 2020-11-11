@@ -135,7 +135,6 @@ export default {
                 this.photo();
                 database.collection('Posts').doc(this.$route.params.id).update(this.post)
                     .then((result) => {
-                        console.log("Post Updated");
                         alert("Post Updated successfully");
                         this.post = {
                             username: '',
@@ -159,8 +158,6 @@ export default {
         getPost() {
             database.collection('Posts').doc(this.$route.params.id).get()
                 .then((doc) => {
-                    console.log(doc.data())
-                    console.log(this.post)
                     this.post = doc.data()
                 })
                 .catch((err) => {

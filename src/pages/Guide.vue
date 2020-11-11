@@ -75,7 +75,7 @@
             ></textarea>
           </div>
           <div class="send-button">
-            <n-button type="primary" round block size="lg"
+            <n-button type="primary" round block size="lg" v-on:click.prevent="feedback"
               >Send Message</n-button
             >
           </div>
@@ -102,6 +102,11 @@ export default {
       },
     };
   },
+  methods: {
+    feedback() {
+      alert("Thank you for you feedback!")
+    }
+  }
 };
 </script>
 

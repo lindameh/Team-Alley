@@ -199,7 +199,6 @@ export default {
             photoURL: storageRef.fullPath,
           })
           .then(() => {
-            console.log("profile picture updated successfully");
             document.getElementById("photoInput").value = null;
             alert("Profile picture updated successfully.");
             this.profilePicKey += 1;
@@ -211,14 +210,12 @@ export default {
         this.user
           .updatePassword(this.newPassword)
           .then(() => {
-            console.log("password updated successfully");
             document.getElementById("passwordInput").value = null;
             alert("Password updated successfully. Please login again.");
             firebase
               .auth()
               .signOut()
               .then(() => {
-                console.log("logout successfully");
                 this.$router.replace({
                   name: "login",
                 });
@@ -238,7 +235,7 @@ export default {
           this.data = doc.data();
         })
         .catch((err) => {
-          console.log("Error getting document:", err);
+          this.error = err.message;
         });
     },
   },

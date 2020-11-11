@@ -291,10 +291,8 @@ export default {
     },
     checkuser() {
       if (this.dailyData) {
-        console.log("everything ready");
         return false;
       } else {
-        console.log("data not ready");
         return true;
       }
       return null;
@@ -321,7 +319,6 @@ export default {
             handMorning: this.item.handMorning,
           };
           if (this.item.exist) {
-            console.log("not first time inputting data today");
             database
               .collection("Users")
               .doc(auth.currentUser.email)
@@ -340,10 +337,8 @@ export default {
               });
             this.updateScore();
             this.item.flag = false;
-            console.log("successful log morning data");
             this.$router.replace({ name: "profile" });
           } else {
-            console.log("first time inputting data today");
             database
               .collection("Users")
               .doc(auth.currentUser.email)
@@ -361,7 +356,6 @@ export default {
                 this.item.error = err.message;
               });
             this.updateScore();
-            console.log("successful log morning data");
             this.$router.replace({ name: "profile" });
           }
         }
@@ -388,7 +382,6 @@ export default {
             handAfternoon: this.item.handAfternoon,
           };
           if (this.item.exist) {
-            console.log("not first time inputting data today");
             database
               .collection("Users")
               .doc(auth.currentUser.email)
@@ -406,10 +399,8 @@ export default {
               });
             this.updateScore();
             this.item.flag = false;
-            console.log("successful log afternoon data");
             this.$router.replace({ name: "profile" });
           } else {
-            console.log("first time inputting data today");
             database
               .collection("Users")
               .doc(auth.currentUser.email)
@@ -426,7 +417,6 @@ export default {
                 this.item.error = err.message;
               });
             this.updateScore();
-            console.log("successful log afternoon data");
             this.$router.replace({ name: "profile" });
           }
         }
@@ -466,7 +456,6 @@ export default {
             leisure: this.item.leisure,
           };
           if (this.item.exist) {
-            console.log("not first time inputting data today");
             database
               .collection("Users")
               .doc(auth.currentUser.email)
@@ -489,10 +478,8 @@ export default {
                 this.item.error = err.message;
               });
             this.updateScore();
-            console.log("successful log evening data");
             this.$router.replace({ name: "profile" });
           } else {
-            console.log("first time inputting data today");
             database
               .collection("Users")
               .doc(auth.currentUser.email)
@@ -515,7 +502,6 @@ export default {
                 this.item.error = err.message;
               });
             this.updateScore();
-            console.log("successful log evening data");
             this.$router.replace({ name: "profile" });
           }
         }
@@ -559,13 +545,11 @@ export default {
           .limit(1);
         let allCalories = await ref.get();
         for(const doc of allCalories.docs){
-          console.log(doc.data());
           this.foodCalories.push(doc.data().Kilocalories);
         }
       } 
       // calculate total food calories
       foodProgress = this.foodCalories.reduce((a, b) => a + b, 0);
-      console.log("food progress:",foodProgress);
       // calculate scores
       var sportsScore = Math.min(sportsProgress / this.goals.exercise, 1) * 100;
       var hygieneScore =
@@ -611,7 +595,6 @@ export default {
         .catch((err) => {
           this.item.error = err.message;
         });
-      console.log("Update score successfully");
     },
 
     //method to get user daily goal from firebase
@@ -623,7 +606,6 @@ export default {
         .then((doc) => {
           if (doc.exists) {
             this.goals = doc.data().dailyTarget;
-            console.log("Get goal successfully");
           } else {
             console.log("no goal");
           }
@@ -635,7 +617,6 @@ export default {
 
     // method to get user daily data from firebase
     getData() {
-      console.log("start checking whether current date document exists");
       this.item.unique = String(moment(String(new Date())).format("DDMMYYYY"));
       database
         .collection("Users")
@@ -647,10 +628,8 @@ export default {
           if (doc.exists) {
             this.item.exist = true;
             this.dailyData = doc.data();
-            console.log("current date document exists");
           } else {
             this.item.exist = false;
-            console.log("current date document does not exist");
           }
         })
         .catch((err) => {

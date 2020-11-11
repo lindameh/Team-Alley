@@ -143,7 +143,6 @@ export default {
   },
   methods: {
     writeData() {
-      console.log("User health data input");
       database
         .collection("Users")
         .doc(auth.currentUser.email)
@@ -186,7 +185,7 @@ export default {
           this.data = doc.data();
         })
         .catch((err) => {
-          console.log("Error getting document:", err);
+          this.item.error = err.message;
         });
     },
     computeCal() {
