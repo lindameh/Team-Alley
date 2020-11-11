@@ -522,7 +522,7 @@ export default {
       }
     },
 
-    //method to update score after user submit morning, afternoon or evening form
+    //method to update scores after user submit morning, afternoon or evening form
     async updateScore() {
       var foodProgress = 0, handProgress = 0, temperatureProgress = 0;
       var maskProgress = 0, workProgress = 0, leisureProgress = 0, sportsProgress = 0;
@@ -566,16 +566,43 @@ export default {
       // calculate total food calories
       foodProgress = this.foodCalories.reduce((a, b) => a + b, 0);
       console.log("food progress:",foodProgress);
-      // calculate scores
-      var sportsScore = Math.min(sportsProgress / this.goals.exercise, 1) * 100;
-      var hygieneScore =
-        Math.min(maskProgress / this.goals.mask, 1) * 50 +
-        Math.min(handProgress / this.goals.hand, 1) * 50;
-      var wellnessScore =
-        Math.min(leisureProgress / this.goals.leisure, 1) * 50 +
-        Math.min(temperatureProgress / this.goals.temperature, 1) * 50;
-      var foodScore =
-        Math.min(Math.max(1 - Math.abs(foodProgress - this.goals.calorie) / this.goals.calorie, 0), 1) * 100;
+      // calculate sports score
+      if (this.goals.exercise <= 0) {
+        var sportsScore = 0;
+      } else {
+        var sportsScore = Math.min(sportsProgress / this.goals.exercise, 1) * 100;
+      }
+      //calculate hygiene score
+      if (this.goals.mask <= 0) {
+        var maskScore = 0;
+      } else {
+        var maskScore = Math.min(maskProgress / this.goals.mask, 1) * 50;
+      }
+      if (this.goals.hand <= 0) {
+        var handScore = 0;
+      } else {
+        var handScore = Math.min(handProgress / this.goals.hand, 1) * 50;
+      }
+      var hygieneScore = maskScore + handScore;
+      //calculate wellness score
+      if (this.goals.leisure <= 0) {
+        var leisureScore = 0;
+      } else {
+        var leisureScore = Math.min(leisureProgress / this.goals.leisure, 1) * 50;
+      }
+      if (this.goals.temperature <= 0) {
+        var temperatureScore = 0;
+      } else {
+        var temperatureScore = Math.min(temperatureProgress / this.goals.temperature, 1) * 50;
+      }
+      var wellnessScore = leisureScore + temperatureScore;
+      //calculate food score
+      if (this.goals.calorie <= 0) {
+        var foodScore = 0;
+      } else {
+        var foodScore = Math.min(Math.max(1 - Math.abs(foodProgress - this.goals.calorie) / this.goals.calorie, 0), 1) * 100;
+      }
+      // calculate total score
       var overallScore =
         (sportsScore + hygieneScore + wellnessScore + foodScore) / 4;
       // save scores in daily collection for achievement page
@@ -596,7 +623,7 @@ export default {
         .catch((err) => {
           this.item.error = err.message;
         });
-      // save latest scores in user collection for leaderboard page
+      // save scores in user collection for leaderboard page
       database
         .collection("Users")
         .doc(auth.currentUser.email)
