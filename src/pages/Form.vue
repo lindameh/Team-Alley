@@ -9,7 +9,7 @@
 
       <form>
         <h2 class="greeting" style="color: black">
-          {{ getdata2 }}Good Morning! {{ getdoc2 }}
+          Good Morning!
         </h2>
         <div class="form-row">
           <div class="form-group col-md-4">
@@ -279,18 +279,7 @@ export default {
       },
       goals: {},
       dailyData: {},
-      data: {},
     };
-  },
-  computed: {
-    getdoc2() {
-      this.getdoc();
-      return null;
-    },
-    getdata2() {
-      this.getdata();
-      return null;
-    },
   },
   methods: {
     format_date(value) {
@@ -299,7 +288,7 @@ export default {
       }
     },
     checkuser() {
-      if ("dailyTarget" in this.data) {
+      if (this.dailyData) {
         console.log("everything ready");
         return false;
       } else {
@@ -308,46 +297,13 @@ export default {
       }
       return null;
     },
-    getdata() {
-      console.log("start getting user data");
-      database
-        .collection("Users")
-        .doc(auth.currentUser.email)
-        .get()
-        .then((doc) => {
-          this.data = doc.data();
-        })
-        .catch((err) => {
-          console.log("Error getting document:", err);
-        });
-    },
-    getdoc() {
-      console.log("start checking whether current date document exists");
-      this.item.unique = String(moment(String(new Date())).format("DDMMYYYY"));
-
-      const usersRef = database
-        .collection("Users")
-        .doc(auth.currentUser.email)
-        .collection("Daily")
-        .doc(this.item.unique);
-
-      usersRef.get().then((docSnapshot) => {
-        if (docSnapshot.exists) {
-          this.item.exist = true;
-          console.log("current date document exists");
-        } else {
-          this.item.exist = false;
-          console.log("current date document does not exist");
-        }
-      });
-    },
 
     addMorning() {
       if (this.checkuser()) {
         alert(
           "Please make sure both health data and daily goals are filled before submitting for daily log"
         );
-        //this.$router.replace({ name: "profile" });
+        this.$router.replace({ name: "profile" });
       } else {
         this.item.unique = String(
           moment(String(new Date())).format("DDMMYYYY")
@@ -383,7 +339,7 @@ export default {
             this.updateScore();
             this.item.flag = false;
             console.log("successful log morning data");
-            //this.$router.replace({ name: "profile" });
+            this.$router.replace({ name: "profile" });
           } else {
             console.log("first time inputting data today");
             database
@@ -404,7 +360,7 @@ export default {
               });
             this.updateScore();
             console.log("successful log morning data");
-            //this.$router.replace({ name: "profile" });
+            this.$router.replace({ name: "profile" });
           }
         }
       }
@@ -415,7 +371,7 @@ export default {
         alert(
           "Please make sure both health data and daily goals are filled before submitting for daily log"
         );
-        //this.$router.replace({ name: "profile" });
+        this.$router.replace({ name: "profile" });
       } else {
         this.item.unique = String(
           moment(String(new Date())).format("DDMMYYYY")
@@ -449,7 +405,7 @@ export default {
             this.updateScore();
             this.item.flag = false;
             console.log("successful log afternoon data");
-            //this.$router.replace({ name: "profile" });
+            this.$router.replace({ name: "profile" });
           } else {
             console.log("first time inputting data today");
             database
@@ -469,7 +425,7 @@ export default {
               });
             this.updateScore();
             console.log("successful log afternoon data");
-            //this.$router.replace({ name: "profile" });
+            this.$router.replace({ name: "profile" });
           }
         }
       }
@@ -480,7 +436,7 @@ export default {
         alert(
           "Please make sure both health data and daily goals are filled before submitting for daily log"
         );
-        //this.$router.replace({ name: "profile" });
+        this.$router.replace({ name: "profile" });
       } else {
         this.item.unique = String(
           moment(String(new Date())).format("DDMMYYYY")
@@ -532,7 +488,7 @@ export default {
               });
             this.updateScore();
             console.log("successful log evening data");
-            //this.$router.replace({ name: "profile" });
+            this.$router.replace({ name: "profile" });
           } else {
             console.log("first time inputting data today");
             database
@@ -558,7 +514,7 @@ export default {
               });
             this.updateScore();
             console.log("successful log evening data");
-            //this.$router.replace({ name: "profile" });
+            this.$router.replace({ name: "profile" });
           }
         }
       }
@@ -666,25 +622,30 @@ export default {
 
     // method to get user daily data from firebase
     getData() {
+      console.log("start checking whether current date document exists");
+      this.item.unique = String(moment(String(new Date())).format("DDMMYYYY"));
       database
         .collection("Users")
         .doc(this.email)
         .collection("Daily")
-        .doc(this.format_date(new Date()))
+        .doc(this.item.unique)
         .get()
         //database.collection("Users").doc(this.email).collection("Daily").doc("03112020").get()
         .then((doc) => {
           if (doc.exists) {
+            this.item.exist = true;
             this.dailyData = doc.data();
-            console.log("Get daily data successfully");
+            console.log("current date document exists");
           } else {
-            console.log("no daily data");
+            this.item.exist = false;
+            console.log("current date document does not exist");
           }
         })
         .catch((err) => {
           this.newPost.error = err.message;
         });
     },
+
   },
   created() {
     this.getGoals();
