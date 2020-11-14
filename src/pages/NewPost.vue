@@ -89,7 +89,7 @@ export default {
                 wellness: false,
                 hygiene: false,
                 photoURL: "",
-                bgRef: ""
+                bgRef: "postPicture/sharing-bg.jpg"
             },
             newPhoto: "",
             error: null
@@ -156,7 +156,7 @@ export default {
                 this.newPost.userEmail = this.email;
                 this.newPost.time = this.format_date(new Date());
                 this.photo();
-                this.addBgRef();
+                if (this.newPhoto) this.addBgRef();
                 database.collection('Posts').add(this.newPost)
                     .then((result) => {
                         console.log("New Post created");
