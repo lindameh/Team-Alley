@@ -114,7 +114,7 @@ export default {
         },
         format_date(value){
             if (value) {
-                return moment(String(value)).format('DD/MM/YYYY hh:mm')
+                return moment(String(value)).format('DD/MM/YYYY HH:mm')
             }
         },
         uploadNewPost() {
@@ -126,7 +126,7 @@ export default {
                 alert("Please fill in empty fields!");
             } else {
                 this.newPost.username = this.name;
-                this.newPost.userEmail = this.email;            
+                this.newPost.userEmail = this.email;
                 this.newPost.time = this.format_date(new Date());
                 this.photo();
                 database.collection('Posts').add(this.newPost)

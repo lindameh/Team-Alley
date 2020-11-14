@@ -28,8 +28,9 @@
           </div>
 
           <div class="border border-warning">
-            <!-- <h3 class="col-md-12 ml-auto mr-auto text-justify">{{post.message}}</h3> -->
-            <h3 class="col-md-12 ml-auto mr-auto text-justify">{{this.textbody}}</h3>
+            <h3>
+              <pre class="col-md-12 ml-auto mr-auto text-justify">{{this.textbody}}</pre>
+            </h3>
           </div>
 
           <div v-if="name==this.post.username" class="buttons">
