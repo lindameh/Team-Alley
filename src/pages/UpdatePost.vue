@@ -89,7 +89,7 @@ export default {
                 wellness: false,
                 hygiene: false,
                 photoURL: "",
-                bgRef: ""
+                bgRef: "postPicture/sharing-bg.jpg"
             },
             newPhoto: "",
             error: null
@@ -160,7 +160,7 @@ export default {
                 this.post.userEmail = this.email;            
                 this.post.time = this.format_date(new Date());
                 this.photo();
-                this.addBgRef();
+                if (this.newPhoto) this.addBgRef();
                 database.collection('Posts').doc(this.$route.params.id).update(this.post)
                     .then((result) => {
                         alert("Post Updated successfully");
