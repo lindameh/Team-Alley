@@ -20,6 +20,7 @@
         </span>
 
         <SharingCard 
+          id = 'card'
           v-for="post in allPostsList" 
           v-bind:key="post.id" 
           v-bind:post="post"></SharingCard>
@@ -32,6 +33,7 @@
         </span>
 
         <SharingCard 
+          id = 'card'
           v-for="post in sportsPostsList" 
           v-bind:key="post.id" 
           v-bind:post="post"></SharingCard>
@@ -44,6 +46,7 @@
         </span>
 
         <SharingCard 
+          id = 'card'
           v-for="post in foodPostsList" 
           v-bind:key="post.id" 
           v-bind:post="post"></SharingCard>
@@ -56,6 +59,7 @@
         </span>
 
         <SharingCard 
+          id = 'card'
           v-for="post in wellnessPostsList" 
           v-bind:key="post.id" 
           v-bind:post="post"></SharingCard>
@@ -68,6 +72,7 @@
         </span>
 
         <SharingCard 
+          id = 'card'
           v-for="post in hygienePostsList" 
           v-bind:key="post.id" 
           v-bind:post="post"></SharingCard>
@@ -173,5 +178,44 @@ export default {
 }
 .float-right {
   float:right
+}
+#card{
+    animation:flipInX .5s ease-in;
+}
+@-webkit-keyframes flipInX {
+  0% {
+    -webkit-transform: perspective(400px) rotate3d(1, 0, 0, 90deg);
+    transform: perspective(400px) rotate3d(1, 0, 0, 90deg);
+    -webkit-animation-timing-function: ease-in;
+    animation-timing-function: ease-in;
+    opacity: 0;
+  }
+
+  100% {
+    -webkit-transform: perspective(400px);
+    transform: perspective(400px);
+  }
+}
+
+@keyframes flipInX {
+  0% {
+    -webkit-transform: perspective(400px) rotate3d(1, 0, 0, 90deg);
+    transform: perspective(400px) rotate3d(1, 0, 0, 90deg);
+    -webkit-animation-timing-function: ease-in;
+    animation-timing-function: ease-in;
+    opacity: 0;
+  }
+  
+  100% {
+    -webkit-transform: perspective(400px);
+    transform: perspective(400px);
+  }
+}
+
+.flipInX {
+  -webkit-backface-visibility: visible !important;
+  backface-visibility: visible !important;
+  -webkit-animation-name: flipInX;
+  animation-name: flipInX;
 }
 </style>
