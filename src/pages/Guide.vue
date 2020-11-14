@@ -29,13 +29,18 @@
               <br><br>
               <img src="img/FillForm.gif">
               <br><br><br>
-              <li>
-                Track your daily & weekly progress in the ACHIEVEMENT page
-              </li>
+              <li>Track your daily & weekly progress in the ACHIEVEMENT page</li>
+              <br><br>
+              <img src="img/achievement.gif">
+              <br><br><br>
               <li>View top achievers in the LEADERBOARD page</li>
-              <li>
-                Share your experience with the community in the SHARING page
-              </li>
+              <br><br>
+              <img src="img/leaderboard.gif">
+              <br><br><br>
+              <li>Share your experience with the community in the SHARING page</li>
+              <br><br>
+              <img src="img/sharing.gif">
+              <br><br><br>
             </ol>
           </h5>
         </div>
@@ -52,14 +57,14 @@
         <div class="col-lg-6 text-center ml-auto mr-auto col-md-8">
           <fg-input
             class="input-lg"
-            placeholder="First Name..."
+            placeholder="How should we address you?"
             v-model="form.firstName"
             addon-left-icon="now-ui-icons users_circle-08"
           >
           </fg-input>
           <fg-input
             class="input-lg"
-            placeholder="Email Here..."
+            placeholder="Share your email with us so we can get back to you!"
             v-model="form.email"
             addon-left-icon="now-ui-icons ui-1_email-85"
           >
@@ -79,6 +84,7 @@
               >Send Message</n-button
             >
           </div>
+          <br><br><br><br><br>
         </div>
       </div>
     </div>
