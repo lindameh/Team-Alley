@@ -23,13 +23,12 @@
                 <p class="card-description text-left" id='element1'>{{post.username}}</p>
                 <p class="card-description text-left" id='element2'>{{post.time}}</p>
               </div>
+              <div v-if="this.post.bgRef">{{f}}</div>
+              <h4 class="test">
+                <pre class="col-md-12 ml-auto mr-auto text-justify">{{this.textbody}}</pre>
+              </h4>
             </card>
-          </div>
-            <div v-if="this.post.bgRef">{{f}}</div>
-          <div class="border border-warning">
-            <h4>
-              <pre class="col-md-12 ml-auto mr-auto text-justify">{{this.textbody}}</pre>
-            </h4>
+
           </div>
 
           <div v-if="name==this.post.username" class="buttons">
@@ -129,7 +128,6 @@ export default {
   },
   created() {
     this.getPost();
-    //this.bgPhoto();
   }
 };
 </script>
@@ -160,6 +158,9 @@ pre {
   white-space: -o-pre-wrap;
   word-wrap: break-word;
   font-family: Arial;
+}
+.test {
+  margin-top: 0px;
 }
 
 #element1 {display:inline-block;margin-right:3px; width:70px;} 
