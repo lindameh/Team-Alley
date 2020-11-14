@@ -81,7 +81,7 @@
             ></textarea>
           </div>
           <div class="send-button">
-            <n-button type="primary" round block size="lg" v-on:click.prevent="feedback"
+            <n-button type="primary" round block size="lg" v-on:click.prevent="submit"
               >Send Message</n-button
             >
           </div>
@@ -105,13 +105,18 @@ export default {
       form: {
         firstName: "",
         email: "",
-        message: "",
+        message: ""
       },
     };
   },
   methods: {
-    feedback() {
-      alert("Thank you for you feedback!")
+    submit() {
+      alert("Thank you for your question! We will get back to you shortly.")
+      this.form = {
+        firstName: "",
+        email: "",
+        message: ""
+      }
     }
   }
 };
