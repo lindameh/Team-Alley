@@ -46,20 +46,29 @@
           <card class="container">
             <sportsChart></sportsChart>
           </card>
-          <card class="container">
-            <foodChart></foodChart>
-          </card>
-          <card class="container">
-            <hygieneChart></hygieneChart>
-          </card>
         </div>
-
         <div class="col-md-6">
           <card class="container">
             <calorieChart></calorieChart>
           </card>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <card class="container">
+            <foodChart></foodChart>
+          </card>
+        </div>
+        <div class="col-md-6">
           <card class="container">
             <wellnessChart></wellnessChart>
+          </card>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+          <card class="container">
+            <hygieneChart></hygieneChart>
           </card>
         </div>
       </div>
@@ -86,7 +95,7 @@ export default {
     hygieneChart,
     wellnessChart,
     foodChart,
-    calorieChart
+    calorieChart,
   },
   data() {
     return {
