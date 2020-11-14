@@ -10,7 +10,7 @@
       <div class="content-center">
         <div class="container">
           <h1 class="h1-seo">The community for health enthusiasts</h1>
-          <h3>Track.Share.Achieve.</h3>
+          <h3>Track. Share. Achieve.</h3>
         </div>
       </div>
 

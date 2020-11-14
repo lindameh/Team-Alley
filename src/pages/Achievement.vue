@@ -2,9 +2,10 @@
   <div>
     <div class="section">
       <div class="container">
-        <h3 class="title">Progress to My Goal</h3>
+        <h1 class="title">Progress to My Goal</h1>
         <h3>{{ todayDate() }}</h3>
-        <h4>Sports</h4>
+        <i class="now-ui-icons sport_user-run"></i>
+        <h4 id='icon'>Sports</h4>
         <n-progress
           type="warning"
           :value="parseInt(sportsScore)"
@@ -12,7 +13,8 @@
           show-value
         >
         </n-progress>
-        <h4>Food</h4>
+        <i class="now-ui-icons shopping_basket"></i>
+        <h4 id='icon'>Food</h4>
         <n-progress
           type="primary"
           :value="parseInt(foodScore)"
@@ -20,7 +22,8 @@
           show-value
         >
         </n-progress>
-        <h4>Wellness</h4>
+        <i class="now-ui-icons ui-2_favourite-28"></i>
+        <h4 id='icon'>Wellness</h4>
         <n-progress
           type="info"
           :value="parseInt(wellnessScore)"
@@ -28,7 +31,8 @@
           show-value
         >
         </n-progress>
-        <h4>Hygiene</h4>
+        <i class="now-ui-icons media-2_sound-wave"></i>
+        <h4 id='icon'>Hygiene</h4>
         <n-progress
           type="success"
           :value="parseInt(hygieneScore)"
@@ -40,7 +44,7 @@
     </div>
 
     <div class="container">
-      <h3>Last Week</h3>
+      <h3>Your Last Week's Progress</h3>
       <div class="row">
         <div class="col-md-6">
           <card class="container">
@@ -152,4 +156,6 @@ export default {
   },
 };
 </script>
-<style></style>
+<style>
+#icon {display:inline-block; margin-left:5px; width:60px;}
+</style>
