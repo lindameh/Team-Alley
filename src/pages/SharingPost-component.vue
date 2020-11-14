@@ -11,25 +11,35 @@
                 <h6 class="category text-warning">
                   <i class="now-ui-icons business_bulb-63"></i> {{this.categories}}
                 </h6>
-                <div class="photo-container">
+                <!-- <div class="photo-container">
+                  <img
+                    class="profilePic"
+                    v-bind:src="this.post.photoURL"
+                    alt=""
+                  />
+                </div> -->
+                <!-- <h5 class="card-title"> -->
+                  <h1 class="p-3 mb-2 text-center"><strong>{{post.title}}</strong></h1>
+                <!-- </h5> -->
+                <div class="photo-container" id='element3'>
                   <img
                     class="profilePic"
                     v-bind:src="this.post.photoURL"
                     alt=""
                   />
                 </div>
-                <p class="card-description text-center">{{post.username}}</p>
-                <p class="card-description text-center">{{post.time}}</p>
-                <h5 class="card-title">
-                  <h1 class="p-3 mb-2 text-center"><strong>{{post.title}}</strong></h1>
-                </h5>
+                <p class="card-description text-left" id='element1'>{{post.username}}</p>
+                <p class="card-description text-left" id='element2'>{{post.time}}</p>
+                
               </div>
             </card>
           </div>
 
-          <div class="border border-warning">
+          <!-- <div class="border border-warning"> -->
+          <div>
             <!-- <h3 class="col-md-12 ml-auto mr-auto text-justify">{{post.message}}</h3> -->
-            <h3 class="col-md-12 ml-auto mr-auto text-justify">{{this.textbody}}</h3>
+            <!-- <h3 class="col-md-12 ml-auto mr-auto text-justify">{{this.textbody}}</h3> -->
+            <p>{{this.textbody}}</p>
           </div>
 
           <div v-if="name==this.post.username" class="buttons">
@@ -115,17 +125,18 @@ export default {
   }
 };
 </script>
+
 <style scoped>
 .float-right {
   float:right
 }
 .profilePic {
   border-radius: 50%;
-  height: 15vh;
-  width: 15vh;
+  height: 3vh;
+  width: 3vh;
   display: block;
-  margin-left: auto;
-  margin-right: auto;
+  /* margin-left: auto;
+  margin-right: auto; */
 }
 .buttons {
   margin-top: 10vh;
@@ -133,4 +144,9 @@ export default {
 n-button {
     margin-left: 10px;
 }
+
+#element1 {display:inline-block;margin-right:3px; width:70px;} 
+#element2 {display:inline-block; width:200px;}
+#element3 {display:inline-block; width:30px;}
+
 </style>
