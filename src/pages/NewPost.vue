@@ -32,6 +32,20 @@
                         placeholder="Sharing is Caring"
                         required
                         ></textarea>
+                    </div><br>
+                    <p>Add Post Picture</p>
+                    <div>
+                        <form class="form-inline">
+                            <input
+                                id="photoInput"
+                                type="file"
+                                class="form-control"
+                                accept="image/*"
+                                style="width: 100%"
+                                @change="chooseBgPic($event)"
+                                required
+                            />
+                        </form>
                     </div>
                     <div class="send-button">
                         <n-button type="primary" round block size="lg"
@@ -74,8 +88,10 @@ export default {
                 food: false,
                 wellness: false,
                 hygiene: false,
-                photoURL: ""
+                photoURL: "",
+                bgRef: "postPicture/sharing-bg.jpg"
             },
+            newPhoto: "",
             error: null
         };
     },
@@ -114,7 +130,18 @@ export default {
         },
         format_date(value){
             if (value) {
-                return moment(String(value)).format('DD/MM/YYYY hh:mm')
+                return moment(String(value)).format('DD/MM/YYYY HH:mm')
+            }
+        },    
+        chooseBgPic(e) {
+            var file = e.target.files[0];
+            this.newPhoto = file;
+        },
+        addBgRef() {
+            if (this.user) {
+                var storageRef = storage.ref("postPicture/" + this.newPhoto.name);
+                storageRef.put(this.newPhoto).then();
+                this.newPost.bgRef = storageRef.fullPath
             }
         },
         uploadNewPost() {
@@ -126,9 +153,10 @@ export default {
                 alert("Please fill in empty fields!");
             } else {
                 this.newPost.username = this.name;
-                this.newPost.userEmail = this.email;            
+                this.newPost.userEmail = this.email;
                 this.newPost.time = this.format_date(new Date());
                 this.photo();
+                if (this.newPhoto) this.addBgRef();
                 database.collection('Posts').add(this.newPost)
                     .then((result) => {
                         console.log("New Post created");
