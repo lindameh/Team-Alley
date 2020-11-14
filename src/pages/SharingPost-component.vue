@@ -109,17 +109,16 @@ export default {
           console.log(this.categories)
         })
         .catch((err) => {
-          console.log("Error getting documents: " + err)
+          this.error = err.message;
       })
     },
     deletePost() {
       database.collection('Posts').doc(this.$route.params.id).delete()
         .then(() => {
-          console.log("doc deleted")
           this.$router.replace({ name: "sharing" });
         })
         .catch((err) => {
-          console.log("Error removing documents: " + err)
+          this.error = err.message;
       })
     },
     goToUpdate() {
