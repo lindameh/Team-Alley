@@ -32,6 +32,11 @@ export default {
           display: true,
           text: 'How many times did I do protective measures during COVID?'
         },
+        scales: {
+          yAxes: [{
+            ticks: { beginAtZero: true }
+          }]
+        },
         responsive: true,
         maintainAspectRatio: false
       }
