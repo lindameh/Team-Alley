@@ -225,6 +225,15 @@ export default {
         this.item.age === ""
       ) {
         alert("Please fill in empty fields!");
+      } else if (
+        this.item.height <= 0 ||
+        this.item.weight <= 0 ||
+        this.item.weightGoal <= 0 ||
+        this.item.age <= 0
+      ) {
+        alert(
+          "Input value is not valid. Please check again before submission!"
+        );
       } else if (this.checkCalorieGoal()) {
         alert(
           "Your current daily calorie goal is no longer within our recommended range, you will be directed to goal page to modify your daily goal!"
@@ -232,7 +241,6 @@ export default {
         this.writeData();
         this.$router.replace({ name: "profile" });
         this.$router.replace({ name: "editgoal" });
-        
       } else {
         this.writeData();
         this.$router.replace({ name: "profile" });
