@@ -6,21 +6,14 @@
 
           <div>
             <card type="blog" style="width: 100%;" plain>
-              <img slot="image" class="img rounded img-raised " src="https://demos.creative-tim.com/vue-now-ui-kit-pro/img/project13.jpg">
+              <img id="bgPic" slot="image" class="img rounded img-raised" v-bind:src="this.bgURL" alt=""/>
+              <img v-if="!this.bgURL" slot="image" class="img rounded img-raised " 
+                src="https://demos.creative-tim.com/vue-now-ui-kit-pro/img/project13.jpg" alt="">
               <div class="card-body ml-auto mr-auto">
                 <h6 class="category text-warning">
                   <i class="now-ui-icons business_bulb-63"></i> {{this.categories}}
                 </h6>
-                <!-- <div class="photo-container">
-                  <img
-                    class="profilePic"
-                    v-bind:src="this.post.photoURL"
-                    alt=""
-                  />
-                </div> -->
-                <!-- <h5 class="card-title"> -->
                   <h1 class="p-3 mb-2 text-center"><strong>{{post.title}}</strong></h1>
-                <!-- </h5> -->
                 <div class="photo-container" id='element3'>
                   <img
                     class="profilePic"
@@ -30,15 +23,15 @@
                 </div>
                 <p class="card-description text-left" id='element1'>{{post.username}}</p>
                 <p class="card-description text-left" id='element2'>{{post.time}}</p>
-                
+                {{this.post.bgRef}}
               </div>
             </card>
           </div>
 
           <div class="border border-warning">
-            <h3>
+            <h4>
               <pre class="col-md-12 ml-auto mr-auto text-justify">{{this.textbody}}</pre>
-            </h3>
+            </h4>
           </div>
 
           <div v-if="name==this.post.username" class="buttons">
@@ -60,7 +53,7 @@
 </template>
 <script>
 import { Button } from '@/components';
-import auth, { database } from "../firebase.js";
+import auth, { database, storage } from "../firebase.js";
 import { Card } from '../components';
 
 export default {
@@ -74,7 +67,8 @@ export default {
     return {
       post: {},
       textbody: "",
-      categories: ""
+      categories: "",
+      bgURL: ""
     };
   },
   computed: {
@@ -87,9 +81,28 @@ export default {
         displayName = this.user.displayName;
       }
       return displayName;
-    }
+    },
+    f() {
+      this.bgPhoto();
+      return null;
+      }
   },
   methods: {
+    bgPhoto() {
+      console.log(this.post.bgRef)
+      storage
+        .ref(this.post.bgRef)
+        //.ref("postPicture/Photo4.jpeg")
+        .getDownloadURL()
+        .then((url) => {
+          this.bgURL = url;
+          console.log(url)
+          
+        })
+        .catch((err) => {
+          console.log(err.message)
+        });
+    },
     getPost() {
       database.collection('Posts').doc(this.$route.params.id).get()
         .then((doc) => {
@@ -121,6 +134,7 @@ export default {
   },
   created() {
     this.getPost();
+    //this.bgPhoto();
   }
 };
 </script>
@@ -141,7 +155,16 @@ export default {
   margin-top: 10vh;
 }
 n-button {
-    margin-left: 10px;
+  margin-left: 10px;
+}
+pre {
+  overflow-x: auto;
+  white-space: pre-wrap;
+  white-space: -moz-pre-wrap;
+  white-space: -pre-wrap;
+  white-space: -o-pre-wrap;
+  word-wrap: break-word;
+  font-family: Arial;
 }
 
 #element1 {display:inline-block;margin-right:3px; width:70px;} 
