@@ -3,7 +3,6 @@
   <div>
       <div class="section">
         <div v-if="user" class="container">
-
           <div>
             <card type="blog" style="width: 100%;" plain>
               <img id="bgPic" slot="image" class="img rounded img-raised" v-bind:src="this.bgURL" alt=""/>
@@ -23,11 +22,10 @@
                 </div>
                 <p class="card-description text-left" id='element1'>{{post.username}}</p>
                 <p class="card-description text-left" id='element2'>{{post.time}}</p>
-                {{this.post.bgRef}}
               </div>
             </card>
           </div>
-
+            <div v-if="this.post.bgRef">{{f}}</div>
           <div class="border border-warning">
             <h4>
               <pre class="col-md-12 ml-auto mr-auto text-justify">{{this.textbody}}</pre>
@@ -85,19 +83,16 @@ export default {
     f() {
       this.bgPhoto();
       return null;
-      }
+    }
   },
   methods: {
     bgPhoto() {
-      console.log(this.post.bgRef)
+      var ref = this.post.bgRef
       storage
-        .ref(this.post.bgRef)
-        //.ref("postPicture/Photo4.jpeg")
+        .ref(ref)
         .getDownloadURL()
         .then((url) => {
-          this.bgURL = url;
-          console.log(url)
-          
+          this.bgURL = url;          
         })
         .catch((err) => {
           console.log(err.message)
