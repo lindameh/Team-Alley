@@ -303,7 +303,7 @@ export default {
         alert(
           "Please make sure both health data and daily goals are filled before submitting for daily log"
         );
-        this.$router.replace({ name: "achievement" });
+        this.$router.replace({ name: "profile" });
       } else {
         this.item.unique = String(
           moment(String(new Date())).format("DDMMYYYY")
@@ -343,7 +343,7 @@ export default {
             this.updateScore();
             this.item.flag = false;
             console.log("successful log morning data");
-            this.$router.replace({ name: "achievement" });
+            this.$router.replace({ name: "profile" });
           } else {
             console.log("first time inputting data today");
             database
@@ -364,7 +364,7 @@ export default {
               });
             this.updateScore();
             console.log("successful log morning data");
-            this.$router.replace({ name: "achievement" });
+            this.$router.replace({ name: "profile" });
           }
         }
       }
@@ -375,7 +375,7 @@ export default {
         alert(
           "Please make sure both health data and daily goals are filled before submitting for daily log"
         );
-        this.$router.replace({ name: "achievement" });
+        this.$router.replace({ name: "profile" });
       } else {
         this.item.unique = String(
           moment(String(new Date())).format("DDMMYYYY")
@@ -413,7 +413,7 @@ export default {
             this.updateScore();
             this.item.flag = false;
             console.log("successful log afternoon data");
-            this.$router.replace({ name: "achievement" });
+            this.$router.replace({ name: "profile" });
           } else {
             console.log("first time inputting data today");
             database
@@ -433,7 +433,7 @@ export default {
               });
             this.updateScore();
             console.log("successful log afternoon data");
-            this.$router.replace({ name: "achievement" });
+            this.$router.replace({ name: "profile" });
           }
         }
       }
@@ -444,7 +444,7 @@ export default {
         alert(
           "Please make sure both health data and daily goals are filled before submitting for daily log"
         );
-        this.$router.replace({ name: "achievement" });
+        this.$router.replace({ name: "profile" });
       } else {
         this.item.unique = String(
           moment(String(new Date())).format("DDMMYYYY")
@@ -507,7 +507,7 @@ export default {
               });
             this.updateScore();
             console.log("successful log evening data");
-            this.$router.replace({ name: "achievement" });
+            this.$router.replace({ name: "profile" });
           } else {
             console.log("first time inputting data today");
             database
@@ -533,7 +533,7 @@ export default {
               });
             this.updateScore();
             console.log("successful log evening data");
-            this.$router.replace({ name: "achievement" });
+            this.$router.replace({ name: "profile" });
           }
         }
       }
