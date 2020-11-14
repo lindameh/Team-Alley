@@ -16,7 +16,7 @@
             alt=""
           />
         </div>
-        <h3 class="title">{{ name }}</h3>
+        <h3 class="title">Welcome {{ name }}!</h3>
       </div>
     </div>
 
@@ -91,8 +91,8 @@
                 >Input Health Data</router-link
               >
             </div>
-            <br />
-            <br />
+            <br>
+            <br>
             <div v-if="data.dailyTarget">
               <div class="row">
                 <h5>Daily Goals</h5>

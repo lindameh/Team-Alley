@@ -37,6 +37,7 @@ Quick start options:
 
 ## Documentation
 
+When using our app, DO NOT refresh the page after logging in as this will automatically log you out of our web application. If you accidentally refreshed the page, go to the Navigation Bar and log in again.
 
 
 ## File Structure

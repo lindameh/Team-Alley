@@ -1,25 +1,37 @@
 <template>
   
   <div>
-    {{get}}
       <div class="section">
         <div v-if="user" class="container">
+          <div>
+            <card type="blog" style="width: 100%;" plain>
+              <img id="bgPic" slot="image" class="img rounded img-raised" v-bind:src="this.bgURL" alt=""/>
+              <img v-if="!this.bgURL" slot="image" class="img rounded img-raised " 
+                src="https://demos.creative-tim.com/vue-now-ui-kit-pro/img/project13.jpg" alt="">
+              <div class="card-body ml-auto mr-auto">
+                <h6 class="category text-warning">
+                  <i class="now-ui-icons business_bulb-63"></i> {{this.categories}}
+                </h6>
+                  <h1 class="p-3 mb-2 text-center"><strong>{{post.title}}</strong></h1>
+                <div class="photo-container" id='element3'>
+                  <img
+                    class="profilePic"
+                    v-bind:src="this.post.photoURL"
+                    alt=""
+                  />
+                </div>
+                <p class="card-description text-left" id='element1'>{{post.username}}</p>
+                <p class="card-description text-left" id='element2'>{{post.time}}</p>
+              </div>
+              <div v-if="this.post.bgRef">{{f}}</div>
+              <h4 class="test">
+                <pre class="col-md-12 ml-auto mr-auto text-justify">{{this.textbody}}</pre>
+              </h4>
+            </card>
 
-          <div class="container">
-            <div class="photo-container">
-              <img v-bind:src="post.photo" alt="" />
-            </div>
-            <h1 class="p-3 mb-2 text-center"><strong>{{post.title}}</strong></h1>
-            <h3 class="text-muted text-center">{{post.username}}</h3>
           </div>
 
-          <p class="text-center">{{post.time}}</p>
-          <div class="border border-warning">
-            <!-- <h3 class="col-md-12 ml-auto mr-auto text-justify">{{post.message}}</h3> -->
-            <h3 class="col-md-12 ml-auto mr-auto text-justify">{{this.textbody}}</h3>
-          </div>
-
-          <div v-if="name==this.post.username">
+          <div v-if="name==this.post.username" class="buttons">
             <n-button type="danger" class="float-right" v-on:click.prevent.once="deletePost" outline round>
               <i class="now-ui-icons ui-1_simple-remove"></i> Delete Post
             </n-button>
@@ -38,26 +50,29 @@
 </template>
 <script>
 import { Button } from '@/components';
-import auth, { database } from "../firebase.js";
+import auth, { database, storage } from "../firebase.js";
+import { Card } from '../components';
 
 export default {
   name: "post-body",
   bodyClass: "post-body-page",
   components: {
+    Card,
     [Button.name]: Button,
   },
   data() {
     return {
       post: {},
       textbody: "",
+<<<<<<< HEAD
       error: "",
+=======
+      categories: "",
+      bgURL: ""
+>>>>>>> 5a09e49fb83f0172cd79d4fcef0bf223d0462446
     };
   },
   computed: {
-    get() {
-      this.getPost();
-      return null;
-    },
     user() {
       return auth.currentUser;
     },
@@ -67,14 +82,38 @@ export default {
         displayName = this.user.displayName;
       }
       return displayName;
+    },
+    f() {
+      this.bgPhoto();
+      return null;
     }
   },
   methods: {
+    bgPhoto() {
+      var ref = this.post.bgRef
+      storage
+        .ref(ref)
+        .getDownloadURL()
+        .then((url) => {
+          this.bgURL = url;          
+        })
+        .catch((err) => {
+          console.log(err.message)
+        });
+    },
     getPost() {
       database.collection('Posts').doc(this.$route.params.id).get()
         .then((doc) => {
           this.post = doc.data()
           this.textbody = doc.data().message.replaceAll("\\n", "\n")
+<<<<<<< HEAD
+=======
+          if (this.post.food == true) this.categories += "FOOD "
+          if (this.post.hygiene == true) this.categories += "HYGIENE "
+          if (this.post.sports == true) this.categories += "SPORTS "
+          if (this.post.wellness == true) this.categories += "WELLNESS "
+          console.log(this.categories)
+>>>>>>> 5a09e49fb83f0172cd79d4fcef0bf223d0462446
         })
         .catch((err) => {
           this.error = err.message;
@@ -93,10 +132,45 @@ export default {
       this.$router.replace({ path: `/update/${this.$route.params.id}` });
     }
   },
+  created() {
+    this.getPost();
+  }
 };
 </script>
+
 <style scoped>
 .float-right {
   float:right
 }
+.profilePic {
+  border-radius: 50%;
+  height: 3vh;
+  width: 3vh;
+  display: block;
+  /* margin-left: auto;
+  margin-right: auto; */
+}
+.buttons {
+  margin-top: 10vh;
+}
+n-button {
+  margin-left: 10px;
+}
+pre {
+  overflow-x: auto;
+  white-space: pre-wrap;
+  white-space: -moz-pre-wrap;
+  white-space: -pre-wrap;
+  white-space: -o-pre-wrap;
+  word-wrap: break-word;
+  font-family: Arial;
+}
+.test {
+  margin-top: 0px;
+}
+
+#element1 {display:inline-block;margin-right:3px; width:70px;} 
+#element2 {display:inline-block; width:200px;}
+#element3 {display:inline-block; width:30px;}
+
 </style>

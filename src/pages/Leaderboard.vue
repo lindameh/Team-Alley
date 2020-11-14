@@ -71,7 +71,7 @@
               <h4 class="Athlete__reps">Score</h4>
             </div>
 
-            <div class="Athlete" v-for="(user,index) in foodTop10" :key="user.id3">
+            <div class="Athlete" v-for="(user,index) in foodTop10" :key="user">
                 <div class="Athlete__rank"><h5 class="Athlete__rank">{{ index+1 }}</h5></div>
                 <h2 class="Athlete__name">{{user.name}}</h2>
                 <h4 class="Athlete__reps">{{user.foodScore.toFixed(0)}} </h4>
@@ -123,6 +123,9 @@
           </div>
           </tab-pane>
         </tabs>
+        <!-- <div>{{this.top10}}</div>
+        <br><br><br><br><br><br>
+        <div>{{this.datasets}}</div> -->
       </div>
     </div>
   </div>
@@ -151,14 +154,13 @@ export default {
     }
   },
   methods: {
-    fetchItems: function () {
-      database.collection('Users').get().then(querySnapShot => {
+    getAll: function(){
+      database.collection('Users').orderBy("overallScore",'desc').get().then(querySnapShot => {
         let data = [];
         querySnapShot.forEach(doc => { 
             data.push(doc.data())
         })
         this.datasets = data;
-        this.getAll();
         this.getTop();
         this.getSportsTop();
         this.getFoodTop();
@@ -166,86 +168,36 @@ export default {
         this.getHygieneTop();
       })
     },
-    getAll: function(){
-      database.collection('Users').get().then(querySnapShot => {
-        let data = [];
-        querySnapShot.forEach(doc => { 
-            data.push(doc.data())
-        })
-        this.datasets = data;
-      })
-    },
     getTop: function(){
-      var today = String(moment(String(new Date())).format("DDMMYYYY"));
-      var top = [];
+      let today = String(moment(String(new Date())).format("DDMMYYYY"));
+      let top = [];
       for (var i = 0; i < this.datasets.length; i++) {
         if (this.datasets[i].scoreDate == today){
-          console.log(this.datasets[i].scoreDate);
           top.push(this.datasets[i]);
         }
       }
-      this.top10 = top.sort((a, b) => (a.overallScore > b.overallScore));
+      top.sort(function(a, b){return (b.overallScore - a.overallScore)})
+      this.top10 = top;
     },
-    // getTop2: function(){
-    //   database.collection('Users').where('scoreDate','==',this.today).orderBy('overallScore','desc').limit(10).get().then(querySnapShot => {
-    //     let rank = [];
-    //     querySnapShot.forEach(doc => { 
-    //         rank.push(doc.data())
-    //     })
-    //     this.top10 = rank;
-    //   })
-    // },
     getSportsTop: function(){
-      this.sportsTop10 = this.top10.sort((a, b) => (a.sportsScore > b.sportsScore));
+      this.sportsTop10 = this.top10.slice();
+      this.sportsTop10 = this.sportsTop10.sort(function(a, b) {return b.sportsScore - a.sportsScore});
     },
-    // getSportsTop: function(){
-    //   database.collection('Users').orderBy('sportsScore','desc').limit(10).get().then(querySnapShot => {
-    //     let rank = [];
-    //     querySnapShot.forEach(doc => { 
-    //         rank.push(doc.data())
-    //     })
-    //     this.sportsTop10 = rank;
-    //   })
-    // },
     getWellnessTop: function(){
-      this.wellnessTop10 = this.top10.sort((a, b) => (a.wellnessScore > b.wellnessScore));
+      this.wellnessTop10 = this.top10.slice();
+      this.wellnessTop10 = this.wellnessTop10.sort(function(a, b) {return b.wellnessScore - a.wellnessScore;});
     },
-    // getWellnessTop: function(){
-    //   database.collection('Users').orderBy('wellnessScore','desc').limit(10).get().then(querySnapShot => {
-    //     let rank = [];
-    //     querySnapShot.forEach(doc => { 
-    //         rank.push(doc.data())
-    //     })
-    //     this.wellnessTop10 = rank;
-    //   })
-    // },
     getFoodTop: function(){
-      this.foodTop10 = this.top10.sort((a, b) => (a.foodScore > b.foodScore));
+      this.foodTop10 = this.top10.slice();
+      this.foodTop10 = this.foodTop10.sort(function(a, b) {return b.foodScore - a.foodScore;});
     },
-    // getFoodTop: function(){
-    //   database.collection('Users').orderBy('foodScore','desc').limit(10).get().then(querySnapShot => {
-    //     let rank = [];
-    //     querySnapShot.forEach(doc => { 
-    //         rank.push(doc.data())
-    //     })
-    //     this.foodTop10 = rank;
-    //   })
-    // },
     getHygieneTop: function(){
-      this.hygieneTop10 = this.top10.sort((a, b) => (a.hygieneScore > b.hygieneScore));
+      this.hygieneTop10 = this.top10.slice();
+      this.hygieneTop10 = this.hygieneTop10.sort(function(a, b) {return b.hygieneScore - a.hygieneScore;});
     }
-    // getHygieneTop: function(){
-    //   database.collection('Users').orderBy('hygieneScore','desc').limit(10).get().then(querySnapShot => {
-    //     let rank = [];
-    //     querySnapShot.forEach(doc => { 
-    //         rank.push(doc.data())
-    //     })
-    //     this.hygieneTop10 = rank;
-    //   })
-    // }
 	},
   created(){
-        this.fetchItems();
+        this.getAll();
   },
 }
 

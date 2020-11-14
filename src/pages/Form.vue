@@ -230,6 +230,7 @@
 <script>
 import auth, { database } from "../firebase.js";
 import moment from "moment";
+import VueSimpleAlert from "vue-simple-alert";
 
 export default {
   name: "dailyForm",
@@ -299,8 +300,8 @@ export default {
 
     addMorning() {
       if (this.checkuser()) {
-        alert(
-          "Please make sure both health data and daily goals are filled before submitting for daily log"
+        VueSimpleAlert.alert(
+          "Please make sure both health data and daily goals are filled before submitting for daily log","Error",'error'
         );
         this.$router.replace({ name: "profile" });
       } else {
@@ -308,14 +309,14 @@ export default {
           moment(String(new Date())).format("DDMMYYYY")
         );
         if (this.item.handMorning === "") {
-          alert("Please fill in empty fields!");
+          VueSimpleAlert.alert("Please fill in empty fields!");
         } else if (this.item.handMorning < 0) {
-          alert(
-            "Input value cannot be negative. Please check again before submission!"
+          VueSimpleAlert.alert(
+            "Input value cannot be negative. Please check again before submission!","Error",'error'
           );
         } else {
           this.item.time = this.format_date(new Date());
-          alert("You have successfully submitted morning log!");
+          VueSimpleAlert.confirm("You have successfully submitted morning log!", 'Success' ,'success' );
           this.dailyData.morning = {
             breakfast1: this.item.breakfast1,
             breakfast2: this.item.breakfast2,
@@ -367,8 +368,8 @@ export default {
 
     addAfternoon() {
       if (this.checkuser()) {
-        alert(
-          "Please make sure both health data and daily goals are filled before submitting for daily log"
+        VueSimpleAlert.alert(
+          "Please make sure both health data and daily goals are filled before submitting for daily log",'Error','error'
         );
         this.$router.replace({ name: "profile" });
       } else {
@@ -378,11 +379,11 @@ export default {
         if (this.item.handAfternoon === "") {
           alert("Please fill in empty fields!");
         } else if (this.item.handAfternoon < 0) {
-          alert(
-            "Input value  cannot be negative. Please check again before submission!"
+          VueSimpleAlert.alert(
+            "Input value  cannot be negative. Please check again before submission!",'Error','error'
           );
         } else {
-          alert("You have successfully submitted afternoon log!");
+          VueSimpleAlert.alert("You have successfully submitted afternoon log!",'Success','success');
           this.dailyData.afternoon = {
             lunch1: this.item.lunch1,
             lunch2: this.item.lunch2,
@@ -432,8 +433,8 @@ export default {
 
     addEvening() {
       if (this.checkuser()) {
-        alert(
-          "Please make sure both health data and daily goals are filled before submitting for daily log"
+        VueSimpleAlert.alert(
+          "Please make sure both health data and daily goals are filled before submitting for daily log",'Error','error'
         );
         this.$router.replace({ name: "profile" });
       } else {
@@ -448,7 +449,7 @@ export default {
           this.item.leisure === "" ||
           this.item.work === ""
         ) {
-          alert("Please fill in empty fields!");
+          VueSimpleAlert.alert("Please fill in empty fields!",'Error','error');
         } else if (
           this.item.handEvening < 0 ||
           this.item.exercise < 0 ||
@@ -457,11 +458,11 @@ export default {
           this.item.leisure < 0||
           this.item.work < 0
         ) {
-          alert(
-            "Input value cannot be negative. Please check again before submission!"
+          VueSimpleAlert.alert(
+            "Input value cannot be negative. Please check again before submission!",'Error','error'
           );
         } else {
-          alert("You have successfully submitted evening log!");
+          VueSimpleAlert.alert("You have successfully submitted evening log!",'Success','success');
           this.dailyData.evening = {
             dinner1: this.item.dinner1,
             dinner2: this.item.dinner2,
