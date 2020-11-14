@@ -64,12 +64,8 @@ export default {
     return {
       post: {},
       textbody: "",
-<<<<<<< HEAD
-      error: "",
-=======
       categories: "",
       bgURL: ""
->>>>>>> 5a09e49fb83f0172cd79d4fcef0bf223d0462446
     };
   },
   computed: {
@@ -106,14 +102,11 @@ export default {
         .then((doc) => {
           this.post = doc.data()
           this.textbody = doc.data().message.replaceAll("\\n", "\n")
-<<<<<<< HEAD
-=======
           if (this.post.food == true) this.categories += "FOOD "
           if (this.post.hygiene == true) this.categories += "HYGIENE "
           if (this.post.sports == true) this.categories += "SPORTS "
           if (this.post.wellness == true) this.categories += "WELLNESS "
           console.log(this.categories)
->>>>>>> 5a09e49fb83f0172cd79d4fcef0bf223d0462446
         })
         .catch((err) => {
           this.error = err.message;
