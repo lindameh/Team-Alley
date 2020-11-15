@@ -6,14 +6,13 @@ WeLife is a user-friendly web application, to connect like-minded health-conscio
 
 WeLife has 5 key functions that act as the cornerstone of our web application. They are:
 
+
+| Functions | Demo |
+| --- | --- |
 | Goal Setting | ![SetGoals Gif](public/img/SetGoals.gif) |
-| --- | --- |
 | Daily Input | ![FillForm Gif](public/img/FillForm.gif) |
-| --- | --- |
 | Achievement | ![Achievement Gif](public/img/achievement.gif) |
-| --- | --- |
 | Leaderboard | ![Leaderboard Gif](public/img/leaderboard.gif) |
-| --- | --- |
 | Sharing | ![Sharing Gif](public/img/sharing.gif) |
 
 ## Note
@@ -30,7 +29,7 @@ Quick start options:
 
 ## File Structure
 
-Within the download you'll find the following directories and files:
+The directories and files are as follows:
 
 ```
 WeLife
