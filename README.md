@@ -49,7 +49,7 @@ WeLife
 
 ## Browser Support
 
-At present, we support the last two versions of the following browsers:
+At present, we support the latest two versions of the following browsers:
 
 <img src="src/assets/github/chrome.png" width="64" height="64"> <img src="src/assets/github/firefox.png" width="64" height="64"> <img src="src/assets/github/edge.png" width="64" height="64"> <img src="src/assets/github/safari.png" width="64" height="64"> <img src="src/assets/github/opera.png" width="64" height="64">
 
