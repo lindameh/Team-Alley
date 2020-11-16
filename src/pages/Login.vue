@@ -11,7 +11,7 @@
         <!-- <div slot="header" class="logo-container"> -->
         <div slot="header">
           <!-- <img v-lazy="'img/WELIFE_icon.png'" alt="" /> -->
-          <h1>WELife</h1>
+          <h1>WELIFE</h1>
         </div>
         <div v-if="error" class="alert alert-danger">{{error}}</div>
         <form action="#" @submit.prevent="login">

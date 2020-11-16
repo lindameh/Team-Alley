@@ -18,12 +18,12 @@
           <h2 class="title">To get started:</h2>
           <h5>
             <ol>
-              <li>your health data & set up your daily goals in the PROFILE page</li>
+              <li>Input your health data & set up your daily goals in the PROFILE page</li>
               <br><br>
               <img src="img/SetGoals.gif">
               <br><br><br>
 
-              <li>Log your daily activities in the FORM page</li>
+              <li>Record your daily activities in the FORM page</li>
               <br><br>
               <img src="img/FillForm.gif">
               <br><br><br>
@@ -33,7 +33,7 @@
               <img src="img/achievement.gif">
               <br><br><br>
 
-              <li>View top achievers in the LEADERBOARD page</li>
+              <li>View top achievers in each category in the LEADERBOARD page</li>
               <br><br>
               <img src="img/leaderboard.gif">
               <br><br><br>

@@ -1,19 +1,26 @@
 <template>
 
   <navbar position="fixed" type="primary" menu-classes="ml-auto">
-    <template>
-      <router-link v-popover:popover1 class="navbar-brand" to="/">
-        WELife
+    <template v-if="user">
+      <router-link v-popover:popover1 class="navbar-brand" to="/home">
+        WELIFE
       </router-link>
 
     </template>
+    <template v-else>
+      <router-link v-popover:popover1 class="navbar-brand" to="/">
+        WELIFE
+      </router-link>
+
+    </template>
+
     <template v-if="user" slot="navbar-menu">
 
       <router-link class="nav-link" to="/achievement">Achievement</router-link>
       <router-link class="nav-link" to="/form">Form</router-link>
       <router-link class="nav-link" to="/leaderboard">Leaderboard</router-link>
       <router-link class="nav-link" to="/sharing">Sharing</router-link>
-      <router-link class="nav-link" to="/guide">User Guide</router-link>
+      <router-link class="nav-link" to="/guideLoggedIn">User Guide</router-link>
 
       <drop-down
         tag="li"
@@ -38,7 +45,8 @@
     <template v-else slot="navbar-menu">
       <router-link class="nav-link" to="/signup">Sign Up</router-link>
       <router-link class="nav-link" to="/login">Login</router-link>
-      <router-link class="nav-link" to="/guide">User Guide</router-link>
+      <router-link v-if="user" class="nav-link" to="/guideLoggedIn">User Guide</router-link>
+      <router-link v-else class="nav-link" to="/guide">User Guide</router-link>
     </template>
 
   </navbar>

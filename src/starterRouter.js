@@ -35,6 +35,16 @@ export default new Router({
     },
 
     {
+      path: '/home',
+      name: 'index',
+      components: {default: Starter, header: Navbar, footer: StarterFooter},
+      props: {
+        header: { colorOnScroll: 400 },
+        footer: { backgroundColor: 'black' }
+      }
+    },
+
+    {
       path: '/leaderboard',
       name: 'leaderboard',
       components: {default: Leaderboard, header: Navbar, footer: StarterFooter},
@@ -85,6 +95,16 @@ export default new Router({
 
     {
       path: '/guide',
+      name: 'guide',
+      components: {default: Guide, header: StarterNavbar, footer: StarterFooter},
+      props: {
+        header: { colorOnScroll: 400 },
+        footer: { backgroundColor: 'black' }
+      }
+    },
+
+    {
+      path: '/guideLoggedIn',
       name: 'guide',
       components: {default: Guide, header: Navbar, footer: StarterFooter},
       props: {
