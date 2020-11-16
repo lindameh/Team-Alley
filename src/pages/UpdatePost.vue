@@ -67,6 +67,7 @@
 import { Button, FormGroupInput, Checkbox } from '@/components';
 import auth, { database, storage } from "../firebase.js";
 import moment from 'moment';
+import VueSimpleAlert from "vue-simple-alert";
 
 export default {
     name: 'updatepost',
@@ -154,7 +155,7 @@ export default {
                 this.post.message == "" ||
                 !(this.post.sports || this.post.food || this.post.wellness || this.post.hygiene)
             ) {
-                alert("Please fill in empty fields!");
+                VueSimpleAlert.alert("Please fill in empty fields!",'','error');
             } else {
                 this.post.username = this.name;
                 this.post.userEmail = this.email;            
@@ -163,7 +164,8 @@ export default {
                 if (this.newPhoto) this.addBgRef();
                 database.collection('Posts').doc(this.$route.params.id).update(this.post)
                     .then((result) => {
-                        alert("Post Updated successfully");
+                        console.log("Post Updated");
+                        VueSimpleAlert.alert("Post Updated successfully",'','success');
                         this.post = {
                             username: '',
                             userEmail: '',

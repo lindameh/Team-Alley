@@ -136,6 +136,7 @@
 import { database, storage } from "../firebase.js";
 import firebase from "firebase";
 import auth from "../firebase.js";
+import VueSimpleAlert from "vue-simple-alert";
 
 export default {
   name: "editgoal",
@@ -207,7 +208,7 @@ export default {
         this.item.calorie === "" ||
         this.item.hand === ""
       ) {
-        alert("Please fill in empty fields!");
+        VueSimpleAlert.alert("Please fill in empty fields!",'','error');
       } else if (
         this.item.exercise < 0 ||
         this.item.work < 0 ||
@@ -217,17 +218,17 @@ export default {
         this.item.calorie < 0 ||
         this.item.hand < 0
       ) {
-        alert(
-          "Input value cannot be negative. Please check again before submission!"
+        VueSimpleAlert.alert(
+          "Input value cannot be negative. Please check again before submission!",'','error'
         );
       } else if (this.checkdata()) {
-        alert(
-          "Please fill in your health data first for valid calorie range recommendation!"
+        VueSimpleAlert.alert(
+          "Please fill in your health data first for valid calorie range recommendation!",'','error'
         );
         this.$router.replace({ name: "editdata" });
       } else if (this.checkCalorie()) {
-        alert(
-          "Your daily calorie goal is not within recommended range, please enter again!"
+        VueSimpleAlert.alert(
+          "Your daily calorie goal is not within the recommended range, please enter again!",'','error'
         );
       } else {
         database
@@ -247,7 +248,7 @@ export default {
           .catch((err) => {
             this.item.error = err.message;
           });
-        alert("You have successfully submitted daily goals!");
+        VueSimpleAlert.alert("You have successfully submitted daily goals!",'','success');
         this.$router.replace({ name: "profile" });
       }
     },

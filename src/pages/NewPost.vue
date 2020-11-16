@@ -67,6 +67,7 @@
 import { Button, FormGroupInput, Checkbox } from '@/components';
 import auth, { database, storage } from "../firebase.js";
 import moment from 'moment';
+import VueSimpleAlert from "vue-simple-alert";
 
 export default {
     name: 'newpost',
@@ -150,7 +151,7 @@ export default {
                 this.newPost.message == "" ||
                 !(this.newPost.sports || this.newPost.food || this.newPost.wellness || this.newPost.hygiene)
             ) {
-                alert("Please fill in empty fields!");
+                VueSimpleAlert.alert("Please fill in empty fields!",'','error');
             } else {
                 this.newPost.username = this.name;
                 this.newPost.userEmail = this.email;
@@ -159,7 +160,8 @@ export default {
                 if (this.newPhoto) this.addBgRef();
                 database.collection('Posts').add(this.newPost)
                     .then((result) => {
-                        alert("New Post created");
+                        console.log("New Post created");
+                        VueSimpleAlert.alert("",'New Post created','success');
                         this.newPost = {
                             username: '',
                             userEmail: '',
