@@ -4,7 +4,7 @@
 
     <div class="section">
 
-      <div class="container">
+      <div v-if="user" class="container">
 
         <br>
         <h2 class="line-text">Leaderboard</h2>
@@ -127,6 +127,10 @@
         <br><br><br><br><br><br>
         <div>{{this.datasets}}</div> -->
       </div>
+
+      <div v-else class="container">
+        <div class="alert alert-danger">Please log in first</div>
+      </div>
     </div>
   </div>
 </template>
@@ -134,7 +138,7 @@
 
 
 <script>
-import { database } from "../firebase.js"
+import auth, { database } from "../firebase.js"
 import { Tabs, TabPane } from '../components';
 import moment from "moment";
 
@@ -142,6 +146,11 @@ export default {
   components: {
     Tabs,
     TabPane
+  },
+  computed: {
+    user() {
+      return auth.currentUser;
+    }
   },
   data(){
     return{

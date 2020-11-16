@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="page-header page-header-small clear-filter">
+    <div v-if="user" class="page-header page-header-small clear-filter">
       <div
         class="page-header-image"
         style="background-image: url('img/bg5.jpg')"
@@ -20,8 +20,8 @@
       </div>
     </div>
 
-    <div style="padding-bottom: 50px">
-      <div v-if="user" class="container">
+    <div v-if="user" style="padding-bottom: 50px">
+      <div class="container">
         <div class="row">
           <div>
             <h3 class="title" style="text-align: left">Functions</h3>
@@ -130,8 +130,10 @@
           </div>
         </div>
       </div>
+    </div>
 
-      <div v-else class="container">
+    <div v-else class="section">
+      <div  class="container">
         <div class="alert alert-danger">Please log in first</div>
       </div>
     </div>

@@ -45,7 +45,8 @@
     <template v-else slot="navbar-menu">
       <router-link class="nav-link" to="/signup">Sign Up</router-link>
       <router-link class="nav-link" to="/login">Login</router-link>
-      <router-link class="nav-link" to="/guide">User Guide</router-link>
+      <router-link v-if="user" class="nav-link" to="/guideLoggedIn">User Guide</router-link>
+      <router-link v-else class="nav-link" to="/guide">User Guide</router-link>
     </template>
 
   </navbar>

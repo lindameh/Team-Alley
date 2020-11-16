@@ -26,7 +26,7 @@
                         <textarea
                         class="form-control"
                         name="name"
-                        rows="10"
+                        rows="50"
                         cols="100"
                         v-model="newPost.message"
                         placeholder="Sharing is Caring"

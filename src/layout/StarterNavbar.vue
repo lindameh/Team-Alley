@@ -2,7 +2,7 @@
 
   <navbar position="fixed" type="primary" menu-classes="ml-auto">
     <template>
-      <router-link v-popover:popover1 class="navbar-brand" to="/">WELife</router-link>
+      <router-link v-popover:popover1 class="navbar-brand" to="/">WELIFE</router-link>
 
     </template>
     <template slot="navbar-menu">

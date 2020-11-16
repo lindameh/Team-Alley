@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="section">
-      <div class="container">
+      <div v-if="user" class="container">
         <h1 class="title">Progress to My Goal</h1>
         <h3>{{ todayDate() }}</h3>
         <i class="now-ui-icons sport_user-run"></i>
@@ -43,7 +43,7 @@
       </div>
     </div>
 
-    <div class="container">
+    <div v-if="user" class="container">
       <h3>Your Last Week's Progress</h3>
       <div class="row">
         <div class="col-md-6">
@@ -76,6 +76,10 @@
           </card>
         </div>
       </div>
+    </div>
+
+    <div v-else class="container">
+      <div class="alert alert-danger">Please log in first</div>
     </div>
   </div>
 </template>
