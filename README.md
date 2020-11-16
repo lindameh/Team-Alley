@@ -36,14 +36,16 @@ WeLife
 |-- src
         |-- App.vue
         |-- main.js
-        |-- router.js
+        |-- starterRouter.js
+        |-- firebase.js
         |-- assets
         |   |-- fonts
         |   |-- scss
+        |-- charts (Charts for our dashboard)
         |-- components
         |-- directives
         |-- layout
-        |-- pages
+        |-- pages (All of our coded pages are here)
         |-- plugins
 ```
 
