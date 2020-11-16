@@ -62,6 +62,7 @@
 import { Card, Button, FormGroupInput } from "@/components";
 import firebase from "firebase";
 import auth, { database } from "../firebase.js";
+import VueSimpleAlert from "vue-simple-alert";
 
 export default {
   name: "signup",
@@ -93,7 +94,7 @@ export default {
             .then(() => {});
           data.user.sendEmailVerification().then(() => {});
           console.log("signup successfully");
-          alert("Sign up successfully! Please login.")
+          VueSimpleAlert.alert("Sign up successfully! Please login.",'','success')
           this.$router.replace({ name: "login" });
         })
         .catch((err) => {
