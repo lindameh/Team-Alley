@@ -93,6 +93,8 @@
 </template>
 <script>
 import { Button, FormGroupInput } from "@/components";
+import VueSimpleAlert from "vue-simple-alert";
+
 export default {
   name: "guide",
   bodyClass: "guide-page",
@@ -111,7 +113,7 @@ export default {
   },
   methods: {
     submit() {
-      alert("Thank you for your question! We will get back to you shortly.")
+      VueSimpleAlert.alert("Thank you for your question! We will get back to you shortly.")
       this.form = {
         firstName: "",
         email: "",

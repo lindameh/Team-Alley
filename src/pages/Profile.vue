@@ -143,6 +143,7 @@
 import auth from "../firebase.js";
 import { database, storage } from "../firebase.js";
 import firebase from "firebase";
+import VueSimpleAlert from "vue-simple-alert";
 
 export default {
   name: "profile",
@@ -203,7 +204,7 @@ export default {
           .then(() => {
             console.log("profile picture updated successfully");
             document.getElementById("photoInput").value = null;
-            alert("Profile picture updated successfully.");
+            VueSimpleAlert.alert("Profile picture updated successfully.",'','success');
             this.profilePicKey += 1;
           });
       }
@@ -215,7 +216,7 @@ export default {
           .then(() => {
             console.log("password updated successfully");
             document.getElementById("passwordInput").value = null;
-            alert("Password updated successfully. Please login again.");
+            VueSimpleAlert.alert("Password updated successfully. Please login again.",'','success');
             firebase
               .auth()
               .signOut()

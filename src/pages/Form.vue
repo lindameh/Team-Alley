@@ -388,7 +388,7 @@ export default {
           moment(String(new Date())).format("DDMMYYYY")
         );
         if (this.item.handAfternoon === "") {
-          alert("Please fill in empty fields!");
+          VueSimpleAlert.alert("Please fill in empty fields!");
         } else if (this.item.handAfternoon < 0) {
           VueSimpleAlert.alert(
             "Input value  cannot be negative. Please check again before submission!",'Error','error'
