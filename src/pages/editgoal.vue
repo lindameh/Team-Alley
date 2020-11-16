@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="page-header clear-filter" color="orange">
+    <div v-if="user" class="page-header clear-filter" color="orange">
       <div
         class="page-header-image"
         style="background-image: url('img/inputdata-bg.jpg'); opacity: 0.4"
@@ -123,6 +123,12 @@
         </button>
       </form>
     </div>
+
+    <div v-else class="section">
+      <div  class="container">
+        <div class="alert alert-danger">Please log in first</div>
+      </div>
+    </div>
   </div>
 </template>
 <script>
@@ -157,6 +163,9 @@ export default {
       this.getdata();
       return null;
     },
+    user() {
+      return auth.currentUser;
+    }
   },
   methods: {
     checkCalorie() {
