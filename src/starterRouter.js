@@ -35,6 +35,16 @@ export default new Router({
     },
 
     {
+      path: '/home',
+      name: 'index',
+      components: {default: Starter, header: Navbar, footer: StarterFooter},
+      props: {
+        header: { colorOnScroll: 400 },
+        footer: { backgroundColor: 'black' }
+      }
+    },
+
+    {
       path: '/leaderboard',
       name: 'leaderboard',
       components: {default: Leaderboard, header: Navbar, footer: StarterFooter},
