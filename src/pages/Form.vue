@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div v-if="user" class="page-header clear-filter" color="orange">
+    <div class="page-header clear-filter" color="orange">
       <div
         class="page-header-image"
         style="background-image: url('img/form-bg.jpg'); opacity: 0.5"
@@ -12,7 +12,7 @@
         <div class="form-row">
           <div class="form-group col-md-4">
             <label for="inputBreakfast" style="color: black"
-              >Breakfast Food #1*
+              >Breakfast Food #1* 
             </label>
             <input
               type="text"
@@ -53,7 +53,7 @@
           class="btn btn-primary btn-round"
           v-on:click.prevent="addMorning"
         >
-          Submit for Morning
+          Submit for Morning {{getdata2}}
         </button>
 
         <br /><br />
@@ -225,19 +225,12 @@
         </button>
       </form>
     </div>
-
-    <div v-else class="section">
-      <div class="container">
-        <div class="alert alert-danger">Please log in first</div>
-      </div>
-    </div>
   </div>
 </template>
 <script>
 import auth, { database } from "../firebase.js";
 import moment from "moment";
 import VueSimpleAlert from "vue-simple-alert";
-
 export default {
   name: "dailyForm",
   bodyClass: "form-page",
@@ -286,16 +279,35 @@ export default {
       foodCalories: [],
       goals: {},
       dailyData: {},
+      data:{},
     };
   },
+  computed: {
+    getdata2() {
+      this.getdata();
+      return null;
+    },
+  },
   methods: {
+    getdata() {
+      database
+        .collection("Users")
+        .doc(auth.currentUser.email)
+        .get()
+        .then((doc) => {
+          this.data = doc.data();
+        })
+        .catch((err) => {
+          console.log("Error getting document:", err);
+        });
+    },
     format_date(value) {
       if (value) {
         return moment(String(value)).format("YYYYMMDD");
       }
     },
     checkuser() {
-      if (this.dailyData) {
+      if ("dailyTarget" in this.data) {
         console.log("everything ready");
         return false;
       } else {
@@ -304,7 +316,6 @@ export default {
       }
       return null;
     },
-
     addMorning() {
       if (this.checkuser()) {
         VueSimpleAlert.alert(
@@ -376,7 +387,6 @@ export default {
         }
       }
     },
-
     addAfternoon() {
       if (this.checkuser()) {
         VueSimpleAlert.alert(
@@ -388,7 +398,7 @@ export default {
           moment(String(new Date())).format("DDMMYYYY")
         );
         if (this.item.handAfternoon === "") {
-          VueSimpleAlert.alert("Please fill in empty fields!");
+          alert("Please fill in empty fields!");
         } else if (this.item.handAfternoon < 0) {
           VueSimpleAlert.alert(
             "Input value  cannot be negative. Please check again before submission!",'Error','error'
@@ -445,7 +455,6 @@ export default {
         }
       }
     },
-
     addEvening() {
       if (this.checkuser()) {
         VueSimpleAlert.alert(
@@ -545,7 +554,6 @@ export default {
         }
       }
     },
-
     //method to update scores after user submit morning, afternoon or evening form
     async updateScore() {
       var foodProgress = 0,
@@ -594,7 +602,6 @@ export default {
       }
       // calculate total food calories
       foodProgress = this.foodCalories.reduce((a, b) => a + b, 0);
-
       console.log("food progress:",foodProgress);
       // calculate sports score
       if (this.goals.exercise <= 0) {
@@ -670,7 +677,6 @@ export default {
         });
       console.log("Update score successfully");
     },
-
     //method to get user daily goal from firebase
     getGoals() {
       database
@@ -689,7 +695,6 @@ export default {
           console.log("Error getting document:", err);
         });
     },
-
     // method to get user daily data from firebase
     getData() {
       console.log("start checking whether current date document exists");

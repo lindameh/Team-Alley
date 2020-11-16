@@ -107,7 +107,7 @@
     </div>
 
     <div v-else class="section">
-      <div  class="container">
+      <div class="container">
         <div class="alert alert-danger">Please log in first</div>
       </div>
     </div>
@@ -150,7 +150,7 @@ export default {
     },
     user() {
       return auth.currentUser;
-    }
+    },
   },
   methods: {
     writeData() {
@@ -173,7 +173,11 @@ export default {
         .catch((err) => {
           this.item.error = err.message;
         });
-      VueSimpleAlert.alert("You have successfully submitted health data!",'','success');
+      VueSimpleAlert.alert(
+        "You have successfully submitted health data!",
+        "",
+        "success"
+      );
     },
     checkCalorieGoal() {
       if ("dailyTarget" in this.data) {
@@ -235,7 +239,7 @@ export default {
         this.item.specialPhysicalCondition === "" ||
         this.item.age === ""
       ) {
-        VueSimpleAlert.alert("Please fill in empty fields!",'','error');
+        VueSimpleAlert.alert("Please fill in empty fields!", "", "error");
       } else if (
         this.item.height <= 0 ||
         this.item.weight <= 0 ||
@@ -243,11 +247,15 @@ export default {
         this.item.age <= 0
       ) {
         VueSimpleAlert.alert(
-          "Input value is not valid. Please check again before submission!",'','error'
+          "Input value is not valid. Please check again before submission!",
+          "",
+          "error"
         );
       } else if (this.checkCalorieGoal()) {
-        VueSimpleAlert.alert(
-          "Your current daily calorie goal is no longer within our recommended range, you will be directed to goal page to modify your daily goal!",'','error'
+        alert(
+          "Your current daily calorie goal is no longer within our recommended range, you will be directed to goal page to modify your daily goal!",
+          "",
+          "error"
         );
         this.writeData();
         this.$router.replace({ name: "profile" });
