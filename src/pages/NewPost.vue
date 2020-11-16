@@ -5,7 +5,7 @@
 
                 <div v-if="error" class="alert alert-danger">{{error}}</div>
 
-                <div class="col-lg-6 text-center ml-auto mr-auto col-md-8" style="margin-top:10vh">
+                <div class="col-lg-8 text-center ml-auto mr-auto col-md-8" style="margin-top:10vh">
                     <form>
                     <p>Title</p>
                     <fg-input
@@ -22,11 +22,11 @@
                         <n-checkbox class="col-md-3" v-model="newPost.hygiene">Hygiene</n-checkbox>
                     </div>
                     <p>Content</p>
-                    <div class="textarea-container">
+                    <div class="textarea-container" style="height:20vh">
                         <textarea
                         class="form-control"
                         name="name"
-                        rows="50"
+                        rows="20"
                         cols="100"
                         v-model="newPost.message"
                         placeholder="Sharing is Caring"
