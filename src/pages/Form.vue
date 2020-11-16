@@ -225,19 +225,17 @@
         </button>
       </form>
     </div>
-
-    <div v-else class="section">
-      <div class="container">
-        <div class="alert alert-danger">Please log in first</div>
-      </div>
-    </div>
+     <div v-else class="section">
+       <div class="container">
+         <div class="alert alert-danger">Please log in first</div>
+       </div>
+     </div>
   </div>
 </template>
 <script>
 import auth, { database } from "../firebase.js";
 import moment from "moment";
 import VueSimpleAlert from "vue-simple-alert";
-
 export default {
   name: "dailyForm",
   bodyClass: "form-page",
@@ -286,16 +284,29 @@ export default {
       foodCalories: [],
       goals: {},
       dailyData: {},
+      data: {},
     };
   },
   methods: {
+    getdata() {
+      database
+        .collection("Users")
+        .doc(auth.currentUser.email)
+        .get()
+        .then((doc) => {
+          this.data = doc.data();
+        })
+        .catch((err) => {
+          console.log("Error getting document:", err);
+        });
+    },
     format_date(value) {
       if (value) {
         return moment(String(value)).format("YYYYMMDD");
       }
     },
     checkuser() {
-      if (this.dailyData) {
+      if ("dailyTarget" in this.data) {
         console.log("everything ready");
         return false;
       } else {
@@ -304,11 +315,12 @@ export default {
       }
       return null;
     },
-
     addMorning() {
       if (this.checkuser()) {
         VueSimpleAlert.alert(
-          "Please make sure both health data and daily goals are filled before submitting for daily log","Error",'error'
+          "Please make sure both health data and daily goals are filled before submitting for daily log",
+          "Error",
+          "error"
         );
         this.$router.replace({ name: "profile" });
       } else {
@@ -319,11 +331,17 @@ export default {
           VueSimpleAlert.alert("Please fill in empty fields!");
         } else if (this.item.handMorning < 0) {
           VueSimpleAlert.alert(
-            "Input value cannot be negative. Please check again before submission!","Error",'error'
+            "Input value cannot be negative. Please check again before submission!",
+            "Error",
+            "error"
           );
         } else {
           this.item.time = this.format_date(new Date());
-          VueSimpleAlert.confirm("You have successfully submitted morning log!", 'Success' ,'success' );
+          VueSimpleAlert.confirm(
+            "You have successfully submitted morning log!",
+            "Success",
+            "success"
+          );
           this.dailyData.morning = {
             breakfast1: this.item.breakfast1,
             breakfast2: this.item.breakfast2,
@@ -376,11 +394,12 @@ export default {
         }
       }
     },
-
     addAfternoon() {
       if (this.checkuser()) {
         VueSimpleAlert.alert(
-          "Please make sure both health data and daily goals are filled before submitting for daily log",'Error','error'
+          "Please make sure both health data and daily goals are filled before submitting for daily log",
+          "Error",
+          "error"
         );
         this.$router.replace({ name: "profile" });
       } else {
@@ -391,10 +410,16 @@ export default {
           VueSimpleAlert.alert("Please fill in empty fields!");
         } else if (this.item.handAfternoon < 0) {
           VueSimpleAlert.alert(
-            "Input value  cannot be negative. Please check again before submission!",'Error','error'
+            "Input value  cannot be negative. Please check again before submission!",
+            "Error",
+            "error"
           );
         } else {
-          VueSimpleAlert.alert("You have successfully submitted afternoon log!",'Success','success');
+          VueSimpleAlert.alert(
+            "You have successfully submitted afternoon log!",
+            "Success",
+            "success"
+          );
           this.dailyData.afternoon = {
             lunch1: this.item.lunch1,
             lunch2: this.item.lunch2,
@@ -445,11 +470,12 @@ export default {
         }
       }
     },
-
     addEvening() {
       if (this.checkuser()) {
         VueSimpleAlert.alert(
-          "Please make sure both health data and daily goals are filled before submitting for daily log",'Error','error'
+          "Please make sure both health data and daily goals are filled before submitting for daily log",
+          "Error",
+          "error"
         );
         this.$router.replace({ name: "profile" });
       } else {
@@ -464,20 +490,30 @@ export default {
           this.item.leisure === "" ||
           this.item.work === ""
         ) {
-          VueSimpleAlert.alert("Please fill in empty fields!",'Error','error');
+          VueSimpleAlert.alert(
+            "Please fill in empty fields!",
+            "Error",
+            "error"
+          );
         } else if (
           this.item.handEvening < 0 ||
           this.item.exercise < 0 ||
           this.item.mask < 0 ||
           this.item.temperature < 0 ||
-          this.item.leisure < 0||
+          this.item.leisure < 0 ||
           this.item.work < 0
         ) {
           VueSimpleAlert.alert(
-            "Input value cannot be negative. Please check again before submission!",'Error','error'
+            "Input value cannot be negative. Please check again before submission!",
+            "Error",
+            "error"
           );
         } else {
-          VueSimpleAlert.alert("You have successfully submitted evening log!",'Success','success');
+          VueSimpleAlert.alert(
+            "You have successfully submitted evening log!",
+            "Success",
+            "success"
+          );
           this.dailyData.evening = {
             dinner1: this.item.dinner1,
             dinner2: this.item.dinner2,
@@ -545,7 +581,6 @@ export default {
         }
       }
     },
-
     //method to update scores after user submit morning, afternoon or evening form
     async updateScore() {
       var foodProgress = 0,
@@ -588,19 +623,18 @@ export default {
           .limit(1);
         let allCalories = await ref.get();
         for (const doc of allCalories.docs) {
-          console.log(doc.data());
           this.foodCalories.push(doc.data().Kilocalories);
         }
       }
       // calculate total food calories
       foodProgress = this.foodCalories.reduce((a, b) => a + b, 0);
 
-      console.log("food progress:",foodProgress);
       // calculate sports score
       if (this.goals.exercise <= 0) {
         var sportsScore = 0;
       } else {
-        var sportsScore = Math.min(sportsProgress / this.goals.exercise, 1) * 100;
+        var sportsScore =
+          Math.min(sportsProgress / this.goals.exercise, 1) * 100;
       }
       //calculate hygiene score
       if (this.goals.mask <= 0) {
@@ -618,19 +652,30 @@ export default {
       if (this.goals.leisure <= 0) {
         var leisureScore = 0;
       } else {
-        var leisureScore = Math.min(leisureProgress / this.goals.leisure, 1) * 50;
+        var leisureScore =
+          Math.min(leisureProgress / this.goals.leisure, 1) * 50;
       }
       if (this.goals.temperature <= 0) {
         var temperatureScore = 0;
       } else {
-        var temperatureScore = Math.min(temperatureProgress / this.goals.temperature, 1) * 50;
+        var temperatureScore =
+          Math.min(temperatureProgress / this.goals.temperature, 1) * 50;
       }
       var wellnessScore = leisureScore + temperatureScore;
       //calculate food score
       if (this.goals.calorie <= 0) {
         var foodScore = 0;
       } else {
-        var foodScore = Math.min(Math.max(1 - Math.abs(foodProgress - this.goals.calorie) / this.goals.calorie, 0), 1) * 100;
+        var foodScore =
+          Math.min(
+            Math.max(
+              1 -
+                Math.abs(foodProgress - this.goals.calorie) /
+                  this.goals.calorie,
+              0
+            ),
+            1
+          ) * 100;
       }
       // calculate total score
       var overallScore =
@@ -670,7 +715,6 @@ export default {
         });
       console.log("Update score successfully");
     },
-
     //method to get user daily goal from firebase
     getGoals() {
       database
@@ -689,7 +733,6 @@ export default {
           console.log("Error getting document:", err);
         });
     },
-
     // method to get user daily data from firebase
     getData() {
       console.log("start checking whether current date document exists");
@@ -718,7 +761,7 @@ export default {
   created() {
     this.getGoals();
     this.getData();
-    // this.getCalorie("chocolate");
+    this.getdata();
   },
 };
 </script>
