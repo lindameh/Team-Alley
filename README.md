@@ -1,6 +1,10 @@
 # WeLife
 
-WeLife is a user-friendly web application, to connect like-minded health-conscious users, allowing them to come together and form a close knit community. The idea of WeLife emerged during the COVID-19 pandemic when many people's daily routine is interrupted. We hope through WeLife, users can keep track of their new lifestyle, motivate one another and promote the idea of healthy living. Given the importance of hygiene in this situation, we have specially designed a function in WeLife where users can track their progress in practicing good personal hygiene. 
+WeLife is a user-friendly web application that connects like-minded health-conscious users, allowing them to come together and form a close knit community. 
+
+The idea of WeLife emerged during the COVID-19 pandemic when many people's daily routine is interrupted. Many of us have no choice but work and study from home, with generated many problems such as unhealthy eating, worsening work-life balance, sendentary lifestyle and physical inactivity. Therefore, we hope to create a web application where people can keep track of their daily exercise duration, time spent on work and relaxation, as well as the food they consume everyday. Given the importance of hygiene in this situation, we have also specially designed a function in WeLife where users can track their progress in practicing good personal hygiene. 
+
+We hope with WeLife, users can keep track of their new lifestyle, motivate one another and promote the idea of healthy living. 
 
 ## Our core features
 
